@@ -122,6 +122,7 @@ public class ChartCreator {
             e.printStackTrace();
         }
         String mainPath = Paths.get(uri).toString();
+        new File(mainPath+"\\graph.jpg").delete();
 
         try {
             ChartUtils.saveChartAsJPEG(new File(mainPath+"\\graph.jpg"),chart,width,height );
