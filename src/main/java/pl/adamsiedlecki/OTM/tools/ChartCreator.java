@@ -143,11 +143,6 @@ public class ChartCreator {
 
             for(TemperatureData td: list){
 
-                Date date = new Date();
-                date.setMinutes(td.getDate().getMinute());
-                date.setHours(td.getDate().getHour());
-
-
                 series.add(new Minute(td.getDate().getMinute(), td.getDate().getHour(), td.getDate().getDayOfMonth(), td.getDate().getMonthValue(), td.getDate().getYear()),td.getTemperatureCelsius());
             }
 
