@@ -1,0 +1,36 @@
+
+body{
+    background-color: #585858;
+    margin: 0;
+    padding: 0;
+}
+.container{
+    padding: 10px;
+    width: 1800px;
+    height: 100%;
+    margin: auto;
+    text-align: center;
+
+
+}
+.header{
+    width: 100%;
+    min-height: 10%;
+    overflow:auto;
+    padding: 10px;
+    clear: both;
+}
+.logo{
+    /*font-family: 'Anton', sans-serif;*/
+    font-family: 'Caveat', cursive;
+    display: inline-block;
+    font-size: 300%;
+}
+p{
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px;
+}
+img{
+    width: 1800px;
+    height:auto;
+}
