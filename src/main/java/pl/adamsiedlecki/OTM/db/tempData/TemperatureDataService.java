@@ -73,6 +73,6 @@ public class TemperatureDataService {
     }
 
     public Optional<List<TemperatureData>> findAllLast12Hours() {
-        return temperatureDataRepo.findAllBetween(LocalDateTime.now().minus(52, ChronoUnit.HOURS), LocalDateTime.now());
+        return temperatureDataRepo.findAllBetween(LocalDateTime.now().minus(12, ChronoUnit.HOURS), LocalDateTime.now());
     }
 }
