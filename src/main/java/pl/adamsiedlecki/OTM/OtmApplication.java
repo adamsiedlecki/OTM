@@ -12,7 +12,6 @@ import pl.adamsiedlecki.OTM.db.tempDataAlias.TempDataAliasService;
 import pl.adamsiedlecki.OTM.tools.ChartCreator;
 
 import java.util.List;
-import java.util.Optional;
 
 @SpringBootApplication
 public class OtmApplication {
@@ -39,21 +38,21 @@ public class OtmApplication {
 			tempDataAliasService.save(alias2);
 		}
 
-		DataFetcher dataFetcher = run.getBean(DataFetcher.class);
-		List<TemperatureData> list = dataFetcher.fetch();
-		for(TemperatureData data : list){
-			System.out.println(data);
-		}
-//
-		TemperatureDataService temperatureDataService = run.getBean(TemperatureDataService.class);
+//		DataFetcher dataFetcher = run.getBean(DataFetcher.class);
+//		List<TemperatureData> list = dataFetcher.fetch();
+//		for(TemperatureData data : list){
+//			System.out.println(data);
+//		}
+////
+//		TemperatureDataService temperatureDataService = run.getBean(TemperatureDataService.class);
 //		Optional<List<TemperatureData>> lastTemperatures = temperatureDataService.getLastTemperatures();
 //		if(lastTemperatures.isPresent()){
 //			System.out.println(lastTemperatures);
 //
 //		}
 
-		ChartCreator chartCreator = new ChartCreator();
-		chartCreator.createOvernightChart(temperatureDataService.findAllLast12Hours().get());
+//		ChartCreator chartCreator = new ChartCreator();
+//		chartCreator.createOvernightChart(temperatureDataService.findAllLastXHours().get());
 
 	}
 

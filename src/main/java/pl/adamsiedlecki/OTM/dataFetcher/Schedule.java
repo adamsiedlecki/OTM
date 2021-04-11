@@ -36,7 +36,7 @@ public class Schedule {
     public void createGraphs(){
         ChartCreator chartCreator = new ChartCreator();
 
-        Optional<List<TemperatureData>> allLast12Hours = temperatureDataService.findAllLast12Hours();
+        Optional<List<TemperatureData>> allLast12Hours = temperatureDataService.findAllLastXHours(12);
         if(allLast12Hours.isPresent()){
             chartCreator.createOvernightChart(allLast12Hours.get());
         }

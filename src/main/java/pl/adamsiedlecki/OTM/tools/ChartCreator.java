@@ -87,6 +87,50 @@ public class ChartCreator {
         }
         System.out.println("CHART CREATED");
     }
+
+    public void createGraph(List<TemperatureData> temperatureDataList, int width, int height){
+        temperatureDataList.sort(Comparator.comparing(TemperatureData::getDate));
+        int size = temperatureDataList.size();
+        if(size==0){
+            return;
+        }
+
+
+        DateAxis xAxis = new DateAxis("Czas");
+        //xAxis.setAutoRangeIncludesZero(false);
+        NumberAxis yAxis = new NumberAxis("Temperatura");
+        yAxis.setAutoRangeIncludesZero(false);
+
+        XYSplineRenderer renderer1 = new XYSplineRenderer();
+        XYPlot plot = new XYPlot(createSampleData(temperatureDataList), xAxis, yAxis, renderer1);
+        plot.setBackgroundPaint(Color.lightGray);
+        plot.setDomainGridlinePaint(Color.white);
+        plot.setRangeGridlinePaint(Color.white);
+        plot.setAxisOffset(new RectangleInsets(6, 6, 20, 6));
+
+
+        // create and return the chart panel...
+        JFreeChart chart = new JFreeChart("Wykres temperatury "
+                +TextFormatters.getPrettyTime(temperatureDataList.get(0).getDate())
+                +" - "+TextFormatters.getPrettyTime(temperatureDataList.get(size-1).getDate()),
+                JFreeChart.DEFAULT_TITLE_FONT, plot, true);
+
+        URI uri = null;
+        try {
+            uri = ClassLoader.getSystemResource("static/img/").toURI();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        String mainPath = Paths.get(uri).toString();
+
+        try {
+            ChartUtils.saveChartAsJPEG(new File(mainPath+"\\graph.jpg"),chart,width,height );
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        System.out.println("CHART CREATED");
+    }
     private static XYDataset createSampleData(List<TemperatureData> temperatureDataList) {
         TimeSeriesCollection result = new TimeSeriesCollection();
         Map<String, List<TemperatureData>> map = temperatureDataList.stream().collect(Collectors.groupingBy(TemperatureData::getTransmitterName));
