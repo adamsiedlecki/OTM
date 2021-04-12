@@ -17,11 +17,12 @@ import java.util.List;
 public class OtmApplication {
 
 	public static void main(String[] args) {
+		System.setProperty("user.timezone", "Europe/Warsaw");
 		ConfigurableApplicationContext run = SpringApplication.run(OtmApplication.class, args);
 		Environment env = run.getEnvironment();
 
 		TempDataAliasService tempDataAliasService = run.getBean(TempDataAliasService.class);
-		if(tempDataAliasService.count() == 0){
+		if (tempDataAliasService.count() == 0) {
 			TempDataAlias alias1 = new TempDataAlias();
 			alias1.setOriginalName("t1");
 			alias1.setAliasName("staw");
