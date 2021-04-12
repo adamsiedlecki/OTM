@@ -19,9 +19,8 @@ public class OtmApplication {
 
 	public static void main(String[] args) {
 		System.setProperty("user.timezone", "Europe/Warsaw");
-
-		ConfigurableApplicationContext run = SpringApplication.run(OtmApplication.class, args);
 		TimeZone.setDefault(TimeZone.getTimeZone("Europe/Warsaw"));
+		ConfigurableApplicationContext run = SpringApplication.run(OtmApplication.class, args);
 		Environment env = run.getEnvironment();
 
 		TempDataAliasService tempDataAliasService = run.getBean(TempDataAliasService.class);
