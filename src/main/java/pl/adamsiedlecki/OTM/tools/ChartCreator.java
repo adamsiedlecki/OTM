@@ -1,6 +1,5 @@
 package pl.adamsiedlecki.OTM.tools;
 
-import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.ChartUtils;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.DateAxis;
@@ -8,10 +7,10 @@ import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYSplineRenderer;
 import org.jfree.chart.ui.RectangleInsets;
-import org.jfree.data.time.*;
+import org.jfree.data.time.Minute;
+import org.jfree.data.time.TimeSeries;
+import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYDataset;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureData;
 
 import java.awt.*;
@@ -19,12 +18,11 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -67,20 +65,20 @@ public class ChartCreator {
 
         new File("night7").delete();
 
-        File f = new File("night6.jpg");
-        f.renameTo(new File("night7.jpg"));
-        File f1 = new File("night5.jpg");
-        f1.renameTo(new File("night6.jpg"));
-        File f2 = new File("night4.jpg");
-        f2.renameTo(new File("night5.jpg"));
-        File f3 = new File("night3.jpg");
-        f3.renameTo(new File("night4.jpg"));
-        File f4 = new File("night2.jpg");
-        f4.renameTo(new File("night3.jpg"));
-        File f5 = new File("night1.jpg");
-        f5.renameTo(new File("night2.jpg"));
+        File f = new File(mainPath + "\\night6.jpg");
+        f.renameTo(new File(mainPath + "\\night7.jpg"));
+        File f1 = new File(mainPath + "\\night5.jpg");
+        f1.renameTo(new File(mainPath + "\\night6.jpg"));
+        File f2 = new File(mainPath + "\\night4.jpg");
+        f2.renameTo(new File(mainPath + "\\night5.jpg"));
+        File f3 = new File(mainPath + "\\night3.jpg");
+        f3.renameTo(new File(mainPath + "\\night4.jpg"));
+        File f4 = new File(mainPath + "\\night2.jpg");
+        f4.renameTo(new File(mainPath + "\\night3.jpg"));
+        File f5 = new File(mainPath + "\\night1.jpg");
+        f5.renameTo(new File(mainPath + "\\night2.jpg"));
         try {
-            ChartUtils.saveChartAsJPEG(new File(mainPath+"\\night1.jpg"),chart,1920,1080 );
+            ChartUtils.saveChartAsJPEG(new File(mainPath + "\\night1.jpg"), chart, 1920, 1080);
         } catch (IOException e) {
             e.printStackTrace();
             return;
@@ -88,10 +86,10 @@ public class ChartCreator {
         System.out.println("CHART CREATED");
     }
 
-    public void createGraph(List<TemperatureData> temperatureDataList, int width, int height){
+    public void createChart(List<TemperatureData> temperatureDataList, int width, int height) {
         temperatureDataList.sort(Comparator.comparing(TemperatureData::getDate));
         int size = temperatureDataList.size();
-        if(size==0){
+        if (size == 0) {
             return;
         }
 
@@ -122,10 +120,10 @@ public class ChartCreator {
             e.printStackTrace();
         }
         String mainPath = Paths.get(uri).toString();
-        new File(mainPath+"\\graph.jpg").delete();
+        new File(mainPath + "\\chart.jpg").delete();
 
         try {
-            ChartUtils.saveChartAsJPEG(new File(mainPath+"\\graph.jpg"),chart,width,height );
+            ChartUtils.saveChartAsJPEG(new File(mainPath + "\\chart.jpg"), chart, width, height);
         } catch (IOException e) {
             e.printStackTrace();
             return;

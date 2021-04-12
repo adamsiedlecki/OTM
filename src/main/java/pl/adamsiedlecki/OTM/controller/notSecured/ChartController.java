@@ -13,22 +13,22 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-public class GraphController {
+public class ChartController {
 
-    private TemperatureDataService temperatureDataService;
+    private final TemperatureDataService temperatureDataService;
 
     @Autowired
-    public GraphController(TemperatureDataService temperatureDataService) {
+    public ChartController(TemperatureDataService temperatureDataService) {
         this.temperatureDataService = temperatureDataService;
     }
 
-    @GetMapping("/graph")
-    public String getIndex(Model model, @RequestParam(value = "numberOfHours") int numberOfHours){
+    @GetMapping("/chart")
+    public String getIndex(Model model, @RequestParam(value = "numberOfHours") int numberOfHours) {
         Optional<List<TemperatureData>> optionalTemperatureData = temperatureDataService.findAllLastXHours(numberOfHours);
         if(optionalTemperatureData.isPresent()){
             ChartCreator chartCreator = new ChartCreator();
-            chartCreator.createGraph(optionalTemperatureData.get(),5000,1080);
+            chartCreator.createChart(optionalTemperatureData.get(), 5000, 1080);
         }
-        return "graph";
+        return "chart";
     }
 }
