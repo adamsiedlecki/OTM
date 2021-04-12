@@ -13,8 +13,8 @@ import java.util.Optional;
 @Component
 public class Schedule {
 
-    private DataFetcher dataFetcher;
-    private TemperatureDataService temperatureDataService;
+    private final DataFetcher dataFetcher;
+    private final TemperatureDataService temperatureDataService;
 
     @Autowired
     public Schedule(DataFetcher dataFetcher, TemperatureDataService temperatureDataService) {
@@ -22,8 +22,8 @@ public class Schedule {
         this.temperatureDataService = temperatureDataService;
     }
 
-    @Scheduled(cron="30 23,0,1,2,3,4,5,6,7,8 * * *")
-    public void checkTemperatures(){
+    @Scheduled(cron = " 0 30 22,23,0,1,2,3,4,5,6,7 * * *")
+    public void checkTemperatures() {
         dataFetcher.fetch();
     }
 
@@ -32,7 +32,7 @@ public class Schedule {
         dataFetcher.fetch();
     }
 
-    @Scheduled(cron="0 8 * * *")
+    @Scheduled(cron = "0 0 8 * * *")
     public void createGraphs(){
         ChartCreator chartCreator = new ChartCreator();
 
