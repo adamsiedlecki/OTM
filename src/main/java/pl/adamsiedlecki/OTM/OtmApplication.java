@@ -24,7 +24,7 @@ public class OtmApplication {
 
 			TempDataAlias alias2 = new TempDataAlias();
 			alias2.setOriginalName("t2");
-			alias2.setAliasName("dom");
+			alias2.setAliasName("domek");
 			alias2.setLatitude(Float.parseFloat(env.getProperty("t2.latitude", "")));
 			alias2.setLongitude(Float.parseFloat(env.getProperty("t2.longitude", "")));
 
