@@ -28,10 +28,12 @@ import java.util.stream.Collectors;
 
 public class ChartCreator {
 
-    public void createOvernightChart(List<TemperatureData> temperatureDataList){
+    private final String s = File.separator;
+
+    public void createOvernightChart(List<TemperatureData> temperatureDataList) {
         temperatureDataList.sort(Comparator.comparing(TemperatureData::getDate));
         int size = temperatureDataList.size();
-        if(size==0){
+        if (size == 0) {
             return;
         }
 
@@ -57,28 +59,28 @@ public class ChartCreator {
 
         URI uri = null;
         try {
-            uri = ClassLoader.getSystemResource("static/img/").toURI();
+            uri = ClassLoader.getSystemResource("static" + s + "img" + s).toURI();
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
         String mainPath = Paths.get(uri).toString();
 
-        new File("night7").delete();
+        new File(mainPath + s + "night7").delete();
 
-        File f = new File(mainPath + "\\night6.jpg");
-        f.renameTo(new File(mainPath + "\\night7.jpg"));
-        File f1 = new File(mainPath + "\\night5.jpg");
-        f1.renameTo(new File(mainPath + "\\night6.jpg"));
-        File f2 = new File(mainPath + "\\night4.jpg");
-        f2.renameTo(new File(mainPath + "\\night5.jpg"));
-        File f3 = new File(mainPath + "\\night3.jpg");
-        f3.renameTo(new File(mainPath + "\\night4.jpg"));
-        File f4 = new File(mainPath + "\\night2.jpg");
-        f4.renameTo(new File(mainPath + "\\night3.jpg"));
-        File f5 = new File(mainPath + "\\night1.jpg");
-        f5.renameTo(new File(mainPath + "\\night2.jpg"));
+        File f = new File(mainPath + s + "night6.jpg");
+        f.renameTo(new File(mainPath + s + "night7.jpg"));
+        File f1 = new File(mainPath + s + "night5.jpg");
+        f1.renameTo(new File(mainPath + s + "night6.jpg"));
+        File f2 = new File(mainPath + s + "night4.jpg");
+        f2.renameTo(new File(mainPath + s + "night5.jpg"));
+        File f3 = new File(mainPath + s + "night3.jpg");
+        f3.renameTo(new File(mainPath + s + "night4.jpg"));
+        File f4 = new File(mainPath + s + "night2.jpg");
+        f4.renameTo(new File(mainPath + s + "night3.jpg"));
+        File f5 = new File(mainPath + s + "night1.jpg");
+        f5.renameTo(new File(mainPath + s + "night2.jpg"));
         try {
-            ChartUtils.saveChartAsJPEG(new File(mainPath + "\\night1.jpg"), chart, 1920, 1080);
+            ChartUtils.saveChartAsJPEG(new File(mainPath + s + "night1.jpg"), chart, 1920, 1080);
         } catch (IOException e) {
             e.printStackTrace();
             return;
@@ -115,15 +117,15 @@ public class ChartCreator {
 
         URI uri = null;
         try {
-            uri = ClassLoader.getSystemResource("static/img/").toURI();
+            uri = ClassLoader.getSystemResource("static" + s + "img" + s).toURI();
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
         String mainPath = Paths.get(uri).toString();
-        new File(mainPath + "\\chart.jpg").delete();
+        new File(mainPath + s + "chart.jpg").delete();
 
         try {
-            ChartUtils.saveChartAsJPEG(new File(mainPath + "\\chart.jpg"), chart, width, height);
+            ChartUtils.saveChartAsJPEG(new File(mainPath + s + "chart.jpg"), chart, width, height);
         } catch (IOException e) {
             e.printStackTrace();
             return;
