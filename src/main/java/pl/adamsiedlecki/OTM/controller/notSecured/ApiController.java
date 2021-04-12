@@ -47,16 +47,18 @@ public class ApiController {
     }
 
     @GetMapping(
-            value = "/image",
+            path = "/image",
             produces = MediaType.IMAGE_JPEG_VALUE
     )
     public @ResponseBody
     byte[] getImageWithMediaType(
             @RequestParam(value = "name", defaultValue = "chart.jpg") String name
     ) {
-        InputStream targetStream = null;
+        InputStream targetStream;
         try {
-            targetStream = new FileInputStream(s + "storage" + s + "img" + s + name);
+            File f = new File(s + "storage" + s + "img" + s + name);
+            System.out.println("DESIRED FILE: " + f.getAbsolutePath());
+            targetStream = new FileInputStream(f);
             return targetStream.readAllBytes();
 
         } catch (IOException e) {
