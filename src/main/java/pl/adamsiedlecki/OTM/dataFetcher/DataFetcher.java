@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureData;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureDataService;
 import pl.adamsiedlecki.OTM.tools.HtmlToTemperatureData;
+
 import java.net.URL;
 import java.net.URLConnection;
 import java.time.LocalDateTime;
