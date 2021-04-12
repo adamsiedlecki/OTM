@@ -4,10 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
-import pl.adamsiedlecki.OTM.db.tempData.TemperatureDataService;
 import pl.adamsiedlecki.OTM.db.tempDataAlias.TempDataAlias;
 import pl.adamsiedlecki.OTM.db.tempDataAlias.TempDataAliasService;
-import pl.adamsiedlecki.OTM.tools.ChartCreator;
 
 @SpringBootApplication
 public class OtmApplication {
@@ -40,15 +38,15 @@ public class OtmApplication {
 //			System.out.println(data);
 //		}
 ////
-		TemperatureDataService temperatureDataService = run.getBean(TemperatureDataService.class);
+		//	TemperatureDataService temperatureDataService = run.getBean(TemperatureDataService.class);
 //		Optional<List<TemperatureData>> lastTemperatures = temperatureDataService.getLastTemperatures();
 //		if(lastTemperatures.isPresent()){
 //			System.out.println(lastTemperatures);
 //
 //		}
 
-		ChartCreator chartCreator = new ChartCreator();
-		chartCreator.createOvernightChart(temperatureDataService.findAllLastXHours(12).get());
+//		ChartCreator chartCreator = new ChartCreator();
+//		chartCreator.createOvernightChart(temperatureDataService.findAllLastXHours(12).get());
 
 	}
 
