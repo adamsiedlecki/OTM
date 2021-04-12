@@ -17,7 +17,6 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.List;
@@ -53,16 +52,14 @@ public class ChartCreator {
 
         // create and return the chart panel...
         JFreeChart chart = new JFreeChart("Wykres temperatury "
-                +TextFormatters.getPrettyTime(temperatureDataList.get(0).getDate())
-                +" - "+TextFormatters.getPrettyTime(temperatureDataList.get(size-1).getDate()),
+                + TextFormatters.getPrettyTime(temperatureDataList.get(0).getDate())
+                + " - " + TextFormatters.getPrettyTime(temperatureDataList.get(size - 1).getDate()),
                 JFreeChart.DEFAULT_TITLE_FONT, plot, true);
 
         URI uri = null;
-        try {
-            uri = ClassLoader.getSystemResource("static" + s + "img").toURI();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+        File file = new File("img");
+        file.mkdirs();
+        uri = file.toURI();
         String mainPath = Paths.get(uri).toString();
 
         new File(mainPath + s + "night7").delete();
@@ -111,16 +108,14 @@ public class ChartCreator {
 
         // create and return the chart panel...
         JFreeChart chart = new JFreeChart("Wykres temperatury "
-                +TextFormatters.getPrettyTime(temperatureDataList.get(0).getDate())
-                +" - "+TextFormatters.getPrettyTime(temperatureDataList.get(size-1).getDate()),
+                + TextFormatters.getPrettyTime(temperatureDataList.get(0).getDate())
+                + " - " + TextFormatters.getPrettyTime(temperatureDataList.get(size - 1).getDate()),
                 JFreeChart.DEFAULT_TITLE_FONT, plot, true);
 
         URI uri = null;
-        try {
-            uri = ClassLoader.getSystemResource("static" + s + "img").toURI();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+        File file = new File("img");
+        file.mkdirs();
+        uri = file.toURI();
         String mainPath = Paths.get(uri).toString();
         new File(mainPath + s + "chart.jpg").delete();
 
