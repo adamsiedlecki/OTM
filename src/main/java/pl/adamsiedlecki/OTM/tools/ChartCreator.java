@@ -59,7 +59,7 @@ public class ChartCreator {
 
         URI uri = null;
         try {
-            uri = ClassLoader.getSystemResource("static" + s + "img" + s).toURI();
+            uri = ClassLoader.getSystemResource("static" + s + "img").toURI();
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
@@ -117,7 +117,7 @@ public class ChartCreator {
 
         URI uri = null;
         try {
-            uri = ClassLoader.getSystemResource("static" + s + "img" + s).toURI();
+            uri = ClassLoader.getSystemResource("static" + s + "img").toURI();
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
