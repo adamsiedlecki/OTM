@@ -57,7 +57,7 @@ public class ChartCreator {
                 JFreeChart.DEFAULT_TITLE_FONT, plot, true);
 
         URI uri = null;
-        File file = new File("img");
+        File file = new File(s + "storage" + s + "img");
         file.mkdirs();
         uri = file.toURI();
         String mainPath = Paths.get(uri).toString();
@@ -113,7 +113,7 @@ public class ChartCreator {
                 JFreeChart.DEFAULT_TITLE_FONT, plot, true);
 
         URI uri = null;
-        File file = new File("img");
+        File file = new File(s + "storage" + s + "img");
         file.mkdirs();
         uri = file.toURI();
         String mainPath = Paths.get(uri).toString();
