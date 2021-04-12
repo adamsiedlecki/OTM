@@ -5,8 +5,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import pl.adamsiedlecki.OTM.dataFetcher.DataFetcher;
+import pl.adamsiedlecki.OTM.db.tempData.TemperatureData;
 import pl.adamsiedlecki.OTM.db.tempDataAlias.TempDataAlias;
 import pl.adamsiedlecki.OTM.db.tempDataAlias.TempDataAliasService;
+
+import java.util.List;
 
 @EnableScheduling
 @SpringBootApplication
@@ -34,11 +38,11 @@ public class OtmApplication {
 			tempDataAliasService.save(alias2);
 		}
 
-//		DataFetcher dataFetcher = run.getBean(DataFetcher.class);
-//		List<TemperatureData> list = dataFetcher.fetch();
-//		for(TemperatureData data : list){
-//			System.out.println(data);
-//		}
+		DataFetcher dataFetcher = run.getBean(DataFetcher.class);
+		List<TemperatureData> list = dataFetcher.fetch();
+		for (TemperatureData data : list) {
+			System.out.println(data);
+		}
 ////
 		//	TemperatureDataService temperatureDataService = run.getBean(TemperatureDataService.class);
 //		Optional<List<TemperatureData>> lastTemperatures = temperatureDataService.getLastTemperatures();
