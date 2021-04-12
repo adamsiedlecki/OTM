@@ -11,6 +11,7 @@ import pl.adamsiedlecki.OTM.db.tempDataAlias.TempDataAlias;
 import pl.adamsiedlecki.OTM.db.tempDataAlias.TempDataAliasService;
 
 import java.util.List;
+import java.util.TimeZone;
 
 @EnableScheduling
 @SpringBootApplication
@@ -18,7 +19,9 @@ public class OtmApplication {
 
 	public static void main(String[] args) {
 		System.setProperty("user.timezone", "Europe/Warsaw");
+
 		ConfigurableApplicationContext run = SpringApplication.run(OtmApplication.class, args);
+		TimeZone.setDefault(TimeZone.getTimeZone("Europe/Warsaw"));
 		Environment env = run.getEnvironment();
 
 		TempDataAliasService tempDataAliasService = run.getBean(TempDataAliasService.class);
