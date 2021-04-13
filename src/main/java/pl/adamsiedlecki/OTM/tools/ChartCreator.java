@@ -5,7 +5,6 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.ui.RectangleInsets;
 import org.jfree.data.time.Minute;
@@ -19,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -38,14 +38,14 @@ public class ChartCreator {
             TimeSeries series = new TimeSeries(tName);
 
             List<TemperatureData> list = map.get(tName);
-//            LocalDateTime previous = list.get(0).getDate();
+            LocalDateTime previous = list.get(0).getDate();
 
             for (TemperatureData td : list) {
-//                if (td.getDate().minusHours(2).isAfter(previous)) {
-//                    LocalDateTime date = td.getDate().minusHours(2);
-//                    series.add(new Minute(date.getMinute(), date.getHour(), date.getDayOfMonth(), date.getMonthValue(), date.getYear()), null);
-//                }
-//                previous = td.getDate();
+                if (td.getDate().minusHours(2).isAfter(previous)) {
+                    LocalDateTime date = td.getDate().minusHours(2);
+                    series.add(new Minute(date.getMinute(), date.getHour(), date.getDayOfMonth(), date.getMonthValue(), date.getYear()), null);
+                }
+                previous = td.getDate();
                 series.add(new Minute(td.getDate().getMinute(), td.getDate().getHour(), td.getDate().getDayOfMonth(), td.getDate().getMonthValue(), td.getDate().getYear()), td.getTemperatureCelsius());
             }
 
@@ -72,7 +72,7 @@ public class ChartCreator {
         yAxis.setTickLabelFont(new Font("Dialog", Font.PLAIN, 14));
 
 
-        XYItemRenderer renderer1 = new XYLineAndShapeRenderer();
+        XYLineAndShapeRenderer renderer1 = new XYLineAndShapeRenderer();
         renderer1.setDefaultStroke(new BasicStroke(4.0f));
 
         XYPlot plot = new XYPlot(createSampleData(temperatureDataList), xAxis, yAxis, renderer1);
@@ -133,9 +133,9 @@ public class ChartCreator {
         yAxis.setAutoRangeIncludesZero(false);
         yAxis.setTickLabelFont(new Font("Dialog", Font.PLAIN, 14));
 
-        XYItemRenderer renderer1 = new XYLineAndShapeRenderer();
+        XYLineAndShapeRenderer renderer1 = new XYLineAndShapeRenderer();
 
-        renderer1.setDefaultStroke(new BasicStroke(40.0f));
+        renderer1.setDefaultStroke(new BasicStroke(4.0f));
 
 
         XYPlot plot = new XYPlot(createSampleData(temperatureDataList), xAxis, yAxis, renderer1);
