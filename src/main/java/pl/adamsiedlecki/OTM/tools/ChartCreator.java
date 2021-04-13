@@ -4,6 +4,7 @@ import org.jfree.chart.ChartUtils;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.labels.StandardXYItemLabelGenerator;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.ui.RectangleInsets;
@@ -75,6 +76,7 @@ public class ChartCreator {
         XYLineAndShapeRenderer renderer1 = new XYLineAndShapeRenderer();
         renderer1.setDefaultStroke(new BasicStroke(4.0f));
         renderer1.setAutoPopulateSeriesStroke(false);
+        renderer1.setDefaultItemLabelGenerator(new StandardXYItemLabelGenerator());
         renderer1.setDefaultItemLabelsVisible(true);
         //renderer1.setDefaultItemLabelGenerator();
 
@@ -140,6 +142,7 @@ public class ChartCreator {
 
         renderer1.setDefaultStroke(new BasicStroke(4.0f));
         renderer1.setAutoPopulateSeriesStroke(false);
+        renderer1.setDefaultItemLabelGenerator(new StandardXYItemLabelGenerator());
         renderer1.setDefaultItemLabelsVisible(true);
 
         XYPlot plot = new XYPlot(createSampleData(temperatureDataList), xAxis, yAxis, renderer1);
