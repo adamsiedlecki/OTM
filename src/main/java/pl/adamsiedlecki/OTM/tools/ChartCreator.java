@@ -94,9 +94,12 @@ public class ChartCreator {
 
 
         DateAxis xAxis = new DateAxis("Czas");
+        xAxis.setTickLabelFont(new Font("Dialog", Font.PLAIN, 14));
         //xAxis.setAutoRangeIncludesZero(false);
+
         NumberAxis yAxis = new NumberAxis("Temperatura");
         yAxis.setAutoRangeIncludesZero(false);
+        yAxis.setTickLabelFont(new Font("Dialog", Font.PLAIN, 14));
 
         XYSplineRenderer renderer1 = new XYSplineRenderer();
         renderer1.setAutoPopulateSeriesStroke(false);
