@@ -97,7 +97,7 @@ public class ChartCreator {
         xAxis.setTickLabelFont(new Font("Dialog", Font.PLAIN, 14));
         //xAxis.setAutoRangeIncludesZero(false);
 
-        NumberAxis yAxis = new NumberAxis("Temperatura");
+        NumberAxis yAxis = new NumberAxis("Temperatura w °C");
         yAxis.setAutoRangeIncludesZero(false);
         yAxis.setTickLabelFont(new Font("Dialog", Font.PLAIN, 14));
 
@@ -113,7 +113,7 @@ public class ChartCreator {
 
 
         // create and return the chart panel...
-        JFreeChart chart = new JFreeChart("Wykres temperatury "
+        JFreeChart chart = new JFreeChart("OTM     Wykres temperatury "
                 + TextFormatters.getPrettyTime(temperatureDataList.get(0).getDate())
                 + " - " + TextFormatters.getPrettyTime(temperatureDataList.get(size - 1).getDate()),
                 JFreeChart.DEFAULT_TITLE_FONT, plot, true);
