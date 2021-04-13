@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -85,6 +86,31 @@ public class ChartCreator {
         System.out.println("CHART CREATED");
     }
 
+    private static XYDataset createSampleData(List<TemperatureData> temperatureDataList) {
+        TimeSeriesCollection result = new TimeSeriesCollection();
+        Map<String, List<TemperatureData>> map = temperatureDataList.stream().collect(Collectors.groupingBy(TemperatureData::getTransmitterName));
+        Set<String> keys = map.keySet();
+        for (String tName : keys) {
+            TimeSeries series = new TimeSeries(tName);
+
+            List<TemperatureData> list = map.get(tName);
+            LocalDateTime previous = list.get(0).getDate();
+
+            for (TemperatureData td : list) {
+                if (td.getDate().minusHours(2).isAfter(previous)) {
+                    LocalDateTime date = td.getDate().minusHours(2);
+                    series.add(new Minute(date.getMinute(), date.getHour(), date.getDayOfMonth(), date.getMonthValue(), date.getYear()), null);
+                }
+                previous = td.getDate();
+                series.add(new Minute(td.getDate().getMinute(), td.getDate().getHour(), td.getDate().getDayOfMonth(), td.getDate().getMonthValue(), td.getDate().getYear()), td.getTemperatureCelsius());
+            }
+
+            //td.getDate().getMinute(), td.getDate().getHour(), td.getDate().getDayOfMonth(), td.getDate().getMonthValue(), td.getDate().getYear())
+            result.addSeries(series);
+        }
+        return result;
+    }
+
     public void createChart(List<TemperatureData> temperatureDataList, int width, int height) {
         temperatureDataList.sort(Comparator.comparing(TemperatureData::getDate));
         int size = temperatureDataList.size();
@@ -104,6 +130,7 @@ public class ChartCreator {
         XYSplineRenderer renderer1 = new XYSplineRenderer();
         renderer1.setAutoPopulateSeriesStroke(false);
         renderer1.setDefaultStroke(new BasicStroke(3.0f));
+
         System.out.println("CHART PRECISION BEFORE SET: " + renderer1.getPrecision());
         renderer1.setPrecision(5);
 
@@ -136,25 +163,6 @@ public class ChartCreator {
             return;
         }
         System.out.println("CHART CREATED");
-    }
-    private static XYDataset createSampleData(List<TemperatureData> temperatureDataList) {
-        TimeSeriesCollection result = new TimeSeriesCollection();
-        Map<String, List<TemperatureData>> map = temperatureDataList.stream().collect(Collectors.groupingBy(TemperatureData::getTransmitterName));
-        Set<String> keys = map.keySet();
-        for(String tName : keys){
-            TimeSeries series = new TimeSeries(tName);
-
-            List<TemperatureData> list = map.get(tName);
-
-            for(TemperatureData td: list){
-
-                series.add(new Minute(td.getDate().getMinute(), td.getDate().getHour(), td.getDate().getDayOfMonth(), td.getDate().getMonthValue(), td.getDate().getYear()),td.getTemperatureCelsius());
-            }
-
-            //td.getDate().getMinute(), td.getDate().getHour(), td.getDate().getDayOfMonth(), td.getDate().getMonthValue(), td.getDate().getYear())
-            result.addSeries(series);
-        }
-        return result;
     }
 
 }
