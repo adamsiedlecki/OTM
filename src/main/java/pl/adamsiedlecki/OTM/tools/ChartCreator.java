@@ -99,6 +99,9 @@ public class ChartCreator {
         yAxis.setAutoRangeIncludesZero(false);
 
         XYSplineRenderer renderer1 = new XYSplineRenderer();
+        renderer1.setAutoPopulateSeriesStroke(false);
+        renderer1.setDefaultStroke(new BasicStroke(2.0f));
+
         XYPlot plot = new XYPlot(createSampleData(temperatureDataList), xAxis, yAxis, renderer1);
         plot.setBackgroundPaint(Color.lightGray);
         plot.setDomainGridlinePaint(Color.white);
