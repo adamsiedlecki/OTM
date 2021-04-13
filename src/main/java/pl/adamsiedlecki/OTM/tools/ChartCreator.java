@@ -64,9 +64,13 @@ public class ChartCreator {
 
 
         DateAxis xAxis = new DateAxis("Czas");
+        xAxis.setTickLabelFont(new Font("Dialog", Font.PLAIN, 14));
+
         //xAxis.setAutoRangeIncludesZero(false);
         NumberAxis yAxis = new NumberAxis("Temperatura");
         yAxis.setAutoRangeIncludesZero(false);
+        yAxis.setTickLabelFont(new Font("Dialog", Font.PLAIN, 14));
+
 
         XYItemRenderer renderer1 = new XYLineAndShapeRenderer();
         renderer1.setDefaultStroke(new BasicStroke(4.0f));
@@ -131,7 +135,7 @@ public class ChartCreator {
 
         XYItemRenderer renderer1 = new XYLineAndShapeRenderer();
 
-        renderer1.setDefaultStroke(new BasicStroke(4.0f));
+        renderer1.setDefaultStroke(new BasicStroke(40.0f));
 
 
         XYPlot plot = new XYPlot(createSampleData(temperatureDataList), xAxis, yAxis, renderer1);
