@@ -74,6 +74,7 @@ public class ChartCreator {
 
         XYLineAndShapeRenderer renderer1 = new XYLineAndShapeRenderer();
         renderer1.setDefaultStroke(new BasicStroke(4.0f));
+        renderer1.setAutoPopulateSeriesStroke(false);
 
         XYPlot plot = new XYPlot(createSampleData(temperatureDataList), xAxis, yAxis, renderer1);
         plot.setBackgroundPaint(Color.lightGray);
@@ -136,6 +137,7 @@ public class ChartCreator {
         XYLineAndShapeRenderer renderer1 = new XYLineAndShapeRenderer();
 
         renderer1.setDefaultStroke(new BasicStroke(4.0f));
+        renderer1.setAutoPopulateSeriesStroke(false);
 
 
         XYPlot plot = new XYPlot(createSampleData(temperatureDataList), xAxis, yAxis, renderer1);
