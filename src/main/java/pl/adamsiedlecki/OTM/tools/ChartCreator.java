@@ -104,8 +104,12 @@ public class ChartCreator {
         XYSplineRenderer renderer1 = new XYSplineRenderer();
         renderer1.setAutoPopulateSeriesStroke(false);
         renderer1.setDefaultStroke(new BasicStroke(3.0f));
+        System.out.println("CHART PRECISION BEFORE SET: " + renderer1.getPrecision());
+        renderer1.setPrecision(5);
+
 
         XYPlot plot = new XYPlot(createSampleData(temperatureDataList), xAxis, yAxis, renderer1);
+
         plot.setBackgroundPaint(Color.lightGray);
         plot.setDomainGridlinePaint(Color.white);
         plot.setRangeGridlinePaint(Color.white);
