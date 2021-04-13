@@ -5,7 +5,8 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.XYSplineRenderer;
+import org.jfree.chart.renderer.xy.XYItemRenderer;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.ui.RectangleInsets;
 import org.jfree.data.time.Minute;
 import org.jfree.data.time.TimeSeries;
@@ -43,7 +44,7 @@ public class ChartCreator {
         NumberAxis yAxis = new NumberAxis("Temperatura");
         yAxis.setAutoRangeIncludesZero(false);
 
-        XYSplineRenderer renderer1 = new XYSplineRenderer();
+        XYItemRenderer renderer1 = new XYLineAndShapeRenderer();
         XYPlot plot = new XYPlot(createSampleData(temperatureDataList), xAxis, yAxis, renderer1);
         plot.setBackgroundPaint(Color.lightGray);
         plot.setDomainGridlinePaint(Color.white);
@@ -127,12 +128,8 @@ public class ChartCreator {
         yAxis.setAutoRangeIncludesZero(false);
         yAxis.setTickLabelFont(new Font("Dialog", Font.PLAIN, 14));
 
-        XYSplineRenderer renderer1 = new XYSplineRenderer();
-        renderer1.setAutoPopulateSeriesStroke(false);
+        XYItemRenderer renderer1 = new XYLineAndShapeRenderer();
         renderer1.setDefaultStroke(new BasicStroke(3.0f));
-
-        System.out.println("CHART PRECISION BEFORE SET: " + renderer1.getPrecision());
-        renderer1.setPrecision(5);
 
 
         XYPlot plot = new XYPlot(createSampleData(temperatureDataList), xAxis, yAxis, renderer1);
