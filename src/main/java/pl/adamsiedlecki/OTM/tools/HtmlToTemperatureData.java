@@ -4,11 +4,9 @@ package pl.adamsiedlecki.OTM.tools;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureData;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,7 +14,7 @@ import java.util.Optional;
 @Component
 public class HtmlToTemperatureData {
 
-    private TemperatureAliasAdder adder;
+    private final TemperatureAliasAdder adder;
 
     @Autowired
     public HtmlToTemperatureData(TemperatureAliasAdder adder) {
@@ -45,7 +43,9 @@ public class HtmlToTemperatureData {
         if (values.length > 1) {
 
             TemperatureData temperatureData = new TemperatureData();
-            temperatureData.setTransmitterName(values[0]);
+            String name = values[0];
+            name = name.replaceAll("�", "");
+            temperatureData.setTransmitterName(name);
 
             String temperature = values[1];
             Optional<BigDecimal> optionalTemp = extractTemperature(temperature,
