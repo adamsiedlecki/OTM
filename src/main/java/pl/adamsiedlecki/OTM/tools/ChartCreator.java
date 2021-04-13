@@ -77,6 +77,7 @@ public class ChartCreator {
         renderer1.setDefaultStroke(new BasicStroke(4.0f));
         renderer1.setAutoPopulateSeriesStroke(false);
         renderer1.setDefaultItemLabelGenerator(new StandardXYItemLabelGenerator());
+        //renderer1.setDefaultItemLabelFont(new Font("Dialog", Font.PLAIN, 14));
         renderer1.setDefaultItemLabelsVisible(true);
         //renderer1.setDefaultItemLabelGenerator();
 
@@ -88,9 +89,9 @@ public class ChartCreator {
 
 
         // create and return the chart panel...
-        JFreeChart chart = new JFreeChart("Wykres temperatury "
+        JFreeChart chart = new JFreeChart("OTM Adam Siedlecki    Wykres temperatury "
                 + TextFormatters.getPrettyTime(temperatureDataList.get(0).getDate())
-                + " - " + TextFormatters.getPrettyTime(temperatureDataList.get(size - 1).getDate()),
+                + "  -  " + TextFormatters.getPrettyTime(temperatureDataList.get(size - 1).getDate()),
                 JFreeChart.DEFAULT_TITLE_FONT, plot, true);
 
         URI uri = null;
@@ -143,6 +144,7 @@ public class ChartCreator {
         renderer1.setDefaultStroke(new BasicStroke(4.0f));
         renderer1.setAutoPopulateSeriesStroke(false);
         renderer1.setDefaultItemLabelGenerator(new StandardXYItemLabelGenerator());
+        //renderer1.setDefaultItemLabelFont(new Font("Dialog", Font.PLAIN, 14));
         renderer1.setDefaultItemLabelsVisible(true);
 
         XYPlot plot = new XYPlot(createSampleData(temperatureDataList), xAxis, yAxis, renderer1);
@@ -154,9 +156,9 @@ public class ChartCreator {
 
 
         // create and return the chart panel...
-        JFreeChart chart = new JFreeChart("OTM     Wykres temperatury "
+        JFreeChart chart = new JFreeChart("OTM Adam Siedlecki    Wykres temperatury "
                 + TextFormatters.getPrettyTime(temperatureDataList.get(0).getDate())
-                + " - " + TextFormatters.getPrettyTime(temperatureDataList.get(size - 1).getDate()),
+                + "  -  " + TextFormatters.getPrettyTime(temperatureDataList.get(size - 1).getDate()),
                 JFreeChart.DEFAULT_TITLE_FONT, plot, true);
 
         URI uri = null;
