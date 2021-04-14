@@ -68,7 +68,7 @@ public class ChartCreator {
         xAxis.setTickLabelFont(new Font("Dialog", Font.PLAIN, 14));
 
         //xAxis.setAutoRangeIncludesZero(false);
-        NumberAxis yAxis = new NumberAxis("Temperatura");
+        NumberAxis yAxis = new NumberAxis("Temperatura w °C");
         yAxis.setAutoRangeIncludesZero(false);
         yAxis.setTickLabelFont(new Font("Dialog", Font.PLAIN, 14));
 
