@@ -30,7 +30,7 @@ public class Schedule {
 
     @Scheduled(cron = "0 59 * * * *")
     public void checkTemperaturesHourly(){
-        System.out.println("SCHEDULE @hourly RUNNING");
+        System.out.println("SCHEDULE 0 59 * * * * RUNNING");
         dataFetcher.fetch();
     }
 
