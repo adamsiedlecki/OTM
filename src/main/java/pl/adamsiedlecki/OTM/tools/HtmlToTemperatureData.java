@@ -30,9 +30,7 @@ public class HtmlToTemperatureData {
             if (!lowerCase.contains("html") && !lowerCase.contains("HTTP") && !lowerCase.contains("date")) {
                 String[] values = line.split("::");
                 Optional<TemperatureData> temperatureDataByValues = getTemperatureDataByValues(values);
-                if(temperatureDataByValues.isPresent()){
-                    adder.add(temperatureDataByValues.get());
-                }
+                temperatureDataByValues.ifPresent(adder::add);
                 temperatureDataByValues.ifPresent(tempList::add);
             }
         }
