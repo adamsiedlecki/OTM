@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 public class ChartCreator {
 
     private final String s = File.separator;
+    private final Font font = new Font("Dialog", Font.PLAIN, 14);
 
     private static XYDataset createSampleData(List<TemperatureData> temperatureDataList) {
         TimeSeriesCollection result = new TimeSeriesCollection();
@@ -65,12 +66,12 @@ public class ChartCreator {
 
 
         DateAxis xAxis = new DateAxis("Czas");
-        xAxis.setTickLabelFont(new Font("Dialog", Font.PLAIN, 14));
+        xAxis.setTickLabelFont(font);
 
         //xAxis.setAutoRangeIncludesZero(false);
         NumberAxis yAxis = new NumberAxis("Temperatura w °C");
         yAxis.setAutoRangeIncludesZero(false);
-        yAxis.setTickLabelFont(new Font("Dialog", Font.PLAIN, 14));
+        yAxis.setTickLabelFont(font);
 
 
         XYLineAndShapeRenderer renderer1 = new XYLineAndShapeRenderer();
@@ -93,6 +94,7 @@ public class ChartCreator {
                 + TextFormatters.getPrettyTime(temperatureDataList.get(0).getDate())
                 + "  -  " + TextFormatters.getPrettyTime(temperatureDataList.get(size - 1).getDate()),
                 JFreeChart.DEFAULT_TITLE_FONT, plot, true);
+        chart.getLegend().setItemFont(font);
 
         URI uri = null;
         File file = new File(s + "storage" + s + "img");
@@ -132,12 +134,12 @@ public class ChartCreator {
 
 
         DateAxis xAxis = new DateAxis("Czas");
-        xAxis.setTickLabelFont(new Font("Dialog", Font.PLAIN, 14));
+        xAxis.setTickLabelFont(font);
         //xAxis.setAutoRangeIncludesZero(false);
 
         NumberAxis yAxis = new NumberAxis("Temperatura w °C");
         yAxis.setAutoRangeIncludesZero(false);
-        yAxis.setTickLabelFont(new Font("Dialog", Font.PLAIN, 14));
+        yAxis.setTickLabelFont(font);
 
         XYLineAndShapeRenderer renderer1 = new XYLineAndShapeRenderer();
 
@@ -160,6 +162,7 @@ public class ChartCreator {
                 + TextFormatters.getPrettyTime(temperatureDataList.get(0).getDate())
                 + "  -  " + TextFormatters.getPrettyTime(temperatureDataList.get(size - 1).getDate()),
                 JFreeChart.DEFAULT_TITLE_FONT, plot, true);
+        chart.getLegend().setItemFont(font);
 
         URI uri = null;
         File file = new File(s + "storage" + s + "img");
