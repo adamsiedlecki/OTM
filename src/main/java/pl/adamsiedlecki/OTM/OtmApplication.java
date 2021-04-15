@@ -16,7 +16,6 @@ import java.util.TimeZone;
 @EnableScheduling
 @SpringBootApplication
 public class OtmApplication {
-
 	public static void main(String[] args) {
 		System.setProperty("user.timezone", "Europe/Warsaw");
 		TimeZone.setDefault(TimeZone.getTimeZone("Europe/Warsaw"));
@@ -46,16 +45,6 @@ public class OtmApplication {
 		for (TemperatureData data : list) {
 			System.out.println(data);
 		}
-////
-		//	TemperatureDataService temperatureDataService = run.getBean(TemperatureDataService.class);
-//		Optional<List<TemperatureData>> lastTemperatures = temperatureDataService.getLastTemperatures();
-//		if(lastTemperatures.isPresent()){
-//			System.out.println(lastTemperatures);
-//
-//		}
-
-//		ChartCreator chartCreator = new ChartCreator();
-//		chartCreator.createOvernightChart(temperatureDataService.findAllLastXHours(12).get());
 
 	}
 
