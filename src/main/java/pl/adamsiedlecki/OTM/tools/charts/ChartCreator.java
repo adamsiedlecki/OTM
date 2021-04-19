@@ -86,7 +86,7 @@ public class ChartCreator {
         file.mkdirs();
         uri = file.toURI();
         String mainPath = Paths.get(uri).toString();
-        //new File(mainPath + s + "chart.jpg").delete();
+        new File(mainPath + s + "chart.jpg").delete();
 
         try {
             ChartUtils.saveChartAsJPEG(new File(mainPath + s + "chart.jpg"), chart, width, height);
