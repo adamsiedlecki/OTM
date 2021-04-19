@@ -43,7 +43,7 @@ public class ChartCreator {
 
             for (TemperatureData td : list) {
                 if (td.getDate().minusHours(2).isAfter(previous)) {
-                    LocalDateTime date = td.getDate().minusHours(2);
+                    LocalDateTime date = td.getDate().minusHours(2).plusMinutes(1);
                     series.add(new Minute(date.getMinute(), date.getHour(), date.getDayOfMonth(), date.getMonthValue(), date.getYear()), null);
                 }
                 previous = td.getDate();
