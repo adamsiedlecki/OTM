@@ -20,11 +20,11 @@ public class ChartCreator {
     private final Font font = new Font("Dialog", Font.PLAIN, 14);
     private final ChartElementsCreator elemCreator = new ChartElementsCreator();
 
-    public void createOvernightChart(List<TemperatureData> temperatureDataList) {
+    public File createOvernightChart(List<TemperatureData> temperatureDataList) {
         temperatureDataList.sort(Comparator.comparing(TemperatureData::getDate));
         int size = temperatureDataList.size();
         if (size == 0) {
-            return;
+            return new File("");
         }
 
         XYPlot plot = elemCreator.createXYPlot(temperatureDataList, font);
@@ -56,13 +56,16 @@ public class ChartCreator {
         f4.renameTo(new File(mainPath + s + "night3.jpg"));
         File f5 = new File(mainPath + s + "night1.jpg");
         f5.renameTo(new File(mainPath + s + "night2.jpg"));
+
+        File destination = new File(mainPath + s + "night1.jpg");
         try {
-            ChartUtils.saveChartAsJPEG(new File(mainPath + s + "night1.jpg"), chart, 1920, 1080);
+            ChartUtils.saveChartAsJPEG(destination, chart, 1920, 1080);
         } catch (IOException e) {
             e.printStackTrace();
-            return;
+            return new File("");
         }
         System.out.println("CHART CREATED");
+        return destination;
     }
 
     public void createChart(List<TemperatureData> temperatureDataList, int width, int height) {
