@@ -37,8 +37,8 @@ class ChartElementsCreator {
                     LocalDateTime date = td.getDate().minusHours(2).plusMinutes(1);
                     series.add(new Minute(date.getMinute(), date.getHour(), date.getDayOfMonth(), date.getMonthValue(), date.getYear()), null);
                 }
-                LocalDateTime d = td.getDate();
-                series.add(new Minute(d.getMinute(), d.getHour(), d.getDayOfMonth(), d.getMonthValue(), d.getYear()), td.getTemperatureCelsius());
+                previous = td.getDate();
+                series.add(new Minute(previous.getMinute(), previous.getHour(), previous.getDayOfMonth(), previous.getMonthValue(), previous.getYear()), td.getTemperatureCelsius());
             }
 
             result.addSeries(series);
