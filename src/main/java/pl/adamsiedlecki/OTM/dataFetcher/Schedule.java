@@ -5,7 +5,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureData;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureDataService;
-import pl.adamsiedlecki.OTM.tools.ChartCreator;
+import pl.adamsiedlecki.OTM.tools.charts.ChartCreator;
 
 import java.util.List;
 import java.util.Optional;
