@@ -46,8 +46,10 @@ public class Schedule {
         Optional<List<TemperatureData>> allLast12Hours = temperatureDataService.findAllLastXHours(12);
         if(allLast12Hours.isPresent()) {
             File chart = chartCreator.createOvernightChart(allLast12Hours.get());
-            FacebookManager fbManager = new FacebookManager();
-            fbManager.postChart(chart, "Ostatnia noc");
+            if (chart.exists()) {
+                FacebookManager fbManager = new FacebookManager();
+                fbManager.postChart(chart, "Ostatnia noc");
+            }
         }
 
     }
