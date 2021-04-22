@@ -20,15 +20,15 @@ public class FacebookManager {
     @Value("${fb.otm.photo.album.id}")
     private String albumId;
 
-    public FacebookManager() {
+    private FacebookManager() {
 
     }
 
-    public void postMessage(String message) {
+    public String postMessage(String message) {
         Facebook fb = new FacebookTemplate(pageAccessToken, appNamespace);
         PagePostData data = new PagePostData(otmPageId);
         data.message(message);
-        fb.pageOperations().post(data);
+        return fb.pageOperations().post(data);
     }
 
     public void postChart(File file, String caption) {

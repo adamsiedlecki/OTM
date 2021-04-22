@@ -21,13 +21,15 @@ public class Schedule {
     private final TemperatureDataService temperatureDataService;
     private final Environment env;
     private final MessengerRecipientService messengerRecipientService;
+    private final FacebookManager facebookManager;
 
     @Autowired
-    public Schedule(DataFetcher dataFetcher, TemperatureDataService temperatureDataService, Environment env, MessengerRecipientService messengerRecipientService) {
+    public Schedule(DataFetcher dataFetcher, TemperatureDataService temperatureDataService, Environment env, MessengerRecipientService messengerRecipientService, FacebookManager facebookManager) {
         this.dataFetcher = dataFetcher;
         this.temperatureDataService = temperatureDataService;
         this.env = env;
         this.messengerRecipientService = messengerRecipientService;
+        this.facebookManager = facebookManager;
     }
 
     @Scheduled(cron = " 0 30 22,23,0,1,2,3,4,5,6,7 * * *")
@@ -50,9 +52,8 @@ public class Schedule {
         Optional<List<TemperatureData>> allLast12Hours = temperatureDataService.findAllLastXHours(12);
         if (allLast12Hours.isPresent()) {
             File chart = chartCreator.createOvernightChart(allLast12Hours.get());
-            if (chart.exists()) {
-                FacebookManager fbManager = new FacebookManager();
-                fbManager.postChart(chart, "Ostatnia noc");
+            if (chart.exists() && (System.currentTimeMillis() - chart.lastModified()) < 10000) {
+                facebookManager.postChart(chart, "Ostatnia noc");
             }
         }
 
