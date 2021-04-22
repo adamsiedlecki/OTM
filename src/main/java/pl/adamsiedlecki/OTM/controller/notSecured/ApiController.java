@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import pl.adamsiedlecki.OTM.dataFetcher.DataFetcher;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureData;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureDataService;
 import pl.adamsiedlecki.OTM.db.tempDataAlias.TempDataAlias;
@@ -26,17 +27,25 @@ public class ApiController {
     private final TemperatureDataService temperatureDataService;
     private final TempDataAliasService tempDataAliasService;
     private final String s = File.separator;
+    private final DataFetcher dataFetcher;
 
     @Autowired
-    public ApiController(TemperatureDataService temperatureDataService, TempDataAliasService tempDataAliasService) {
+    public ApiController(TemperatureDataService temperatureDataService, TempDataAliasService tempDataAliasService, DataFetcher dataFetcher) {
         this.temperatureDataService = temperatureDataService;
         this.tempDataAliasService = tempDataAliasService;
+        this.dataFetcher = dataFetcher;
     }
 
     @GetMapping("/aliases")
     public @ResponseBody
     List<TempDataAlias> getAliases() {
         return tempDataAliasService.findAll();
+    }
+
+    @GetMapping("/getTempsNow")
+    public @ResponseBody
+    List<TemperatureData> getTemperaturesNow() {
+        return dataFetcher.fetch();
     }
 
     @GetMapping(path = "/tempData")

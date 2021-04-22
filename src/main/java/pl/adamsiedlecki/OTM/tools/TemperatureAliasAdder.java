@@ -11,7 +11,7 @@ import java.util.List;
 @Component
 public class TemperatureAliasAdder {
 
-    private TempDataAliasService aliasService;
+    private final TempDataAliasService aliasService;
 
     @Autowired
     public TemperatureAliasAdder(TempDataAliasService aliasService) {
@@ -21,8 +21,8 @@ public class TemperatureAliasAdder {
     public void add(TemperatureData tempData){
         List<TempDataAlias> aliases = aliasService.findAll();
         for(TempDataAlias alias : aliases){
-            if(tempData.getTransmitterName().equals(alias.getOriginalName())){
-                tempData.setTransmitterName(tempData.getTransmitterName()+" "+alias.getAliasName());
+            if (tempData.getTransmitterName().trim().equals(alias.getOriginalName())) {
+                tempData.setTransmitterName(tempData.getTransmitterName() + " " + alias.getAliasName());
                 tempData.setLatitude(alias.getLatitude());
                 tempData.setLongitude(alias.getLongitude());
             }
