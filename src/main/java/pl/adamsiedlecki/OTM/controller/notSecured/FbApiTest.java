@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import pl.adamsiedlecki.OTM.facebook.FacebookManager;
 
 @Controller
@@ -18,7 +19,8 @@ public class FbApiTest {
     }
 
     @GetMapping("/fb/message")
-    public String test() {
+    public @ResponseBody
+    String test() {
         return facebookManager.postMessage("test message");
     }
 }
