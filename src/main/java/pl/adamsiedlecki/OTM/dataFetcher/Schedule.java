@@ -1,6 +1,7 @@
 package pl.adamsiedlecki.OTM.dataFetcher;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
+@Scope("singleton")
 public class Schedule {
 
     private final DataFetcher dataFetcher;
