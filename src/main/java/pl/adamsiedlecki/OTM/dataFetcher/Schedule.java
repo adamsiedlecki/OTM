@@ -13,6 +13,7 @@ import pl.adamsiedlecki.OTM.tools.charts.ChartCreator;
 import java.io.File;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,6 +46,7 @@ public class Schedule {
             }
         }
         if (isBelowZero) {
+            data.sort(Comparator.comparing(TemperatureData::getTemperatureCelsius));
             System.out.println("TEMPERATURES BELOW ZERO FOUND!");
             StringBuilder sb = new StringBuilder();
             sb.append("Odnotowano temperaturę < 0 \n ");
