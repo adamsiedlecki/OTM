@@ -31,8 +31,8 @@ public class ChartCreator {
 
         // create and return the chart panel...
         JFreeChart chart = new JFreeChart("OTM Adam Siedlecki    Wykres temperatury "
-                + TextFormatters.getPrettyTime(temperatureDataList.get(0).getDate())
-                + "  -  " + TextFormatters.getPrettyTime(temperatureDataList.get(size - 1).getDate()),
+                + TextFormatters.getPrettyDateTime(temperatureDataList.get(0).getDate())
+                + "  -  " + TextFormatters.getPrettyDateTime(temperatureDataList.get(size - 1).getDate()),
                 JFreeChart.DEFAULT_TITLE_FONT, plot, true);
         chart.getLegend().setItemFont(font);
 
@@ -79,8 +79,8 @@ public class ChartCreator {
 
         // create and return the chart panel...
         JFreeChart chart = new JFreeChart("OTM Adam Siedlecki    Wykres temperatury "
-                + TextFormatters.getPrettyTime(temperatureDataList.get(0).getDate())
-                + "  -  " + TextFormatters.getPrettyTime(temperatureDataList.get(size - 1).getDate()),
+                + TextFormatters.getPrettyDateTime(temperatureDataList.get(0).getDate())
+                + "  -  " + TextFormatters.getPrettyDateTime(temperatureDataList.get(size - 1).getDate()),
                 JFreeChart.DEFAULT_TITLE_FONT, plot, true);
         chart.getLegend().setItemFont(font);
 

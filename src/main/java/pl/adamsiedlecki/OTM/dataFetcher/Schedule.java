@@ -8,6 +8,7 @@ import pl.adamsiedlecki.OTM.db.messengerRecipient.MessengerRecipientService;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureData;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureDataService;
 import pl.adamsiedlecki.OTM.facebook.FacebookManager;
+import pl.adamsiedlecki.OTM.tools.TextFormatters;
 import pl.adamsiedlecki.OTM.tools.charts.ChartCreator;
 
 import java.io.File;
@@ -38,6 +39,9 @@ public class Schedule {
     }
 
     private void sendPostOrComment(List<TemperatureData> data) {
+        if (data.size() == 0) {
+            return;
+        }
         boolean isBelowZero = false;
         for (TemperatureData td : data) {
             if (td.getTemperatureCelsius().compareTo(BigDecimal.ZERO) < 0) {
@@ -49,7 +53,7 @@ public class Schedule {
             data.sort(Comparator.comparing(TemperatureData::getTemperatureCelsius));
             System.out.println("TEMPERATURES BELOW ZERO FOUND!");
             StringBuilder sb = new StringBuilder();
-            sb.append("Odnotowano temperaturę < 0 \n ");
+            sb.append("Odnotowano temperaturę < 0    [ " + TextFormatters.getPrettyDateTime(data.get(0).getDate()) + " ]\n ");
             for (TemperatureData td : data) {
                 sb.append(td.getTransmitterNameAndTemperature());
                 sb.append(" \n ");
@@ -91,7 +95,7 @@ public class Schedule {
         if (allLast12Hours.isPresent()) {
             File chart = chartCreator.createOvernightChart(allLast12Hours.get());
             if (chart.exists() && (System.currentTimeMillis() - chart.lastModified()) < 10000) {
-                facebookManager.postChart(chart, "Ostatnia noc");
+                facebookManager.postChart(chart, "Ostatnia noc [ wygenerowano" + TextFormatters.getPrettyDateTime(LocalDateTime.now()) + " ]");
             }
         }
 

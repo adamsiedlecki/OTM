@@ -71,7 +71,7 @@ public class TemperatureData {
     }
 
     public String toOneRowString() {
-        return " "+transmitterName+" : "+temperatureCelsius+" °C "+ TextFormatters.getPrettyTime(date);
+        return " " + transmitterName + " : " + temperatureCelsius + " °C " + TextFormatters.getPrettyDateTime(date);
     }
 
     public String toOneRowStringWithoutDate() {
