@@ -11,6 +11,8 @@ import pl.adamsiedlecki.OTM.facebook.FacebookManager;
 import pl.adamsiedlecki.OTM.tools.charts.ChartCreator;
 
 import java.io.File;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +24,8 @@ public class Schedule {
     private final Environment env;
     private final MessengerRecipientService messengerRecipientService;
     private final FacebookManager facebookManager;
+    private LocalDateTime lastTextPostTime;
+    private String lastTextPostId;
 
     @Autowired
     public Schedule(DataFetcher dataFetcher, TemperatureDataService temperatureDataService, Environment env, MessengerRecipientService messengerRecipientService, FacebookManager facebookManager) {
@@ -32,16 +36,48 @@ public class Schedule {
         this.facebookManager = facebookManager;
     }
 
+    private void sendPostOrComment(List<TemperatureData> data) {
+        boolean isBelowZero = false;
+        for (TemperatureData td : data) {
+            if (td.getTemperatureCelsius().compareTo(BigDecimal.ZERO) < 0) {
+                isBelowZero = true;
+                break;
+            }
+        }
+        if (isBelowZero) {
+            System.out.println("TEMPERATURES BELOW ZERO FOUND!");
+            StringBuilder sb = new StringBuilder();
+            sb.append("Odnotowano temperaturę < 0 \n ");
+            for (TemperatureData td : data) {
+                sb.append(td.getTransmitterNameAndTemperature());
+                sb.append(" \n ");
+            }
+            // in case of creating new post
+            if (lastTextPostTime == null || LocalDateTime.now().isAfter(lastTextPostTime.plusHours(12))) {
+                lastTextPostTime = LocalDateTime.now();
+                lastTextPostId = facebookManager.postMessage(sb.toString());
+                System.out.println("Text Post id: " + lastTextPostId);
+                // in case of commenting existing post
+            } else {
+                String commentId = facebookManager.postComment(lastTextPostId, sb.toString());
+                System.out.println("Comment id: " + commentId);
+            }
+        }
+    }
+
     @Scheduled(cron = " 0 30 22,23,0,1,2,3,4,5,6,7 * * *")
     public void checkTemperatures() {
         System.out.println("SCHEDULE 0 30 22,23,0,1,2,3,4,5,6,7 RUNNING");
-        dataFetcher.fetch();
+        List<TemperatureData> data = dataFetcher.fetch();
+        sendPostOrComment(data);
+
     }
 
     @Scheduled(cron = "0 59 * * * *")
     public void checkTemperaturesHourly() {
         System.out.println("SCHEDULE 0 59 * * * * RUNNING");
-        dataFetcher.fetch();
+        List<TemperatureData> data = dataFetcher.fetch();
+        sendPostOrComment(data);
     }
 
     @Scheduled(cron = "0 0 8 * * *")

@@ -40,7 +40,7 @@ public class DataFetcher {
             System.out.println("There are no temperatures fetched!!!");
             sendRestartCommand();
             try {
-                Thread.sleep(2500);
+                Thread.sleep(4500);
                 content = getHtml();
                 temperatureData = htmlToData.process(content);
             } catch (InterruptedException e) {

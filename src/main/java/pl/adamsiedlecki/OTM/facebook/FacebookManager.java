@@ -36,4 +36,9 @@ public class FacebookManager {
         String photoId = fb.pageOperations().postPhoto(otmPageId, albumId, new FileSystemResource(file), caption);
         System.out.println(photoId);
     }
+
+    public String postComment(String postId, String comment) {
+        Facebook fb = new FacebookTemplate(pageAccessToken, appNamespace);
+        return fb.commentOperations().addComment(postId, comment);
+    }
 }
