@@ -33,6 +33,6 @@ public class FbApiTest {
     public @ResponseBody
     String testSchedule() {
         schedule.checkTemperatures();
-        return "noting returned";
+        return "nothing returned";
     }
 }

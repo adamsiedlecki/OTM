@@ -15,8 +15,10 @@ public class FacebookManager {
     String appNamespace = "otm";
     @Value("${fb.otm.page.id}")
     private String otmPageId;
-    @Value("${fb.otm.access.token}")
+    @Value("${fb.otm.page.access.token}")
     private String pageAccessToken;
+    @Value("${fb.otm.user.access.token}")
+    private String userAccessToken;
     @Value("${fb.otm.photo.album.id}")
     private String albumId;
 
@@ -25,17 +27,15 @@ public class FacebookManager {
     }
 
     public String postMessage(String message) {
-        System.out.println("Posting post with message " + message + " token:" + pageAccessToken);
-        Facebook fb = new FacebookTemplate(pageAccessToken, appNamespace);
+        Facebook fb = new FacebookTemplate(userAccessToken, appNamespace);
         PagePostData data = new PagePostData(otmPageId);
         data.message(message);
         return fb.pageOperations().post(data);
     }
 
-    public void postChart(File file, String caption) {
-        Facebook fb = new FacebookTemplate(pageAccessToken, appNamespace);
-        String photoId = fb.pageOperations().postPhoto(otmPageId, albumId, new FileSystemResource(file), caption);
-        System.out.println(photoId);
+    public String postChart(File file, String caption) {
+        Facebook fb = new FacebookTemplate(userAccessToken, appNamespace);
+        return fb.pageOperations().postPhoto(otmPageId, albumId, new FileSystemResource(file), caption);
     }
 
     public String postComment(String postId, String comment) {
