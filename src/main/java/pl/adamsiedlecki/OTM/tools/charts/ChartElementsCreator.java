@@ -41,7 +41,7 @@ class ChartElementsCreator {
                     series.addOrUpdate(new Minute(date.getMinute(), date.getHour(), date.getDayOfMonth(), date.getMonthValue(), date.getYear()), null);
                 }
                 previous = td.getDate();
-                series.add(new Minute(previous.getMinute(), previous.getHour(), previous.getDayOfMonth(), previous.getMonthValue(), previous.getYear()), td.getTemperatureCelsius());
+                series.addOrUpdate(new Minute(previous.getMinute(), previous.getHour(), previous.getDayOfMonth(), previous.getMonthValue(), previous.getYear()), td.getTemperatureCelsius());
             }
 
             result.addSeries(series);
