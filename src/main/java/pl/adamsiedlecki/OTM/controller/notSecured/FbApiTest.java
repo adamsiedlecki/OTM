@@ -21,6 +21,8 @@ public class FbApiTest {
     @GetMapping("/fb/message")
     public @ResponseBody
     String test() {
-        return facebookManager.postMessage("test message");
+        String postId = facebookManager.postMessage("test message");
+        facebookManager.postComment(postId, "test comment");
+        return postId;
     }
 }
