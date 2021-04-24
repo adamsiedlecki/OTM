@@ -25,6 +25,7 @@ public class FacebookManager {
     }
 
     public String postMessage(String message) {
+        System.out.println("Posting post with message " + message + " token:" + pageAccessToken);
         Facebook fb = new FacebookTemplate(pageAccessToken, appNamespace);
         PagePostData data = new PagePostData(otmPageId);
         data.message(message);
