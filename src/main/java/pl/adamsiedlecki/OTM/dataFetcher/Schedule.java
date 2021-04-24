@@ -55,7 +55,7 @@ public class Schedule {
             data.sort(Comparator.comparing(TemperatureData::getTemperatureCelsius));
             System.out.println("TEMPERATURES BELOW ZERO FOUND!");
             StringBuilder sb = new StringBuilder();
-            sb.append("Odnotowano temperaturę < 0    [ ");
+            sb.append("Odnotowano temperaturę < 0  \n  [ ");
             sb.append(TextFormatters.getPrettyDateTime(data.get(0).getDate()));
             sb.append(" ]\n ");
             for (TemperatureData td : data) {
@@ -99,7 +99,7 @@ public class Schedule {
         if (allLast12Hours.isPresent()) {
             File chart = chartCreator.createOvernightChart(allLast12Hours.get());
             if (chart.exists() && (System.currentTimeMillis() - chart.lastModified()) < 10000) {
-                facebookManager.postChart(chart, "Ostatnia noc [ wygenerowano " + TextFormatters.getPrettyDateTime(LocalDateTime.now()) + " ]");
+                facebookManager.postChart(chart, "Ostatnia noc \n [ wygenerowano " + TextFormatters.getPrettyDateTime(LocalDateTime.now()) + " ]");
             }
         }
 
