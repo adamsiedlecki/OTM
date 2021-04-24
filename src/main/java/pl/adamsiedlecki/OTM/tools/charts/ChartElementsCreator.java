@@ -14,6 +14,7 @@ import pl.adamsiedlecki.OTM.db.tempData.TemperatureData;
 
 import java.awt.*;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 class ChartElementsCreator {
 
     XYDataset createSampleData(List<TemperatureData> temperatureDataList) {
+
         TimeSeriesCollection result = new TimeSeriesCollection();
         Map<String, List<TemperatureData>> map = temperatureDataList.stream().collect(Collectors.groupingBy(TemperatureData::getTransmitterName));
         Set<String> keys = map.keySet();
@@ -29,6 +31,7 @@ class ChartElementsCreator {
             TimeSeries series = new TimeSeries(tName);
 
             List<TemperatureData> list = map.get(tName);
+            list.sort(Comparator.comparing(TemperatureData::getDate));
             LocalDateTime previous = list.get(0).getDate();
 
             for (TemperatureData td : list) {
