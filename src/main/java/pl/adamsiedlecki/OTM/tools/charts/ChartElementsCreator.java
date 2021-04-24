@@ -34,7 +34,7 @@ class ChartElementsCreator {
             for (TemperatureData td : list) {
                 // adding null when three is no data
                 if (td.getDate().minusHours(2).isAfter(previous)) {
-                    LocalDateTime date = td.getDate().minusHours(2).plusMinutes(1);
+                    LocalDateTime date = td.getDate().minusHours(1);
                     series.add(new Minute(date.getMinute(), date.getHour(), date.getDayOfMonth(), date.getMonthValue(), date.getYear()), null);
                 }
                 previous = td.getDate();
