@@ -1,5 +1,7 @@
 package pl.adamsiedlecki.OTM.controller.notSecured;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
@@ -28,6 +30,7 @@ public class ApiController {
     private final TempDataAliasService tempDataAliasService;
     private final String s = File.separator;
     private final DataFetcher dataFetcher;
+    private final Logger log = LoggerFactory.getLogger(ApiController.class);
 
     @Autowired
     public ApiController(TemperatureDataService temperatureDataService, TempDataAliasService tempDataAliasService, DataFetcher dataFetcher) {
@@ -66,7 +69,7 @@ public class ApiController {
         InputStream targetStream;
         try {
             File f = new File(s + "storage" + s + "img" + s + name);
-            System.out.println("DESIRED FILE: " + f.getAbsolutePath());
+            log.info("DESIRED FILE: " + f.getAbsolutePath());
             targetStream = new FileInputStream(f);
             return targetStream.readAllBytes();
 

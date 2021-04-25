@@ -3,6 +3,8 @@ package pl.adamsiedlecki.OTM.tools.charts;
 import org.jfree.chart.ChartUtils;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.XYPlot;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureData;
 import pl.adamsiedlecki.OTM.tools.TextFormatters;
 
@@ -16,6 +18,7 @@ import java.util.List;
 
 public class ChartCreator {
 
+    private final Logger log = LoggerFactory.getLogger(ChartCreator.class);
     private final String s = File.separator;
     private final Font font = new Font("Dialog", Font.PLAIN, 14);
     private final ChartElementsCreator elemCreator = new ChartElementsCreator();
@@ -64,7 +67,7 @@ public class ChartCreator {
             e.printStackTrace();
             return new File("");
         }
-        System.out.println("CHART CREATED");
+        log.info("CHART CREATED");
         return destination;
     }
 
@@ -97,7 +100,7 @@ public class ChartCreator {
             e.printStackTrace();
             return;
         }
-        System.out.println("CHART CREATED");
+        log.info("CHART CREATED");
     }
 
 }

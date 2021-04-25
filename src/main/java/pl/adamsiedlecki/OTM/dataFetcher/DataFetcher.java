@@ -39,7 +39,7 @@ public class DataFetcher {
 
         // in case of blank response
         if (temperatureData.size() == 0) {
-            System.out.println("There are no temperatures fetched!!!");
+            log.info("There are no temperatures fetched!!!");
             sendRestartCommand();
             try {
                 Thread.sleep(5500);
@@ -103,21 +103,15 @@ public class DataFetcher {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        System.out.println(status + "HTML content: " + content);
+        log.info(status + "HTML content: " + content);
         return content;
     }
 
     private void sendRestartCommand() {
-        String content = null;
-        URLConnection connection = null;
         try {
             log.info("Sending restart command to ESP");
-            connection = new URL(apiAddress + "/restart").openConnection();
-            //connection.setReadTimeout(25000);
-//            Scanner scanner = new Scanner(connection.getInputStream());
-//            scanner.useDelimiter("\\Z");
-//            content = scanner.next();
-//            scanner.close();
+            new URL(apiAddress + "/restart").openConnection();
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
