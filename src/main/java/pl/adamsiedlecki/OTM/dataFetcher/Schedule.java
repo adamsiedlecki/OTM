@@ -1,5 +1,7 @@
 package pl.adamsiedlecki.OTM.dataFetcher;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.env.Environment;
@@ -30,6 +32,7 @@ public class Schedule {
     private final FacebookManager facebookManager;
     private LocalDateTime lastTextPostTime;
     private String lastTextPostId;
+    private final Logger log = LoggerFactory.getLogger(Schedule.class);
 
     @Autowired
     public Schedule(DataFetcher dataFetcher, TemperatureDataService temperatureDataService, Environment env, MessengerRecipientService messengerRecipientService, FacebookManager facebookManager) {
@@ -53,7 +56,7 @@ public class Schedule {
         }
         if (isBelowZero) {
             data.sort(Comparator.comparing(TemperatureData::getTemperatureCelsius));
-            System.out.println("TEMPERATURES BELOW ZERO FOUND!");
+            log.info("TEMPERATURES BELOW ZERO FOUND!");
             StringBuilder sb = new StringBuilder();
             sb.append("Odnotowano temperaturę < 0  \n  [ ");
             sb.append(TextFormatters.getPrettyDateTime(data.get(0).getDate()));
@@ -66,33 +69,33 @@ public class Schedule {
             if (lastTextPostTime == null || LocalDateTime.now().isAfter(lastTextPostTime.plusHours(12))) {
                 lastTextPostTime = LocalDateTime.now();
                 lastTextPostId = facebookManager.postMessage(sb.toString());
-                System.out.println("Text Post id: " + lastTextPostId);
+                log.info("Text Post id: " + lastTextPostId);
                 // in case of commenting existing post
             } else {
                 String commentId = facebookManager.postComment(lastTextPostId, sb.toString());
-                System.out.println("Comment id: " + commentId);
+                log.info("Comment id: " + commentId);
             }
         }
     }
 
     @Scheduled(cron = " 0 30 22,23,0,1,2,3,4,5,6,7 * * *")
     public void checkTemperatures() {
-        System.out.println("SCHEDULE 0 30 22,23,0,1,2,3,4,5,6,7 RUNNING");
+        log.info("SCHEDULE 0 30 22,23,0,1,2,3,4,5,6,7 RUNNING");
         List<TemperatureData> data = dataFetcher.fetch();
         sendPostOrComment(data);
 
     }
 
-    @Scheduled(cron = "0 59 * * * *")
+    @Scheduled(cron = "0 0 * * * *")
     public void checkTemperaturesHourly() {
-        System.out.println("SCHEDULE 0 59 * * * * RUNNING");
+        log.info("SCHEDULE 0 0 * * * * RUNNING");
         List<TemperatureData> data = dataFetcher.fetch();
         sendPostOrComment(data);
     }
 
-    @Scheduled(cron = "0 0 8 * * *")
+    @Scheduled(cron = "0 1 8 * * *")
     public void createChart() {
-        System.out.println("SCHEDULE 0 0 8 RUNNING");
+        log.info("SCHEDULE 0 0 8 RUNNING");
         ChartCreator chartCreator = new ChartCreator();
 
         Optional<List<TemperatureData>> allLast12Hours = temperatureDataService.findAllLastXHours(12);
