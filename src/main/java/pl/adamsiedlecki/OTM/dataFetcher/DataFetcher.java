@@ -1,5 +1,7 @@
 package pl.adamsiedlecki.OTM.dataFetcher;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -14,7 +16,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Scanner;
 
 @Service
 public class DataFetcher {
@@ -23,6 +24,7 @@ public class DataFetcher {
     private String apiAddress;
     private final HtmlToTemperatureData htmlToData;
     private final TemperatureDataService temperatureDataService;
+    private final Logger log = LoggerFactory.getLogger(DataFetcher.class);
 
     @Autowired
     public DataFetcher(HtmlToTemperatureData htmlToData, TemperatureDataService temperatureDataService) {
@@ -40,7 +42,27 @@ public class DataFetcher {
             System.out.println("There are no temperatures fetched!!!");
             sendRestartCommand();
             try {
-                Thread.sleep(4500);
+                Thread.sleep(5500);
+                content = getHtml();
+                temperatureData = htmlToData.process(content);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
+        //in case of a second blank response
+        try {
+            Thread.sleep(10000);
+            content = getHtml();
+            temperatureData = htmlToData.process(content);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //in case of a third blank response
+        if (temperatureData.size() == 0) {
+            sendRestartCommand();
+            try {
+                Thread.sleep(6500);
                 content = getHtml();
                 temperatureData = htmlToData.process(content);
             } catch (InterruptedException e) {
@@ -85,19 +107,20 @@ public class DataFetcher {
         return content;
     }
 
-    private String sendRestartCommand() {
+    private void sendRestartCommand() {
         String content = null;
         URLConnection connection = null;
         try {
+            log.info("Sending restart command to ESP");
             connection = new URL(apiAddress + "/restart").openConnection();
-            connection.setReadTimeout(25000);
-            Scanner scanner = new Scanner(connection.getInputStream());
-            scanner.useDelimiter("\\Z");
-            content = scanner.next();
-            scanner.close();
+            //connection.setReadTimeout(25000);
+//            Scanner scanner = new Scanner(connection.getInputStream());
+//            scanner.useDelimiter("\\Z");
+//            content = scanner.next();
+//            scanner.close();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return content;
+
     }
 }
