@@ -91,7 +91,7 @@ public class Schedule {
     }
 
     @Scheduled(cron = "0 0 8 * * *")
-    public void createGraphs() {
+    public void createChart() {
         System.out.println("SCHEDULE 0 0 8 RUNNING");
         ChartCreator chartCreator = new ChartCreator();
 

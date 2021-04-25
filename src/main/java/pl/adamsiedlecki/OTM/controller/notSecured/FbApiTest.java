@@ -26,13 +26,21 @@ public class FbApiTest {
     String test() {
         String postId = facebookManager.postMessage("test message");
         facebookManager.postComment(postId, "test comment");
+
         return postId;
     }
 
-    @GetMapping("/schedule")
+    @GetMapping("/scheduleTemp")
     public @ResponseBody
-    String testSchedule() {
+    String testScheduleTemp() {
         schedule.checkTemperatures();
-        return "nothing returned";
+        return "scheduleTemp nothing returned";
+    }
+
+    @GetMapping("/scheduleChart")
+    public @ResponseBody
+    String testScheduleChart() {
+        schedule.createChart();
+        return "testScheduleChart nothing returned";
     }
 }
