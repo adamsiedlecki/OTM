@@ -93,12 +93,12 @@ public class Schedule {
         sendPostOrComment(data);
     }
 
-    @Scheduled(cron = "0 1 8 * * *")
+    @Scheduled(cron = "0 31 7 * * *")
     public void createChart() {
         log.info("SCHEDULE 0 0 8 RUNNING");
         ChartCreator chartCreator = new ChartCreator();
 
-        Optional<List<TemperatureData>> allLast12Hours = temperatureDataService.findAllLastXHours(12);
+        Optional<List<TemperatureData>> allLast12Hours = temperatureDataService.findAllLastXHours(10);
         if (allLast12Hours.isPresent()) {
             File chart = chartCreator.createOvernightChart(allLast12Hours.get(), 1200, 628);
             if (chart.exists() && (System.currentTimeMillis() - chart.lastModified()) < 10000) {
