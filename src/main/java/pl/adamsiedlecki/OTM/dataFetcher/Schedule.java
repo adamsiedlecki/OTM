@@ -100,7 +100,7 @@ public class Schedule {
 
         Optional<List<TemperatureData>> allLast12Hours = temperatureDataService.findAllLastXHours(12);
         if (allLast12Hours.isPresent()) {
-            File chart = chartCreator.createOvernightChart(allLast12Hours.get());
+            File chart = chartCreator.createOvernightChart(allLast12Hours.get(), 1200, 628);
             if (chart.exists() && (System.currentTimeMillis() - chart.lastModified()) < 10000) {
                 facebookManager.postChart(chart, "Ostatnia noc \n [ wygenerowano " + TextFormatters.getPrettyDateTime(LocalDateTime.now()) + " ]");
             }

@@ -23,7 +23,7 @@ public class ChartCreator {
     private final Font font = new Font("Dialog", Font.PLAIN, 14);
     private final ChartElementsCreator elemCreator = new ChartElementsCreator();
 
-    public File createOvernightChart(List<TemperatureData> temperatureDataList) {
+    public File createOvernightChart(List<TemperatureData> temperatureDataList, int width, int height) {
         temperatureDataList.sort(Comparator.comparing(TemperatureData::getDate));
         int size = temperatureDataList.size();
         if (size == 0) {
@@ -62,7 +62,7 @@ public class ChartCreator {
 
         File destination = new File(mainPath + s + "night1.jpg");
         try {
-            ChartUtils.saveChartAsJPEG(destination, chart, 1920, 1080);
+            ChartUtils.saveChartAsJPEG(destination, chart, width, height);
         } catch (IOException e) {
             e.printStackTrace();
             return new File("");
