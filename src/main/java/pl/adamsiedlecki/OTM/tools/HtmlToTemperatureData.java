@@ -1,6 +1,5 @@
 package pl.adamsiedlecki.OTM.tools;
 
-
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -46,8 +45,7 @@ public class HtmlToTemperatureData {
             temperatureData.setTransmitterName(name);
 
             String temperature = values[1];
-            Optional<BigDecimal> optionalTemp = extractTemperature(temperature,
-                    temperatureData.getTransmitterName());
+            Optional<BigDecimal> optionalTemp = extractTemperature(temperature);
             if (optionalTemp.isPresent()) {
                 temperatureData.setTemperatureCelsius(optionalTemp.get());
             } else {
@@ -64,20 +62,19 @@ public class HtmlToTemperatureData {
         return Optional.empty();
     }
 
-    private Optional<BigDecimal> extractTemperature(String temperature, String transmitterName) {
+    private Optional<BigDecimal> extractTemperature(String temperature) {
         temperature = temperature.trim();
 
         if (temperature.contains("no response")) {
 
             return Optional.empty();
-        } else if (temperature.length() > 6) {
+        } else if (temperature.length() > 6) { // temperature format is xx.xx or -xx.xx
             return Optional.empty();
         } else {
             if (NumberUtils.isCreatable(temperature)) {
                 return Optional.of(new BigDecimal(temperature));
 
             } else {
-                //ctx.ifPresent(context -> Toasts.temperatureIsNotANumber(context, transmitterName));
                 return Optional.empty();
             }
 
