@@ -23,11 +23,15 @@ public class ChartController {
     }
 
     @GetMapping("/chart")
-    public String getIndex(Model model, @RequestParam(value = "numberOfHours") int numberOfHours) {
+    public String getIndex(Model model,
+                           @RequestParam(value = "numberOfHours") int numberOfHours,
+                           @RequestParam(value = "width", defaultValue = "5000") int width,
+                           @RequestParam(value = "height", defaultValue = "1000") int height
+    ) {
         Optional<List<TemperatureData>> optionalTemperatureData = temperatureDataService.findAllLastXHours(numberOfHours);
-        if(optionalTemperatureData.isPresent()){
+        if (optionalTemperatureData.isPresent()) {
             ChartCreator chartCreator = new ChartCreator();
-            chartCreator.createChart(optionalTemperatureData.get(), 5000, 1080);
+            chartCreator.createChart(optionalTemperatureData.get(), width, height);
         }
         return "chart";
     }

@@ -82,7 +82,6 @@ public class DataFetcher {
 
     private String getHtml() {
         String content = null;
-        URLConnection connection = null;
         int status = 0;
         try {
             URL url = new URL(apiAddress);
@@ -101,7 +100,7 @@ public class DataFetcher {
             content = stringBuilder.toString();
 
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage());
         }
         log.info(status + "HTML content: " + content);
         return content;
@@ -110,10 +109,11 @@ public class DataFetcher {
     private void sendRestartCommand() {
         try {
             log.info("Sending restart command to ESP");
-            new URL(apiAddress + "/restart").openConnection();
+            URLConnection conn = new URL(apiAddress + "/restart").openConnection();
+            conn.connect();
 
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage());
         }
 
     }

@@ -23,12 +23,12 @@ class ChartElementsCreator {
     XYDataset createSampleData(List<TemperatureData> temperatureDataList) {
 
         TimeSeriesCollection result = new TimeSeriesCollection();
-        Map<String, List<TemperatureData>> map = temperatureDataList.stream().collect(Collectors.groupingBy(TemperatureData::getTransmitterName));
+        Map<String, List<TemperatureData>> map =
+                temperatureDataList.stream().collect(Collectors.groupingBy(TemperatureData::getTransmitterName));
         List<String> keys = new ArrayList<>(map.keySet());
         Collections.sort(keys);
         for (String tName : keys) {
             TimeSeries series = new TimeSeries(tName);
-
             List<TemperatureData> list = map.get(tName);
             list.sort(Comparator.comparing(TemperatureData::getDate));
             LocalDateTime previous = list.get(0).getDate();

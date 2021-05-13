@@ -45,13 +45,15 @@ public class ApiController {
         return tempDataAliasService.findAll();
     }
 
-    @GetMapping("/getTempsNow")
+    @GetMapping("/temperature-now")
     public @ResponseBody
     List<TemperatureData> getTemperaturesNow() {
-        return dataFetcher.fetch();
+        List<TemperatureData> data = dataFetcher.fetch();
+        temperatureDataService.saveAll(data);
+        return data;
     }
 
-    @GetMapping(path = "/tempData")
+    @GetMapping(path = "/temperature-data")
     public @ResponseBody
     List<TemperatureData> getTempData(@RequestParam(value = "page", defaultValue = "0") int page,
                                       @RequestParam(value = "size", defaultValue = "50") int size) {

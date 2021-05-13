@@ -1,6 +1,7 @@
 package pl.adamsiedlecki.OTM.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -13,11 +14,9 @@ import pl.adamsiedlecki.OTM.db.user.UserDs;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDs userDs;
-    private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public WebSecurityConfig(UserDs userDs, BCryptPasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
+    public WebSecurityConfig(UserDs userDs) {
         this.userDs = userDs;
     }
 
@@ -41,6 +40,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
         ;
+    }
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
 

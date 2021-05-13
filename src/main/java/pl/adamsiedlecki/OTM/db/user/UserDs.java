@@ -6,7 +6,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.adamsiedlecki.OTM.db.user.userRole.UserAuthority;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,21 +21,12 @@ public class UserDs implements UserDetailsService {
         this.userRepo = userRepo;
         this.passwordEncoder = passwordEncoder;
 
-        if (!getUserByUsername("user").isPresent()) {
-            User user = new User();
-            user.setUsername("user");
-            user.setPassword(passwordEncoder.encode("user"));
-            userRepo.saveAndFlush(user);
-        }
-
-        if (!getUserByUsername("admin").isPresent()) {
-            User user2 = new User();
-            user2.setUsername("admin");
-            user2.setRoles(List.of(new UserAuthority("ADMIN")));
-            user2.setPassword(passwordEncoder.encode("admin"));
-            userRepo.saveAndFlush(user2);
-        }
-
+//        if (!getUserByUsername("user").isPresent()) {
+//            User user = new User();
+//            user.setUsername("user");
+//            user.setPassword(passwordEncoder.encode("user"));
+//            userRepo.saveAndFlush(user);
+//        }
     }
 
     @Override

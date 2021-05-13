@@ -39,10 +39,9 @@ public class ChartCreator {
                 JFreeChart.DEFAULT_TITLE_FONT, plot, true);
         chart.getLegend().setItemFont(font);
 
-        URI uri = null;
         File file = new File(s + "storage" + s + "img");
         file.mkdirs();
-        uri = file.toURI();
+        URI uri = file.toURI();
         String mainPath = Paths.get(uri).toString();
 
         new File(mainPath + s + "night7").delete();
@@ -97,7 +96,7 @@ public class ChartCreator {
         try {
             ChartUtils.saveChartAsJPEG(new File(mainPath + s + "chart.jpg"), chart, width, height);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             return;
         }
         log.info("CHART CREATED");

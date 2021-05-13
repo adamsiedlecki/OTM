@@ -4,10 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import pl.adamsiedlecki.OTM.db.messengerRecipient.MessengerRecipientService;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureData;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureDataService;
 import pl.adamsiedlecki.OTM.facebook.FacebookManager;
@@ -27,20 +25,46 @@ public class Schedule {
 
     private final DataFetcher dataFetcher;
     private final TemperatureDataService temperatureDataService;
-    private final Environment env;
-    private final MessengerRecipientService messengerRecipientService;
     private final FacebookManager facebookManager;
     private LocalDateTime lastTextPostTime;
     private String lastTextPostId;
     private final Logger log = LoggerFactory.getLogger(Schedule.class);
 
     @Autowired
-    public Schedule(DataFetcher dataFetcher, TemperatureDataService temperatureDataService, Environment env, MessengerRecipientService messengerRecipientService, FacebookManager facebookManager) {
+    public Schedule(DataFetcher dataFetcher, TemperatureDataService temperatureDataService, FacebookManager facebookManager) {
         this.dataFetcher = dataFetcher;
         this.temperatureDataService = temperatureDataService;
-        this.env = env;
-        this.messengerRecipientService = messengerRecipientService;
         this.facebookManager = facebookManager;
+    }
+
+    @Scheduled(cron = " 0 30 22,23,0,1,2,3,4,5,6,7 * * *")
+    public void checkTemperatures() {
+        log.info("SCHEDULE 0 30 22,23,0,1,2,3,4,5,6,7 RUNNING");
+        List<TemperatureData> data = dataFetcher.fetch();
+        sendPostOrComment(data);
+
+    }
+
+    @Scheduled(cron = "0 0 * * * *")
+    public void checkTemperaturesHourly() {
+        log.info("SCHEDULE 0 0 * * * * RUNNING");
+        List<TemperatureData> data = dataFetcher.fetch();
+        sendPostOrComment(data);
+    }
+
+    @Scheduled(cron = "0 31 7 * * *")
+    public void createChart() {
+        log.info("SCHEDULE 0 0 8 RUNNING");
+        ChartCreator chartCreator = new ChartCreator();
+
+        Optional<List<TemperatureData>> allLast12Hours = temperatureDataService.findAllLastXHours(10);
+        if (allLast12Hours.isPresent()) {
+            File chart = chartCreator.createOvernightChart(allLast12Hours.get(), 1200, 628);
+            if (chart.exists() && (System.currentTimeMillis() - chart.lastModified()) < 10000) {
+                facebookManager.postChart(chart, "Ostatnia noc \n [ wygenerowano " + TextFormatters.getPrettyDateTime(LocalDateTime.now()) + " ]");
+            }
+        }
+
     }
 
     private void sendPostOrComment(List<TemperatureData> data) {
@@ -76,35 +100,5 @@ public class Schedule {
                 log.info("Comment id: " + commentId);
             }
         }
-    }
-
-    @Scheduled(cron = " 0 30 22,23,0,1,2,3,4,5,6,7 * * *")
-    public void checkTemperatures() {
-        log.info("SCHEDULE 0 30 22,23,0,1,2,3,4,5,6,7 RUNNING");
-        List<TemperatureData> data = dataFetcher.fetch();
-        sendPostOrComment(data);
-
-    }
-
-    @Scheduled(cron = "0 0 * * * *")
-    public void checkTemperaturesHourly() {
-        log.info("SCHEDULE 0 0 * * * * RUNNING");
-        List<TemperatureData> data = dataFetcher.fetch();
-        sendPostOrComment(data);
-    }
-
-    @Scheduled(cron = "0 31 7 * * *")
-    public void createChart() {
-        log.info("SCHEDULE 0 0 8 RUNNING");
-        ChartCreator chartCreator = new ChartCreator();
-
-        Optional<List<TemperatureData>> allLast12Hours = temperatureDataService.findAllLastXHours(10);
-        if (allLast12Hours.isPresent()) {
-            File chart = chartCreator.createOvernightChart(allLast12Hours.get(), 1200, 628);
-            if (chart.exists() && (System.currentTimeMillis() - chart.lastModified()) < 10000) {
-                facebookManager.postChart(chart, "Ostatnia noc \n [ wygenerowano " + TextFormatters.getPrettyDateTime(LocalDateTime.now()) + " ]");
-            }
-        }
-
     }
 }
