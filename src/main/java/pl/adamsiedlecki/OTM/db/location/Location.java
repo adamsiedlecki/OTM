@@ -1,5 +1,6 @@
 package pl.adamsiedlecki.OTM.db.location;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -11,7 +12,9 @@ public class Location {
     @Id
     @GeneratedValue
     private long id;
+    @Column(nullable = false, columnDefinition = " ")
     private float longitude;
+    @Column(nullable = false, columnDefinition = " ")
     private float latitude;
 
     public Location() {
