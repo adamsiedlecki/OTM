@@ -21,10 +21,15 @@ public class LocationService {
 
     public Location getOrSave(float latitude, float longitude) {
         Optional<Location> opLoc = getLocationByCords(latitude, longitude);
-        return opLoc.orElseGet(() -> {
+
+        if (opLoc.isPresent()) {
+            System.out.println("GOT LOCATION BY lat and lng: " + opLoc.get());
+            return opLoc.get();
+        } else {
+            System.out.println(" location not found, creating new");
             Location loc = new Location(latitude, longitude);
             locationRepo.saveAndFlush(loc);
             return loc;
-        });
+        }
     }
 }
