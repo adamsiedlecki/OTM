@@ -16,7 +16,7 @@ public class LocationService {
     }
 
     public Optional<Location> getLocationByCords(float latitude, float longitude) {
-        return locationRepo.findOneByLatitudeAndLongitude(latitude, longitude);
+        return locationRepo.findByLatitudeAndLongitude(latitude, longitude);
     }
 
     public Location getOrSave(float latitude, float longitude) {
