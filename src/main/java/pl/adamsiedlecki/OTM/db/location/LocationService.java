@@ -38,4 +38,8 @@ public class LocationService {
             return loc;
         }
     }
+
+    public long count() {
+        return locationRepo.count();
+    }
 }
