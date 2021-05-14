@@ -52,11 +52,6 @@ public class HtmlToTemperatureData {
                 return Optional.empty();
             }
 
-            if(values.length == 4) {
-                temperatureData.setLatitude(Float.parseFloat(values[2]));
-                temperatureData.setLongitude(Float.parseFloat(values[3]));
-            }
-
             return Optional.of(temperatureData);
         }
         return Optional.empty();
