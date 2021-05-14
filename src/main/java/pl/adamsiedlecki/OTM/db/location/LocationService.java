@@ -23,7 +23,7 @@ public class LocationService {
         Optional<Location> opLoc = getLocationByCords(latitude, longitude);
         return opLoc.orElseGet(() -> {
             Location loc = new Location(latitude, longitude);
-            locationRepo.save(loc);
+            locationRepo.saveAndFlush(loc);
             return loc;
         });
     }
