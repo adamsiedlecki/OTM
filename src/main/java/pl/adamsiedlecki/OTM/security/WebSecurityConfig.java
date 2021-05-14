@@ -1,23 +1,18 @@
 package pl.adamsiedlecki.OTM.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import pl.adamsiedlecki.OTM.db.user.UserDs;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserDs userDs;
 
-    @Autowired
-    public WebSecurityConfig(UserDs userDs) {
-        this.userDs = userDs;
+    public WebSecurityConfig() {
     }
 
     @Override
