@@ -1,6 +1,9 @@
 package pl.adamsiedlecki.OTM.db.location;
 
+import pl.adamsiedlecki.OTM.db.tempData.TemperatureData;
+
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -14,6 +17,8 @@ public class Location {
     private long id;
     private float longitude;
     private float latitude;
+    @OneToMany(mappedBy = "location")
+    private List<TemperatureData> temperatures;
 
     public Location() {
     }
