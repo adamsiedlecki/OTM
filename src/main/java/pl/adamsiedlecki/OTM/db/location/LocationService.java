@@ -15,12 +15,12 @@ public class LocationService {
         this.locationRepo = locationRepo;
     }
 
-    public Optional<Location> getLocationByCords(float longitude, float latitude) {
-        return locationRepo.findOneByLongitudeAndLatitude(longitude, latitude);
+    public Optional<Location> getLocationByCords(float latitude, float longitude) {
+        return locationRepo.findOneByLatitudeAndLongitude(latitude, longitude);
     }
 
-    public Location save(Location location) {
-        Optional<Location> opLoc = locationRepo.findOneByLongitudeAndLatitude(location.getLongitude(), location.getLatitude());
-        return opLoc.orElseGet(() -> locationRepo.save(location));
+    public Location getOrSave(float latitude, float longitude) {
+        Optional<Location> opLoc = locationRepo.findOneByLatitudeAndLongitude(latitude, longitude);
+        return opLoc.orElseGet(() -> locationRepo.save(new Location(latitude, longitude)));
     }
 }
