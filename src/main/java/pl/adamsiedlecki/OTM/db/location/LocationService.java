@@ -21,6 +21,10 @@ public class LocationService {
 
     public Location getOrSave(float latitude, float longitude) {
         Optional<Location> opLoc = getLocationByCords(latitude, longitude);
-        return opLoc.orElseGet(() -> locationRepo.save(new Location(latitude, longitude)));
+        return opLoc.orElseGet(() -> {
+            Location loc = new Location(latitude, longitude);
+            locationRepo.save(loc);
+            return loc;
+        });
     }
 }
