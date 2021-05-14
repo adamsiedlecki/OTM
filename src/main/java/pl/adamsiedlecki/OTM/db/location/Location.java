@@ -1,11 +1,12 @@
 package pl.adamsiedlecki.OTM.db.location;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@Table(
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"longitude", "latitude"})}
+)
 public class Location {
 
     @Id
