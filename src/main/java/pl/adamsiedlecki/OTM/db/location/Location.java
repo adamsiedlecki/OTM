@@ -17,7 +17,7 @@ public class Location {
     private long id;
     private String longitude;
     private String latitude;
-    @OneToMany(mappedBy = "location")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "location")
     private List<TemperatureData> temperatures;
 
     public Location() {
