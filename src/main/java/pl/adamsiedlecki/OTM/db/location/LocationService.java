@@ -16,7 +16,7 @@ public class LocationService {
         this.locationRepo = locationRepo;
     }
 
-    public Optional<Location> getLocationByCords(float latitude, float longitude) {
+    public Optional<Location> getLocationByCords(String latitude, String longitude) {
         List<Location> locations = locationRepo.findByLatitudeAndLongitude(latitude, longitude);
         System.out.println("gOT LIST OF LOCATIONS: " + locations);
         if (locations.isEmpty()) {
@@ -26,7 +26,7 @@ public class LocationService {
         }
     }
 
-    public Location getOrSave(float latitude, float longitude) {
+    public Location getOrSave(String latitude, String longitude) {
         Optional<Location> opLoc = getLocationByCords(latitude, longitude);
 
         if (opLoc.isPresent()) {

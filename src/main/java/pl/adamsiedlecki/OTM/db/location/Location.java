@@ -15,17 +15,17 @@ public class Location {
     @Id
     @GeneratedValue
     private long id;
-    private float longitude;
-    private float latitude;
+    private String longitude;
+    private String latitude;
     @OneToMany(mappedBy = "location")
     private List<TemperatureData> temperatures;
 
     public Location() {
     }
 
-    public Location(float latitude, float longitude) {
-        this.latitude = latitude;
+    public Location(String longitude, String latitude) {
         this.longitude = longitude;
+        this.latitude = latitude;
     }
 
     public long getId() {
@@ -36,19 +36,19 @@ public class Location {
         this.id = id;
     }
 
-    public float getLongitude() {
+    public String getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(float longitude) {
+    public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
 
-    public float getLatitude() {
+    public String getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(float latitude) {
+    public void setLatitude(String latitude) {
         this.latitude = latitude;
     }
 
