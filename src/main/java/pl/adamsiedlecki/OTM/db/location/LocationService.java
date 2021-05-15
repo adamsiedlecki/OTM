@@ -18,6 +18,7 @@ public class LocationService {
 
     public Optional<Location> getLocationByCords(float latitude, float longitude) {
         List<Location> locations = locationRepo.findByLatitudeAndLongitude(latitude, longitude);
+        System.out.println("gOT LIST OF LOCATIONS: " + locations);
         if (locations.isEmpty()) {
             return Optional.empty();
         } else {
