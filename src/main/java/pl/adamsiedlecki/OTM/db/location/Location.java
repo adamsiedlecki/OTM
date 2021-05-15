@@ -52,6 +52,14 @@ public class Location {
         this.latitude = latitude;
     }
 
+    public List<TemperatureData> getTemperatures() {
+        return temperatures;
+    }
+
+    public void setTemperatures(List<TemperatureData> temperatures) {
+        this.temperatures = temperatures;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
