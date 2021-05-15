@@ -65,7 +65,7 @@ public class Location {
         if (this == o) return true;
         if (!(o instanceof Location)) return false;
         Location location = (Location) o;
-        return Float.compare(location.getLongitude(), getLongitude()) == 0 && Float.compare(location.getLatitude(), getLatitude()) == 0;
+        return Objects.equals(getLongitude(), location.getLongitude()) && Objects.equals(getLatitude(), location.getLatitude());
     }
 
     @Override
