@@ -29,9 +29,8 @@ public class TemperatureAliasAdder {
                 tempData.setTransmitterName(tempData.getTransmitterName() + " " + alias.getAliasName());
 
                 Location location = locationService.getOrSave(alias.getLatitude(), alias.getLongitude());
-                List<TemperatureData> temps = location.getTemperatures();
-                temps.add(tempData);
-                location.setTemperatures(temps);
+                tempData.setLocation(location);
+
 
             }
         }
