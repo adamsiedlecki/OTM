@@ -23,7 +23,7 @@ public class Location {
     public Location() {
     }
 
-    public Location(String longitude, String latitude) {
+    public Location(String latitude, String longitude) {
         this.longitude = longitude;
         this.latitude = latitude;
     }
