@@ -3,7 +3,6 @@ package pl.adamsiedlecki.OTM.db.tempDataAlias;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.util.Optional;
 
 @Entity
 public class TempDataAlias {
@@ -13,8 +12,8 @@ public class TempDataAlias {
     private Long id;
     private String originalName;
     private String aliasName;
-    private float longitude;
-    private float latitude;
+    private String longitude;
+    private String latitude;
 
     public String getOriginalName() {
         return originalName;
@@ -40,19 +39,19 @@ public class TempDataAlias {
         this.id = id;
     }
 
-    public float getLongitude() {
+    public String getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(float longitude) {
+    public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
 
-    public float getLatitude() {
+    public String getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(float latitude) {
+    public void setLatitude(String latitude) {
         this.latitude = latitude;
     }
 }

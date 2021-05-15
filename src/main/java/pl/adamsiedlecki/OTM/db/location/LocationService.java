@@ -28,6 +28,14 @@ public class LocationService {
 
     public Location getOrSave(String latitude, String longitude) {
         Optional<Location> opLoc = getLocationByCords(latitude, longitude);
+//        List<Location> all = locationRepo.findAll();
+//        List<Location> list = all.stream().filter(e -> e.getLatitude().equals(latitude) && e.getLongitude().equals(longitude)).collect(Collectors.toList());
+//        Optional<Location> opLoc;
+//        if (list.isEmpty()) {
+//            opLoc = Optional.empty();
+//        } else {
+//            opLoc = Optional.of(list.get(0));
+//        }
 
         if (opLoc.isPresent()) {
             System.out.println("GOT LOCATION BY lat and lng: " + opLoc.get());
