@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface LocationRepo extends JpaRepository<Location, Long> {
 
-    @Query("SELECT l FROM Location l WHERE l.latitude=?2 AND l.longitude=?1")
-    List<Location> findByLatitudeAndLongitude(String latitude, String longitude);
+    @Query("SELECT l FROM Location l WHERE l.latitude=?1 AND l.longitude=?2 ")
+    List<Location> find(String latitude, String longitude);
 }
