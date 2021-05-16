@@ -1,9 +1,6 @@
 package pl.adamsiedlecki.OTM.db.location;
 
-import pl.adamsiedlecki.OTM.db.tempData.TemperatureData;
-
 import javax.persistence.*;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -17,8 +14,6 @@ public class Location {
     private long id;
     private String longitude;
     private String latitude;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "location")
-    private List<TemperatureData> temperatures;
 
     public Location() {
     }
@@ -50,14 +45,6 @@ public class Location {
 
     public void setLatitude(String latitude) {
         this.latitude = latitude;
-    }
-
-    public List<TemperatureData> getTemperatures() {
-        return temperatures;
-    }
-
-    public void setTemperatures(List<TemperatureData> temperatures) {
-        this.temperatures = temperatures;
     }
 
     @Override
