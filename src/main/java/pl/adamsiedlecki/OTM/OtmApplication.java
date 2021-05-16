@@ -7,9 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import pl.adamsiedlecki.OTM.dataFetcher.DataFetcher;
-import pl.adamsiedlecki.OTM.db.tempData.TemperatureData;
 
-import java.util.List;
 import java.util.TimeZone;
 
 @EnableScheduling
@@ -25,10 +23,8 @@ public class OtmApplication {
 		log.info("APPLICATION LAUNCHED");
 
 		DataFetcher dataFetcher = run.getBean(DataFetcher.class);
-		List<TemperatureData> list = dataFetcher.fetch();
-		for (TemperatureData data : list) {
-			log.info(data.toString());
-		}
+		dataFetcher.fetch();
+
 
 	}
 
