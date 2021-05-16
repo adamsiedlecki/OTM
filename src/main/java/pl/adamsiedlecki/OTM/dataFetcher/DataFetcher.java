@@ -51,12 +51,14 @@ public class DataFetcher {
 
         }
         //in case of a second blank response
-        try {
-            Thread.sleep(10000);
-            content = getHtml();
-            temperatureData = htmlToData.process(content);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if (temperatureData.size() == 0) {
+            try {
+                Thread.sleep(10000);
+                content = getHtml();
+                temperatureData = htmlToData.process(content);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         //in case of a third blank response
         if (temperatureData.size() == 0) {
