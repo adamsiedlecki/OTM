@@ -18,7 +18,7 @@ This application is just a port of a larger system, which includes server on ESP
 
 <h3>Solar panels and station inside: </h3>
 <div width="100%">
-  <img src="materials/big solar.jpg" height="30%" width="30%" style="margin: auto;" align="left"/> <img src="materials/small solar.jpg" height="30%" width="30%"  align="center"/> <img src="materials/station inside.jpg" height="30%" width="30%" align="right"/>
+  <img src="materials/big solar.jpg" height="30%" width="30%" align="left"/> <img src="materials/small solar.jpg" height="30%" width="30%"  align="center"/> <img src="materials/station inside.jpg" height="30%" width="30%" align="right"/>
 </div>
   
 <h3>Facebook:</h3>
