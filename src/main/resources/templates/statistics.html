@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>OTM admin panel</title>
+    <link rel="stylesheet" th:href="@{css/style.css}">
+    <link rel="stylesheet" th:href="@{css/style-form.css}">
+    <link rel="stylesheet" th:href="@{css/style-table.css}">
+    <link rel="icon"
+          th:href="@{img/logo500.png}"
+          type="image/png">
+
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald&family=Caveat:wght@700&display=swap"
+          rel="stylesheet">
+
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <a class="logo">OTM</a>
+    </div>
+    <div class="content">
+        <input class="button" onClick="location.href='/admin-panel'" type="button" value="RETURN TO ADMIN PANEL">
+
+        <table>
+            <tr>
+                <td><p class="tableText">temperaturesDataAmount</p></td>
+                <td><p class="tableText" th:text="${temperaturesDataAmount}"></p></td>
+            </tr>
+            <tr th:if="${(temperaturesBelowZeroCount !=null)} ">
+                <td><p class="tableText">temperaturesBelowZeroCount</p></td>
+                <td><p class="tableText" th:text="${temperaturesBelowZeroCount}"></p></td>
+            </tr>
+            <tr th:if="${(espNoResponsePercentage !=null)} ">
+                <td><p class="tableText">espNoResponsePercentage</p></td>
+                <td><p class="tableText" th:text="${espNoResponsePercentage}"></p></td>
+            </tr>
+            <tr th:each="stat : ${statistics}">
+                <td><p class="tableText" th:text="${stat.sKey}">key</p></td>
+                <td><p class="tableText" th:text="${stat.sValue}">value</p></td>
+            </tr>
+
+        </table>
+    </div>
+
+
+</div>
+
+
+</body>
+</html>

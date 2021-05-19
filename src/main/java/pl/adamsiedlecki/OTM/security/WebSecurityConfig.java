@@ -11,6 +11,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private static final String[] WHITELIST = {
+            "/", "/main", "/register", "/chart",
+            "/test/**", "/api/**", "/css/**", "/js/**",
+            "/img/**", "/image/**"
+    };
+
 
     public WebSecurityConfig() {
     }
@@ -19,14 +25,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/main", "/register", "/chart", "/test/**", "/api/**", "/css/**", "/js/**", "/img/**", "/image/**").permitAll()
+                .antMatchers(WHITELIST).permitAll()
                 .antMatchers("/remove-user", "/admin-panel", "/statistics").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
                 .failureUrl("/login?error=true")
-                .defaultSuccessUrl("/ranking")
+                .defaultSuccessUrl("/admin-panel")
                 .permitAll()
                 .and()
                 .logout()

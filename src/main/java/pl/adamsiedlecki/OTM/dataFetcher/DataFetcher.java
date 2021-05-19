@@ -5,15 +5,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import pl.adamsiedlecki.OTM.db.statistics.StatisticsService;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureData;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureDataService;
+import pl.adamsiedlecki.OTM.exceptions.EspNoResponseException;
 import pl.adamsiedlecki.OTM.tools.HtmlToTemperatureData;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,99 +21,33 @@ public class DataFetcher {
     private String apiAddress;
     private final HtmlToTemperatureData htmlToData;
     private final TemperatureDataService temperatureDataService;
+    private final StatisticsService statService;
     private final Logger log = LoggerFactory.getLogger(DataFetcher.class);
+    private final EspApiTool apiTool;
 
     @Autowired
-    public DataFetcher(HtmlToTemperatureData htmlToData, TemperatureDataService temperatureDataService) {
+    public DataFetcher(HtmlToTemperatureData htmlToData, TemperatureDataService temperatureDataService, StatisticsService statService, EspApiTool apiTool) {
         this.htmlToData = htmlToData;
         this.temperatureDataService = temperatureDataService;
+        this.statService = statService;
+        this.apiTool = apiTool;
     }
 
     public List<TemperatureData> fetch() {
-        String content = getHtml();
+        String content;
+        try {
+            content = apiTool.getHtml(apiAddress);
+        } catch (EspNoResponseException e) {
+            content = apiTool.espNoResponseStrategy(apiAddress);
+        }
 
         List<TemperatureData> temperatureData = htmlToData.process(content);
-
-        // in case of blank response
-        if (temperatureData.size() == 0) {
-            log.info("There are no temperatures fetched!!!");
-            sendRestartCommand();
-            try {
-                Thread.sleep(5500);
-                content = getHtml();
-                temperatureData = htmlToData.process(content);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-        }
-        //in case of a second blank response
-        if (temperatureData.size() == 0) {
-            try {
-                Thread.sleep(10000);
-                content = getHtml();
-                temperatureData = htmlToData.process(content);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        //in case of a third blank response
-        if (temperatureData.size() == 0) {
-            sendRestartCommand();
-            try {
-                Thread.sleep(6500);
-                content = getHtml();
-                temperatureData = htmlToData.process(content);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-        }
-
         LocalDateTime now = LocalDateTime.now();
         for (TemperatureData td : temperatureData) {
             td.setDate(now);
         }
         temperatureDataService.saveAll(temperatureData);
-
         return temperatureData;
     }
 
-    private String getHtml() {
-        String content = null;
-        int status = 0;
-        try {
-            URL url = new URL(apiAddress);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-            con.setReadTimeout(25000);
-            status = con.getResponseCode();
-            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            StringBuilder stringBuilder = new StringBuilder();
-            while ((inputLine = in.readLine()) != null) {
-                stringBuilder.append(inputLine);
-            }
-            in.close();
-            con.disconnect();
-            content = stringBuilder.toString();
-
-        } catch (Exception ex) {
-            log.error(ex.getMessage());
-        }
-        log.info(status + "HTML content: " + content);
-        return content;
-    }
-
-    private void sendRestartCommand() {
-        try {
-            log.info("Sending restart command to ESP");
-            URLConnection conn = new URL(apiAddress + "/restart").openConnection();
-            conn.connect();
-
-        } catch (Exception ex) {
-            log.error(ex.getMessage());
-        }
-
-    }
 }

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>OTM</title>
+    <link rel="stylesheet" th:href="@{css/style.css}">
+    <link rel="stylesheet" th:href="@{css/style-form.css}">
+    <link rel="icon"
+          th:href="@{img/logo500.png}"
+          type="image/png">
+
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald&family=Caveat:wght@700&display=swap"
+          rel="stylesheet">
+
+</head>
+<body>
+
+<div sec:authorize="isAuthenticated()">
+    <script>location.href="/admin-panel";</script>
+</div>
+
+<div class="container">
+    <div class="header">
+        <a class="logo">OTM</a>
+    </div>
+
+    <p class="error" th:if="${(error != null) and (error[0] == 'true')}">
+        Wrong user or password
+    </p>
+
+    <form method="post" th:action="@{/login}">
+
+        <label for="username">username:
+            <input autofocus="autofocus" id="username" name="username" required="true" type="text">
+        </label>
+
+        <label for="password">password:
+            <input id="password" name="password" required="true" type="password">
+        </label>
+
+        <input class="button" type="submit" value="LOG ME IN 🔑">
+    </form>
+
+    <br>
+    <br>
+    <div id="errors" th:if="${(param.error != null) and (param.error[0] == 'true')}">
+        <p>Login OR/AND password IS/ARE incorrect!</p>
+    </div>
+    <p th:if="${registerSuccessful != null && registerSuccessful==true}">
+        Register successful!
+    </p>
+
+
+</div>
+
+
+</body>
+</html>

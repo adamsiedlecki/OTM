@@ -1,11 +1,9 @@
 package pl.adamsiedlecki.OTM.db.user;
 
 
-
 import pl.adamsiedlecki.OTM.db.user.userRole.UserAuthority;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -74,5 +72,42 @@ public class User {
                 ", password='" + password + '\'' +
                 ", roles=" + roles +
                 '}';
+    }
+
+
+    public static final class UserBuilder {
+        private String username;
+        private String password;
+        private List<UserAuthority> roles;
+
+        private UserBuilder() {
+        }
+
+        public static UserBuilder anUser() {
+            return new UserBuilder();
+        }
+
+        public UserBuilder withUsername(String username) {
+            this.username = username;
+            return this;
+        }
+
+        public UserBuilder withPassword(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public UserBuilder withRoles(List<UserAuthority> roles) {
+            this.roles = roles;
+            return this;
+        }
+
+        public User build() {
+            User user = new User();
+            user.setUsername(username);
+            user.setPassword(password);
+            user.setRoles(roles);
+            return user;
+        }
     }
 }

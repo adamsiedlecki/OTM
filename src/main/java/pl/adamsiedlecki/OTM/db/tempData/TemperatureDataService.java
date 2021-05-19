@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -75,5 +76,9 @@ public class TemperatureDataService {
 
     public Optional<List<TemperatureData>> findAllLastXHours(int xHours) {
         return temperatureDataRepo.findAllBetween(LocalDateTime.now().minus(xHours, ChronoUnit.HOURS), LocalDateTime.now());
+    }
+
+    public long countBelowTemperature(BigDecimal temperature) {
+        return temperatureDataRepo.countBelowTemperature(temperature);
     }
 }

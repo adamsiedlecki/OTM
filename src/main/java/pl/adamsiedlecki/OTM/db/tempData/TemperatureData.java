@@ -1,7 +1,7 @@
 package pl.adamsiedlecki.OTM.db.tempData;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import pl.adamsiedlecki.OTM.db.location.Location;
-import pl.adamsiedlecki.OTM.tools.TextFormatters;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -66,14 +66,7 @@ public class TemperatureData {
         this.date = date;
     }
 
-    public String toOneRowString() {
-        return " " + transmitterName + " : " + temperatureCelsius + " °C " + TextFormatters.getPrettyDateTime(date);
-    }
-
-    public String toOneRowStringWithoutDate() {
-        return " " + transmitterName + " : " + temperatureCelsius + " °C ";
-    }
-
+    @JsonIgnore
     public String getTransmitterNameAndTemperature() {
         return " " + transmitterName + " : " + temperatureCelsius + " °C ";
     }
