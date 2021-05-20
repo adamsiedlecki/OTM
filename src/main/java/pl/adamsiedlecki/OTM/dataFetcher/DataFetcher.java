@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import pl.adamsiedlecki.OTM.db.statistics.StatisticsService;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureData;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureDataService;
 import pl.adamsiedlecki.OTM.exceptions.EspNoResponseException;
@@ -20,15 +19,13 @@ public class DataFetcher {
     private String apiAddress;
     private final HtmlToTemperatureData htmlToData;
     private final TemperatureDataService temperatureDataService;
-    private final StatisticsService statService;
     private final Logger log = LoggerFactory.getLogger(DataFetcher.class);
     private final EspApiTool apiTool;
 
     @Autowired
-    public DataFetcher(HtmlToTemperatureData htmlToData, TemperatureDataService temperatureDataService, StatisticsService statService, EspApiTool apiTool) {
+    public DataFetcher(HtmlToTemperatureData htmlToData, TemperatureDataService temperatureDataService, EspApiTool apiTool) {
         this.htmlToData = htmlToData;
         this.temperatureDataService = temperatureDataService;
-        this.statService = statService;
         this.apiTool = apiTool;
     }
 
