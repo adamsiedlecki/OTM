@@ -1,4 +1,4 @@
-package pl.adamsiedlecki.OTM.tools;
+package pl.adamsiedlecki.OTM.dataFetcher;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,7 +11,7 @@ import pl.adamsiedlecki.OTM.db.tempDataAlias.TempDataAliasService;
 import java.util.List;
 
 @Component
-public class TemperatureAliasAdder {
+class TemperatureAliasAdder {
 
     private final TempDataAliasService aliasService;
     private final LocationService locationService;

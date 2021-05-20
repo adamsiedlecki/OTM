@@ -1,4 +1,4 @@
-package pl.adamsiedlecki.OTM.tools;
+package pl.adamsiedlecki.OTM.dataFetcher;
 
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class HtmlToTemperatureData {
+class HtmlToTemperatureData {
 
     private final TemperatureAliasAdder adder;
 

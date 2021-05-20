@@ -9,7 +9,6 @@ import pl.adamsiedlecki.OTM.db.statistics.StatisticsService;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureData;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureDataService;
 import pl.adamsiedlecki.OTM.exceptions.EspNoResponseException;
-import pl.adamsiedlecki.OTM.tools.HtmlToTemperatureData;
 
 import java.time.LocalDateTime;
 import java.util.List;
