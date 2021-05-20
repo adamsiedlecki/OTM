@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>OTM</title>
     <link rel="stylesheet" th:href="@{css/style.css}">
+    <link rel="stylesheet" th:href="@{css/style-form.css}">
 
     <link rel="icon"
           th:href="@{img/logo500.png}"
@@ -21,7 +22,7 @@
     <div class="header">
         <a class="logo">OTM - Orchard Temperature Monitor</a>
     </div>
-
+    <input class="button" onClick="location.href='/admin-panel'" type="button" value="ADMIN PANEL">
 
     <img th:src="@{/api/v1/image?name=night1.jpg}">
     <img th:src="@{/api/v1/image?name=night2.jpg}">

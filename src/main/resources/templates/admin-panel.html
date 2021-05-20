@@ -3,7 +3,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>conbuk</title>
+    <title>OTM</title>
     <link rel="stylesheet" th:href="@{css/style.css}">
     <link rel="stylesheet" th:href="@{css/style-form.css}">
     <link rel="icon"
@@ -22,7 +22,23 @@
         <a class="logo">OTM</a>
     </div>
     <div class="content">
-        <input class="button" onClick="location.href='/statistics'" type="button" value="STATISTICS">
+
+        <div class="button-list">
+            <div class="list-element">
+                <input class="button" onClick="location.href='/statistics'" type="button" value="STATISTICS ✔️">
+            </div>
+            <div class="list-element">
+                <input class="button" onClick="location.href='/chart?numberOfHours=20'" type="button"
+                       value="CHART OVERVIEW 📈">
+            </div>
+            <div class="list-element">
+                <input class="button" onClick="location.href='/main'" type="button" value="MAIN PAGE 🏠">
+            </div>
+            </br>
+            <div class="list-element">
+                <input class="button logout" onClick="location.href='/logout'" type="button" value="LOGOUT">
+            </div>
+        </div>
     </div>
 
 

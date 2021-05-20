@@ -63,3 +63,19 @@ input[type: password]{
     border-radius: 10px;
 
 }
+.button-list{
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+}
+
+
+
+.list-element{
+    width: 300px;
+    padding: 10px;
+    margin: 10px auto;
+}
+.logout{
+    background-color: #fa484e;
+}
