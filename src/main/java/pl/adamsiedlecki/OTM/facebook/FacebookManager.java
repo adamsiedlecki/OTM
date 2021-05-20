@@ -22,9 +22,6 @@ public class FacebookManager {
     @Value("${fb.otm.photo.album.id}")
     private String albumId;
 
-    private FacebookManager() {
-    }
-
     public String postMessage(String message) {
         Facebook fb = new FacebookTemplate(userAccessToken, appNamespace);
         PagePostData data = new PagePostData(otmPageId);

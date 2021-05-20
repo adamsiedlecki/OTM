@@ -1,4 +1,4 @@
-package pl.adamsiedlecki.OTM.db.statistics;
+package pl.adamsiedlecki.OTM.aop;
 
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import pl.adamsiedlecki.OTM.db.statistics.ExistingStatistics;
+import pl.adamsiedlecki.OTM.db.statistics.StatisticsService;
 
 @Aspect
 @Component
