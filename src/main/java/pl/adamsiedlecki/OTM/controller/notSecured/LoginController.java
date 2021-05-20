@@ -14,13 +14,6 @@ public class LoginController {
         return "login";
     }
 
-//    @PostMapping("/login")
-//    public String postLogin(@ModelAttribute User user, Model model) {
-//        System.out.println("USER: "+user);
-//        System.out.println(user.getUsername());
-//        return "mainPage";
-//    }
-
     @GetMapping("/login-error")
     public String getLoginWithError(Model model) {
         model.addAttribute("loginError", true);
