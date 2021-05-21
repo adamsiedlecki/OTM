@@ -5,6 +5,16 @@ This application is just a part of a larger system, which also includes server o
 
 <a>https://www.facebook.com/OrchardTemperatureMonitor/</a>
 
+<h3>Technologies used:</h3>
+
+- Java 11
+- Spring Boot 2.4.4
+- Spring Social
+- JFreeChart
+- some Thymeleaf
+- MySQL
+- JPA/Hibernate
+
 <h3>Examples of charts:</h3>
 <p align="center">
   <img src="materials/chart1.jpg"/>
