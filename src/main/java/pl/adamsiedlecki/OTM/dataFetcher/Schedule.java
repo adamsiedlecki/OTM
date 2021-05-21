@@ -11,7 +11,7 @@ import pl.adamsiedlecki.OTM.db.tempData.TemperatureDataService;
 import pl.adamsiedlecki.OTM.db.tempDataAlias.TempDataAlias;
 import pl.adamsiedlecki.OTM.db.tempDataAlias.TempDataAliasService;
 import pl.adamsiedlecki.OTM.facebook.FacebookManager;
-import pl.adamsiedlecki.OTM.openWeather.pojo.OpenWeatherFetcher;
+import pl.adamsiedlecki.OTM.openWeather.OpenWeatherFetcher;
 import pl.adamsiedlecki.OTM.openWeather.pojo.openWeatherTwoDaysAhead.Hourly;
 import pl.adamsiedlecki.OTM.openWeather.pojo.openWeatherTwoDaysAhead.OpenWeatherTwoDaysAheadPojo;
 import pl.adamsiedlecki.OTM.tools.TextFormatters;
