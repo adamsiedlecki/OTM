@@ -2,11 +2,11 @@ package pl.adamsiedlecki.OTM.tools.charts;
 
 import java.io.File;
 
-public class FileStoragePath {
+public class MyFilesystem {
 
     private final static String s = File.separator;
 
-    public static String get() {
+    public static String getStoragePath() {
         if (SystemDetect.isUnix()) {
             return s + "storage" + s; // /storage/
         } else {
