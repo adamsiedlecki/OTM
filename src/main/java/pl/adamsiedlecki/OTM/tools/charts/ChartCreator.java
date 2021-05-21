@@ -70,6 +70,39 @@ public class ChartCreator {
         return destination;
     }
 
+    public File createOvernightPredictionChart(List<TemperatureData> temperatureDataList, int width, int height, String title) {
+        temperatureDataList.sort(Comparator.comparing(TemperatureData::getDate));
+        int size = temperatureDataList.size();
+        if (size == 0) {
+            return new File("");
+        }
+
+        XYPlot plot = elemCreator.createXYPlot(temperatureDataList, font);
+
+        // create and return the chart panel...
+        JFreeChart chart = new JFreeChart(title
+                + TextFormatters.getPrettyDateTime(temperatureDataList.get(0).getDate())
+                + "  -  " + TextFormatters.getPrettyDateTime(temperatureDataList.get(size - 1).getDate()),
+                JFreeChart.DEFAULT_TITLE_FONT, plot, true);
+        chart.getLegend().setItemFont(font);
+        chart.setBackgroundPaint(Color.YELLOW);
+
+        File file = new File(FileStoragePath.get() + "img");
+        file.mkdirs();
+        URI uri = file.toURI();
+        String mainPath = Paths.get(uri).toString();
+
+        File destination = new File(mainPath + s + "predictions.jpg");
+        try {
+            ChartUtils.saveChartAsJPEG(destination, chart, width, height);
+        } catch (IOException e) {
+            log.error(e.getMessage());
+            return new File("");
+        }
+        log.info("CHART CREATED, path: " + destination.getAbsolutePath());
+        return destination;
+    }
+
     public void createChart(List<TemperatureData> temperatureDataList, int width, int height) {
         temperatureDataList.sort(Comparator.comparing(TemperatureData::getDate));
         int size = temperatureDataList.size();

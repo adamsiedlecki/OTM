@@ -9,7 +9,7 @@ import java.util.Optional;
 @Service
 public class TempDataAliasService {
 
-    private TempDataAliasRepo tempDataAliasRepo;
+    private final TempDataAliasRepo tempDataAliasRepo;
 
     @Autowired
     public TempDataAliasService(TempDataAliasRepo tempDataAliasRepo) {
@@ -50,5 +50,9 @@ public class TempDataAliasService {
 
     public void deleteAll() {
         tempDataAliasRepo.deleteAll();
+    }
+
+    public Optional<TempDataAlias> findByOriginalName(String originalName) {
+        return tempDataAliasRepo.findByOriginalName(originalName);
     }
 }
