@@ -144,7 +144,7 @@ public class Schedule {
             data.sort(Comparator.comparing(TemperatureData::getTemperatureCelsius));
             log.info("TEMPERATURES BELOW ZERO FOUND!");
             StringBuilder sb = new StringBuilder();
-            sb.append(getEmoji(true) + " Odnotowano temperaturę < 0  \n  [ ");
+            sb.append(getEmoji(true)).append(" Odnotowano temperaturę < 0  \n  [ ");
             sb.append(TextFormatters.getPrettyDateTime(data.get(0).getDate()));
             sb.append(" ]\n ");
             for (TemperatureData td : data) {
