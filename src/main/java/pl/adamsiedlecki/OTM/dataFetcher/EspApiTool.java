@@ -43,7 +43,7 @@ class EspApiTool {
         } catch (Exception ex) {
             log.error(ex.getMessage());
         }
-        log.info(status + "HTML content: " + content);
+        log.info("esp status: " + status + ", HTML content: " + content);
         return content;
     }
 
