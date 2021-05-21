@@ -3,6 +3,8 @@ Orchard Temperature Monitor is a tool for fruit growers that allows to check and
 
 This application is just a part of a larger system, which also includes server on ESP8266 that communicate with Arduino stations in the orchard. It is responsible of fetching data from ESP server, storing it in database, processing and publishing it on a Facebook page when certain conditions are met.
 
+<a>https://www.facebook.com/OrchardTemperatureMonitor/</a>
+
 <h3>Examples of charts:</h3>
 <p align="center">
   <img src="materials/chart1.jpg"/>
