@@ -88,9 +88,13 @@ public class Schedule {
             if (twoDaysAhead.isPresent()) {
                 List<Hourly> hourly = twoDaysAhead.get().getHourly();
                 List<TemperatureData> predictionTdList = new ArrayList<>();
+                boolean isBelowZero = false;
                 for (Hourly h : hourly) {
                     if (LocalDateTime.now().plusHours(11).isBefore(LocalDateTime.ofEpochSecond(h.getDt(), 0, ZoneOffset.ofHours(2)))) {
                         continue;
+                    }
+                    if (h.getTemp() < 0) {
+                        isBelowZero = true;
                     }
                     TemperatureData td = new TemperatureData();
                     td.setTransmitterName("prognoza Open Weather");
@@ -99,7 +103,7 @@ public class Schedule {
                     predictionTdList.add(td);
                 }
                 ChartCreator chartCreator = new ChartCreator();
-                String chartTitle = "OTM Adam Siedlecki - prognoza z Open Weather ";
+                String chartTitle = getEmoji(isBelowZero) + " OTM Adam Siedlecki - prognoza z Open Weather ";
                 File chart = chartCreator.createOvernightPredictionChart(predictionTdList, 1200, 628, chartTitle);
                 if (chart.exists() && (System.currentTimeMillis() - chart.lastModified()) < 10000) {
                     facebookManager.postChart(chart, "Prognoza z Open Weather na najbliższy czas: \n [ wygenerowano " + TextFormatters.getPrettyDateTime(LocalDateTime.now()) + " ]");
@@ -117,6 +121,14 @@ public class Schedule {
 
     }
 
+    private String getEmoji(boolean isBelowZero) {
+        if (isBelowZero) {
+            return "❄️";
+        } else {
+            return "✔️";
+        }
+    }
+
     private void sendPostOrComment(List<TemperatureData> data) {
         if (data.size() == 0) {
             return;
@@ -132,7 +144,7 @@ public class Schedule {
             data.sort(Comparator.comparing(TemperatureData::getTemperatureCelsius));
             log.info("TEMPERATURES BELOW ZERO FOUND!");
             StringBuilder sb = new StringBuilder();
-            sb.append("Odnotowano temperaturę < 0  \n  [ ");
+            sb.append(getEmoji(true) + " Odnotowano temperaturę < 0  \n  [ ");
             sb.append(TextFormatters.getPrettyDateTime(data.get(0).getDate()));
             sb.append(" ]\n ");
             for (TemperatureData td : data) {
