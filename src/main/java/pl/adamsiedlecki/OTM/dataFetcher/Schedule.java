@@ -70,9 +70,11 @@ public class Schedule {
 
         Optional<List<TemperatureData>> allLast12Hours = temperatureDataService.findAllLastXHours(10);
         if (allLast12Hours.isPresent()) {
-            File chart = chartCreator.createOvernightChart(allLast12Hours.get(), 1200, 628);
+            List<TemperatureData> tdList = allLast12Hours.get();
+            boolean isBelowZero = tdList.stream().anyMatch(td -> td.getTemperatureCelsius().compareTo(BigDecimal.ZERO) < 0);
+            File chart = chartCreator.createOvernightChart(tdList, 1200, 628);
             if (chart.exists() && (System.currentTimeMillis() - chart.lastModified()) < 10000) {
-                facebookManager.postChart(chart, "Ostatnia noc \n [ wygenerowano " + TextFormatters.getPrettyDateTime(LocalDateTime.now()) + " ]");
+                facebookManager.postChart(chart, getEmoji(isBelowZero) + "Ostatnia noc \n [ wygenerowano " + TextFormatters.getPrettyDateTime(LocalDateTime.now()) + " ]");
             }
         }
 
