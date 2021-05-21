@@ -13,4 +13,8 @@ public class FileStoragePath {
             return "storage" + s;
         }
     }
+
+    public static String getSeparator() {
+        return s;
+    }
 }

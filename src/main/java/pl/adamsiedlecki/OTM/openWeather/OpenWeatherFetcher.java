@@ -1,4 +1,4 @@
-package pl.adamsiedlecki.OTM.openWeather.pojo;
+package pl.adamsiedlecki.OTM.openWeather;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
