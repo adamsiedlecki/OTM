@@ -105,10 +105,10 @@ public class Schedule {
                     predictionTdList.add(td);
                 }
                 ChartCreator chartCreator = new ChartCreator();
-                String chartTitle = getEmoji(isBelowZero) + " OTM Adam Siedlecki - prognoza z Open Weather ";
+                String chartTitle = " OTM Adam Siedlecki - prognoza z Open Weather ";
                 File chart = chartCreator.createOvernightPredictionChart(predictionTdList, 1200, 628, chartTitle);
                 if (chart.exists() && (System.currentTimeMillis() - chart.lastModified()) < 10000) {
-                    facebookManager.postChart(chart, "Prognoza z Open Weather na najbliższy czas: \n [ wygenerowano " + TextFormatters.getPrettyDateTime(LocalDateTime.now()) + " ]");
+                    facebookManager.postChart(chart, getEmoji(isBelowZero) + " Prognoza z Open Weather na najbliższy czas: \n [ wygenerowano " + TextFormatters.getPrettyDateTime(LocalDateTime.now()) + " ]");
                 } else {
                     log.error("prediction chart does not exist");
                 }
