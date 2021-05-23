@@ -10,9 +10,11 @@ import pl.adamsiedlecki.OTM.db.tempData.TemperatureData;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureDataService;
 import pl.adamsiedlecki.OTM.facebook.FacebookManager;
 import pl.adamsiedlecki.OTM.schedule.tools.ScheduleTools;
+import pl.adamsiedlecki.OTM.tools.MyFilesystem;
 import pl.adamsiedlecki.OTM.tools.TextFormatters;
 import pl.adamsiedlecki.OTM.tools.charts.ChartCreator;
-import pl.adamsiedlecki.OTM.tools.charts.MyFilesystem;
+import pl.adamsiedlecki.OTM.tools.charts.OvernightChartCreator;
+import pl.adamsiedlecki.OTM.tools.charts.tools.ChartTitle;
 
 import java.io.File;
 import java.time.LocalDateTime;
@@ -42,8 +44,8 @@ public class ScheduleOvernightChart {
         if (allLast12Hours.size() != 0) {
             boolean isBelowZero = scheduleTools.getBelowZero(allLast12Hours);
 
-            ChartCreator chartCreator = new ChartCreator();
-            File chart = chartCreator.createOvernightChart(allLast12Hours, 1200, 628);
+            ChartCreator chartCreator = new OvernightChartCreator();
+            File chart = chartCreator.createChart(allLast12Hours, 1200, 628, ChartTitle.DEFAULT.get());
             if (MyFilesystem.fileExistsAndIsNoOlderThanXSeconds(chart, 10)) {
                 facebookManager.postChart(chart, scheduleTools.getEmoji(isBelowZero)
                         + "Ostatnia noc \n [ wygenerowano "

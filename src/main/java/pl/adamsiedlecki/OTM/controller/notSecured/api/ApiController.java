@@ -15,6 +15,7 @@ import pl.adamsiedlecki.OTM.db.tempData.TemperatureData;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureDataService;
 import pl.adamsiedlecki.OTM.db.tempDataAlias.TempDataAlias;
 import pl.adamsiedlecki.OTM.db.tempDataAlias.TempDataAliasService;
+import pl.adamsiedlecki.OTM.tools.MyFilesystem;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -68,7 +69,7 @@ public class ApiController {
     ) {
         InputStream targetStream;
         try {
-            File f = new File(s + "storage" + s + "img" + s + name);
+            File f = new File(MyFilesystem.getStoragePath() + "img" + s + name);
             log.info("DESIRED FILE: " + f.getAbsolutePath());
             targetStream = new FileInputStream(f);
             return targetStream.readAllBytes();

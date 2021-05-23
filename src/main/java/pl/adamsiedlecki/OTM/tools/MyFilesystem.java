@@ -1,4 +1,4 @@
-package pl.adamsiedlecki.OTM.tools.charts;
+package pl.adamsiedlecki.OTM.tools;
 
 import java.io.File;
 

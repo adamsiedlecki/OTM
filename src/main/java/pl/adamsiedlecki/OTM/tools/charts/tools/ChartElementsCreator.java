@@ -1,4 +1,4 @@
-package pl.adamsiedlecki.OTM.tools.charts;
+package pl.adamsiedlecki.OTM.tools.charts.tools;
 
 import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.NumberAxis;
@@ -18,9 +18,9 @@ import java.util.List;
 import java.util.*;
 import java.util.stream.Collectors;
 
-class ChartElementsCreator {
+public class ChartElementsCreator {
 
-    XYDataset createSampleData(List<TemperatureData> temperatureDataList) {
+    public XYDataset createSampleData(List<TemperatureData> temperatureDataList) {
 
         TimeSeriesCollection result = new TimeSeriesCollection();
         Map<String, List<TemperatureData>> map =
@@ -48,7 +48,7 @@ class ChartElementsCreator {
         return result;
     }
 
-    XYPlot createXYPlot(List<TemperatureData> temperatureDataList, Font font) {
+    public XYPlot createXYPlot(List<TemperatureData> temperatureDataList, Font font) {
         DateAxis xAxis = new DateAxis("Czas");
         xAxis.setTickLabelFont(font);
 

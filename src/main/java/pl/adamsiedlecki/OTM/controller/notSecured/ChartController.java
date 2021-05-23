@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureData;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureDataService;
 import pl.adamsiedlecki.OTM.tools.charts.ChartCreator;
+import pl.adamsiedlecki.OTM.tools.charts.SimpleChartCreator;
+import pl.adamsiedlecki.OTM.tools.charts.tools.ChartTitle;
 
 import java.util.List;
 
@@ -29,8 +31,8 @@ public class ChartController {
     ) {
         List<TemperatureData> temperatureData = temperatureDataService.findAllLastXHours(numberOfHours);
         if (temperatureData.size() != 0) {
-            ChartCreator chartCreator = new ChartCreator();
-            chartCreator.createChart(temperatureData, width, height);
+            ChartCreator chartCreator = new SimpleChartCreator();
+            chartCreator.createChart(temperatureData, width, height, ChartTitle.DEFAULT.get());
         }
         return "chart";
     }

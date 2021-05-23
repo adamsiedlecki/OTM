@@ -15,9 +15,11 @@ import pl.adamsiedlecki.OTM.openWeather.OpenWeatherTools;
 import pl.adamsiedlecki.OTM.openWeather.pojo.openWeatherTwoDaysAhead.Hourly;
 import pl.adamsiedlecki.OTM.openWeather.pojo.openWeatherTwoDaysAhead.OpenWeatherTwoDaysAheadPojo;
 import pl.adamsiedlecki.OTM.schedule.tools.ScheduleTools;
+import pl.adamsiedlecki.OTM.tools.MyFilesystem;
 import pl.adamsiedlecki.OTM.tools.TextFormatters;
 import pl.adamsiedlecki.OTM.tools.charts.ChartCreator;
-import pl.adamsiedlecki.OTM.tools.charts.MyFilesystem;
+import pl.adamsiedlecki.OTM.tools.charts.ForecastChartCreator;
+import pl.adamsiedlecki.OTM.tools.charts.tools.ChartTitle;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -64,9 +66,8 @@ public class ScheduleWeatherForecast {
             }).collect(Collectors.toList());
             boolean isBelowZero = scheduleTools.getBelowZero(predictionTdList);
 
-            ChartCreator chartCreator = new ChartCreator();
-            String chartTitle = " OTM Adam Siedlecki - prognoza z Open Weather ";
-            File chart = chartCreator.createOvernightPredictionChart(predictionTdList, 1200, 628, chartTitle);
+            ChartCreator chartCreator = new ForecastChartCreator();
+            File chart = chartCreator.createChart(predictionTdList, 1200, 628, ChartTitle.OPEN_WEATHER_FORECAST.get());
             if (MyFilesystem.fileExistsAndIsNoOlderThanXSeconds(chart, 10)) {
                 facebookManager.postChart(chart,
                         scheduleTools.getEmoji(isBelowZero)
