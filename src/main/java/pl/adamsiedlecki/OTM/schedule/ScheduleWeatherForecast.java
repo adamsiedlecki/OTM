@@ -36,15 +36,14 @@ public class ScheduleWeatherForecast {
     private final OpenWeatherFetcher openWeatherFetcher;
     private final FacebookManager facebookManager;
     private final ScheduleTools scheduleTools;
-    private final OpenWeatherTools openWeatherTools;
+    private final OpenWeatherTools openWeatherTools = new OpenWeatherTools();
 
     @Autowired
-    public ScheduleWeatherForecast(TempDataAliasService aliasService, OpenWeatherFetcher openWeatherFetcher, FacebookManager facebookManager, ScheduleTools scheduleTools, OpenWeatherTools openWeatherTools) {
+    public ScheduleWeatherForecast(TempDataAliasService aliasService, OpenWeatherFetcher openWeatherFetcher, FacebookManager facebookManager, ScheduleTools scheduleTools) {
         this.aliasService = aliasService;
         this.openWeatherFetcher = openWeatherFetcher;
         this.facebookManager = facebookManager;
         this.scheduleTools = scheduleTools;
-        this.openWeatherTools = openWeatherTools;
     }
 
     @Scheduled(cron = "0 0 20 * * *")
