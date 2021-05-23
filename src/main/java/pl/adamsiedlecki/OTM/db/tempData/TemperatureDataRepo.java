@@ -19,7 +19,7 @@ public interface TemperatureDataRepo extends JpaRepository<TemperatureData, Long
     Optional<TemperatureData> findFirstByOrderByDateDesc();
 
     @Query("SELECT td FROM TemperatureData td WHERE date BETWEEN :start AND :end")
-    Optional<List<TemperatureData>> findAllBetween(LocalDateTime start, LocalDateTime end);
+    List<TemperatureData> findAllBetween(LocalDateTime start, LocalDateTime end);
 
     @Query("SELECT COUNT(td.id) FROM TemperatureData td WHERE td.temperatureCelsius<0")
     long countBelowTemperature(BigDecimal temperature);

@@ -10,7 +10,6 @@ import pl.adamsiedlecki.OTM.db.tempData.TemperatureDataService;
 import pl.adamsiedlecki.OTM.tools.charts.ChartCreator;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class ChartController {
@@ -28,10 +27,10 @@ public class ChartController {
                            @RequestParam(value = "width", defaultValue = "5000") int width,
                            @RequestParam(value = "height", defaultValue = "1000") int height
     ) {
-        Optional<List<TemperatureData>> optionalTemperatureData = temperatureDataService.findAllLastXHours(numberOfHours);
-        if (optionalTemperatureData.isPresent()) {
+        List<TemperatureData> temperatureData = temperatureDataService.findAllLastXHours(numberOfHours);
+        if (temperatureData.size() != 0) {
             ChartCreator chartCreator = new ChartCreator();
-            chartCreator.createChart(optionalTemperatureData.get(), width, height);
+            chartCreator.createChart(temperatureData, width, height);
         }
         return "chart";
     }

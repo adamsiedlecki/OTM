@@ -74,7 +74,7 @@ public class TemperatureDataService {
         temperatureDataRepo.deleteAll();
     }
 
-    public Optional<List<TemperatureData>> findAllLastXHours(int xHours) {
+    public List<TemperatureData> findAllLastXHours(int xHours) {
         return temperatureDataRepo.findAllBetween(LocalDateTime.now().minus(xHours, ChronoUnit.HOURS), LocalDateTime.now());
     }
 

@@ -17,4 +17,8 @@ public class MyFilesystem {
     public static String getSeparator() {
         return s;
     }
+
+    public static boolean fileExistsAndIsNoOlderThanXSeconds(File file, long x) {
+        return file.exists() && (System.currentTimeMillis() - file.lastModified()) < (x * 1000);
+    }
 }
