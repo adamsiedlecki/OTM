@@ -35,7 +35,7 @@ public class OvernightChartCreator implements ChartCreator {
 
         // create and return the chart panel...
         JFreeChart chart = new JFreeChart(
-                title  // "OTM Adam Siedlecki    Wykres temperatury "
+                title
                         + TextFormatters.getPrettyDateTime(temperatureDataList.get(0).getDate())
                         + "  -  " + TextFormatters.getPrettyDateTime(temperatureDataList.get(size - 1).getDate()),
                 JFreeChart.DEFAULT_TITLE_FONT, plot, true);

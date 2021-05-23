@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import pl.adamsiedlecki.OTM.dataFetcher.DataFetcher;
 import pl.adamsiedlecki.OTM.db.user.User;
 import pl.adamsiedlecki.OTM.db.user.UserDs;
 import pl.adamsiedlecki.OTM.db.user.userRole.UserAuthority;
@@ -27,8 +28,8 @@ public class OtmApplication {
 		ConfigurableApplicationContext ctx = SpringApplication.run(OtmApplication.class, args);
 		log.info("APPLICATION LAUNCHED");
 
-//		DataFetcher dataFetcher = ctx.getBean(DataFetcher.class);
-//		dataFetcher.fetch();
+		DataFetcher dataFetcher = ctx.getBean(DataFetcher.class);
+		dataFetcher.fetch();
 
 		// create admin if do not exist
 		UserDs userDs = ctx.getBean(UserDs.class);
