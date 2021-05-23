@@ -21,19 +21,19 @@ public class FacebookAspects {
         this.statService = statService;
     }
 
-    @After("execution(* pl.adamsiedlecki.OTM.facebook.FacebookManager.postChart(..))")
+    @After("execution(* pl.adamsiedlecki.OTM.externalServices.facebook.FacebookManager.postChart(..))")
     private void postChart() {
         statService.increment(ExistingStatistics.FACEBOOK_POST_CHART);
         log.info("facebook post chart aspect worked");
     }
 
-    @After("execution(* pl.adamsiedlecki.OTM.facebook.FacebookManager.postMessage(..))")
+    @After("execution(* pl.adamsiedlecki.OTM.externalServices.facebook.FacebookManager.postMessage(..))")
     private void postMessage() {
         statService.increment(ExistingStatistics.FACEBOOK_POST_MESSAGE);
         log.info("facebook post chart aspect worked");
     }
 
-    @After("execution(* pl.adamsiedlecki.OTM.facebook.FacebookManager.postComment(..))")
+    @After("execution(* pl.adamsiedlecki.OTM.externalServices.facebook.FacebookManager.postComment(..))")
     private void postComment() {
         statService.increment(ExistingStatistics.FACEBOOK_POST_COMMENT);
         log.info("facebook post chart aspect worked");

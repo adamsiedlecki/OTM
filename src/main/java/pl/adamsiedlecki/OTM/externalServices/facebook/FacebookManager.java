@@ -1,4 +1,4 @@
-package pl.adamsiedlecki.OTM.facebook;
+package pl.adamsiedlecki.OTM.externalServices.facebook;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;

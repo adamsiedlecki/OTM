@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureData;
-import pl.adamsiedlecki.OTM.facebook.FacebookManager;
-import pl.adamsiedlecki.OTM.tools.TextFormatters;
+import pl.adamsiedlecki.OTM.externalServices.facebook.FacebookManager;
+import pl.adamsiedlecki.OTM.tools.text.TextFormatters;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

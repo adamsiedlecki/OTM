@@ -10,9 +10,8 @@ import java.util.stream.Collectors;
 public class OpenWeatherTools {
 
     public List<Hourly> getOnlyXHoursForward(List<Hourly> hourly, int x) {
-        return hourly.stream().filter(h ->
-                LocalDateTime.now().plusHours(x)
-                        .isBefore(LocalDateTime.ofEpochSecond(h.getDt(), 0, ZoneOffset.ofHours(2)))
+        return hourly.stream().filter(h -> LocalDateTime.ofEpochSecond(h.getDt(), 0, ZoneOffset.ofHours(2))
+                .isBefore(LocalDateTime.now().plusHours(x))
         ).collect(Collectors.toList());
     }
 }

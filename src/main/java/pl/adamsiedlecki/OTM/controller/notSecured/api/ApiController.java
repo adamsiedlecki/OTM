@@ -15,7 +15,7 @@ import pl.adamsiedlecki.OTM.db.tempData.TemperatureData;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureDataService;
 import pl.adamsiedlecki.OTM.db.tempDataAlias.TempDataAlias;
 import pl.adamsiedlecki.OTM.db.tempDataAlias.TempDataAliasService;
-import pl.adamsiedlecki.OTM.tools.MyFilesystem;
+import pl.adamsiedlecki.OTM.tools.files.MyFilesystem;
 
 import java.io.File;
 import java.io.FileInputStream;

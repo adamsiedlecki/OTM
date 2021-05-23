@@ -8,13 +8,13 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureData;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureDataService;
-import pl.adamsiedlecki.OTM.facebook.FacebookManager;
+import pl.adamsiedlecki.OTM.externalServices.facebook.FacebookManager;
 import pl.adamsiedlecki.OTM.schedule.tools.ScheduleTools;
-import pl.adamsiedlecki.OTM.tools.MyFilesystem;
-import pl.adamsiedlecki.OTM.tools.TextFormatters;
 import pl.adamsiedlecki.OTM.tools.charts.ChartCreator;
 import pl.adamsiedlecki.OTM.tools.charts.OvernightChartCreator;
 import pl.adamsiedlecki.OTM.tools.charts.tools.ChartTitle;
+import pl.adamsiedlecki.OTM.tools.files.MyFilesystem;
+import pl.adamsiedlecki.OTM.tools.text.TextFormatters;
 
 import java.io.File;
 import java.time.LocalDateTime;

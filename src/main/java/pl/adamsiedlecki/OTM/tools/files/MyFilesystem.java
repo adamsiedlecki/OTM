@@ -1,4 +1,4 @@
-package pl.adamsiedlecki.OTM.tools;
+package pl.adamsiedlecki.OTM.tools.files;
 
 import java.io.File;
 
