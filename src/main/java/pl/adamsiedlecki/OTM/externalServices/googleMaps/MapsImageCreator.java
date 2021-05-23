@@ -18,9 +18,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
+// class is not finished yet; temperature is not included at marker because of behaviour of Google api(only one char for label)
 @Component
 public class MapsImageCreator {
-
 
     private final TemperatureDataService temperatureDataService;
     private final Logger log = LoggerFactory.getLogger(MapsImageCreator.class);
