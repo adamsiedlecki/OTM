@@ -36,16 +36,16 @@ public class ScheduleOvernightChart {
         this.scheduleTools = scheduleTools;
     }
 
-    @Scheduled(cron = "0 31 7 * * *")
+    @Scheduled(cron = "0 31 6 * * *")
     public void createChart() {
-        log.info("SCHEDULE 0 31 7 * * * RUNNING");
+        log.info("SCHEDULE 0 31 6 * * * RUNNING");
 
-        List<TemperatureData> allLast12Hours = temperatureDataService.findAllLastXHours(10);
-        if (allLast12Hours.size() != 0) {
-            boolean isBelowZero = scheduleTools.getBelowZero(allLast12Hours);
+        List<TemperatureData> lastXHours = temperatureDataService.findAllLastXHours(9);
+        if (lastXHours.size() != 0) {
+            boolean isBelowZero = scheduleTools.getBelowZero(lastXHours);
 
             ChartCreator chartCreator = new OvernightChartCreator();
-            File chart = chartCreator.createChart(allLast12Hours, 1200, 628, ChartTitle.DEFAULT.get());
+            File chart = chartCreator.createChart(lastXHours, 1200, 628, ChartTitle.DEFAULT.get());
             if (MyFilesystem.fileExistsAndIsNoOlderThanXSeconds(chart, 10)) {
                 facebookManager.postChart(chart, scheduleTools.getEmoji(isBelowZero)
                         + "Ostatnia noc \n [ wygenerowano "

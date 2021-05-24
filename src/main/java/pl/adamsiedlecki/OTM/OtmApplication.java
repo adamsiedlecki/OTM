@@ -12,7 +12,6 @@ import pl.adamsiedlecki.OTM.db.tempData.TemperatureData;
 import pl.adamsiedlecki.OTM.db.user.User;
 import pl.adamsiedlecki.OTM.db.user.UserDs;
 import pl.adamsiedlecki.OTM.db.user.userRole.UserAuthority;
-import pl.adamsiedlecki.OTM.externalServices.googleMaps.MapsImageCreator;
 
 import java.util.List;
 import java.util.TimeZone;
@@ -33,9 +32,8 @@ public class OtmApplication {
 		DataFetcher dataFetcher = ctx.getBean(DataFetcher.class);
 		List<TemperatureData> tdList = dataFetcher.fetch();
 
-		MapsImageCreator mapsCreator = ctx.getBean(MapsImageCreator.class);
-		mapsCreator.get(tdList);
-		//mapsCreator.createImage("-20.09°C", "icon");
+//		MapsImageCreator mapsCreator = ctx.getBean(MapsImageCreator.class);
+//		mapsCreator.get(tdList);
 
 		// create admin if do not exist
 		UserDs userDs = ctx.getBean(UserDs.class);
