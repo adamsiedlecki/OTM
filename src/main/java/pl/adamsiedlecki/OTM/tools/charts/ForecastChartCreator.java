@@ -24,6 +24,7 @@ public class ForecastChartCreator implements ChartCreator {
     private final Logger log = LoggerFactory.getLogger(ForecastChartCreator.class);
     private final Font font = new Font("Dialog", Font.PLAIN, 14);
 
+    @Override
     public File createChart(List<TemperatureData> temperatureDataList, int width, int height, String title) {
         temperatureDataList.sort(Comparator.comparing(TemperatureData::getDate));
         int size = temperatureDataList.size();

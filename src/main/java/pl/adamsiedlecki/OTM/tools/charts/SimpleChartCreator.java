@@ -24,6 +24,7 @@ public class SimpleChartCreator implements ChartCreator {
     private final Font font = new Font("Dialog", Font.PLAIN, 14);
     private final ChartElementsCreator elemCreator = new ChartElementsCreator();
 
+    @Override
     public File createChart(List<TemperatureData> temperatureDataList, int width, int height, String title) {
         if (temperatureDataList.size() == 0) {
             return new File("");
