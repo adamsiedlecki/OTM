@@ -1,4 +1,4 @@
-package pl.adamsiedlecki.OTM.openWeather;
+package pl.adamsiedlecki.OTM.externalServices.openWeather;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -6,8 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import pl.adamsiedlecki.OTM.openWeather.pojo.openWeatherCurrent.OpenWeatherCurrentPojo;
-import pl.adamsiedlecki.OTM.openWeather.pojo.openWeatherTwoDaysAhead.OpenWeatherTwoDaysAheadPojo;
+import pl.adamsiedlecki.OTM.externalServices.openWeather.pojo.openWeatherCurrent.OpenWeatherCurrentPojo;
+import pl.adamsiedlecki.OTM.externalServices.openWeather.pojo.openWeatherTwoDaysAhead.OpenWeatherTwoDaysAheadPojo;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

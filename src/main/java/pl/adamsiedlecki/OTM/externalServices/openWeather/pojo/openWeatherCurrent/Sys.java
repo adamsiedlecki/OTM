@@ -1,4 +1,4 @@
-package pl.adamsiedlecki.OTM.openWeather.pojo.openWeatherCurrent;
+package pl.adamsiedlecki.OTM.externalServices.openWeather.pojo.openWeatherCurrent;
 
 public class Sys {
     private int type;

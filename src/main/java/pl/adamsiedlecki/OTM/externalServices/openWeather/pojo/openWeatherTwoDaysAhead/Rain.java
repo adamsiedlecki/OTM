@@ -1,4 +1,4 @@
-package pl.adamsiedlecki.OTM.openWeather.pojo.openWeatherTwoDaysAhead;
+package pl.adamsiedlecki.OTM.externalServices.openWeather.pojo.openWeatherTwoDaysAhead;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -1,6 +1,6 @@
-package pl.adamsiedlecki.OTM.openWeather;
+package pl.adamsiedlecki.OTM.externalServices.openWeather;
 
-import pl.adamsiedlecki.OTM.openWeather.pojo.openWeatherTwoDaysAhead.Hourly;
+import pl.adamsiedlecki.OTM.externalServices.openWeather.pojo.openWeatherTwoDaysAhead.Hourly;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;

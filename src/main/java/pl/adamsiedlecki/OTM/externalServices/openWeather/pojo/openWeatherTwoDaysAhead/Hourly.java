@@ -1,6 +1,6 @@
-package pl.adamsiedlecki.OTM.openWeather.pojo.openWeatherTwoDaysAhead;
+package pl.adamsiedlecki.OTM.externalServices.openWeather.pojo.openWeatherTwoDaysAhead;
 
-import pl.adamsiedlecki.OTM.openWeather.pojo.openWeatherCurrent.Weather;
+import pl.adamsiedlecki.OTM.externalServices.openWeather.pojo.openWeatherCurrent.Weather;
 
 import java.util.List;
 
