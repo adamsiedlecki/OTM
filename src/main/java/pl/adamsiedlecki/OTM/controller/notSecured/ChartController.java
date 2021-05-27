@@ -26,7 +26,7 @@ public class ChartController {
     @GetMapping("/chart")
     public String getIndex(Model model,
                            @RequestParam(value = "numberOfHours") int numberOfHours,
-                           @RequestParam(value = "width", defaultValue = "4000") int width,
+                           @RequestParam(value = "width", defaultValue = "3000") int width,
                            @RequestParam(value = "height", defaultValue = "1000") int height
     ) {
         List<TemperatureData> temperatureData = temperatureDataService.findAllLastXHours(numberOfHours);
