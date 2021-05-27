@@ -11,13 +11,13 @@ import pl.adamsiedlecki.OTM.db.statistics.StatisticsService;
 
 @Aspect
 @Component
-public class StatisticsAspects {
+public class EspCommunicationAspects {
 
     private final StatisticsService statService;
-    private final Logger log = LoggerFactory.getLogger(StatisticsAspects.class);
+    private final Logger log = LoggerFactory.getLogger(EspCommunicationAspects.class);
 
     @Autowired
-    public StatisticsAspects(StatisticsService statService) {
+    public EspCommunicationAspects(StatisticsService statService) {
         this.statService = statService;
     }
 
