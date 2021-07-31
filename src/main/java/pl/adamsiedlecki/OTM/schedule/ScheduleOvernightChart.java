@@ -52,17 +52,18 @@ public class ScheduleOvernightChart {
 
             ChartCreator chartCreator = new OvernightChartCreator();
             File chart = chartCreator.createChart(lastXHours, 1200, 628, ChartTitle.DEFAULT.get());
-            postChartOnlineStrategy(chart, isBelowZero);
+            LocalDateTime generationTime = LocalDateTime.now();
+            postChartOnlineStrategy(chart, isBelowZero, generationTime);
         }
 
     }
 
     // complicated strategy in case of no internet access for some time
-    private void postChartOnlineStrategy(File chart, boolean isBelowZero) {
+    private void postChartOnlineStrategy(File chart, boolean isBelowZero, LocalDateTime generationTime) {
         for (int i = 0; i < 12; i++) {
             try {
                 if (ping.isReachable("facebook.com")) {
-                    postChart(chart, isBelowZero);
+                    postChart(chart, isBelowZero, generationTime);
                     break;
                 }
                 Thread.sleep(TEN_MINUTES);
@@ -72,9 +73,12 @@ public class ScheduleOvernightChart {
         }
     }
 
-    private void postChart(File chart, boolean isBelowZero) {
+    private void postChart(File chart, boolean isBelowZero, LocalDateTime generationTime) {
         facebookManager.postChart(chart, scheduleTools.getEmoji(isBelowZero)
-                + "Ostatnia noc \n [ wygenerowano "
-                + TextFormatters.getPrettyDateTime(LocalDateTime.now()) + " ]");
+                + "Ostatnia noc \n [ wygenerowano: "
+                + TextFormatters.getPrettyDateTime(generationTime)
+                + ", \n opublikowano: "
+                + TextFormatters.getPrettyDateTime(LocalDateTime.now())
+                + " ]");
     }
 }
