@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureData;
@@ -13,7 +14,7 @@ import pl.adamsiedlecki.OTM.schedule.tools.ScheduleTools;
 import pl.adamsiedlecki.OTM.tools.charts.ChartCreator;
 import pl.adamsiedlecki.OTM.tools.charts.OvernightChartCreator;
 import pl.adamsiedlecki.OTM.tools.charts.tools.ChartTitle;
-import pl.adamsiedlecki.OTM.tools.files.MyFilesystem;
+import pl.adamsiedlecki.OTM.tools.net.Ping;
 import pl.adamsiedlecki.OTM.tools.text.TextFormatters;
 
 import java.io.File;
@@ -28,12 +29,17 @@ public class ScheduleOvernightChart {
     private final TemperatureDataService temperatureDataService;
     private final FacebookManager facebookManager;
     private final ScheduleTools scheduleTools;
+    private static final int TEN_MINUTES = 10 * 60 * 1000;
+    private final Ping ping;
+    private final Environment env;
 
     @Autowired
-    public ScheduleOvernightChart(TemperatureDataService temperatureDataService, FacebookManager facebookManager, ScheduleTools scheduleTools) {
+    public ScheduleOvernightChart(TemperatureDataService temperatureDataService, FacebookManager facebookManager, ScheduleTools scheduleTools, Ping ping, Environment env) {
         this.temperatureDataService = temperatureDataService;
         this.facebookManager = facebookManager;
         this.scheduleTools = scheduleTools;
+        this.ping = ping;
+        this.env = env;
     }
 
     @Scheduled(cron = "0 31 6 * * *")
@@ -46,12 +52,29 @@ public class ScheduleOvernightChart {
 
             ChartCreator chartCreator = new OvernightChartCreator();
             File chart = chartCreator.createChart(lastXHours, 1200, 628, ChartTitle.DEFAULT.get());
-            if (MyFilesystem.fileExistsAndIsNoOlderThanXSeconds(chart, 10)) {
-                facebookManager.postChart(chart, scheduleTools.getEmoji(isBelowZero)
-                        + "Ostatnia noc \n [ wygenerowano "
-                        + TextFormatters.getPrettyDateTime(LocalDateTime.now()) + " ]");
-            }
+            postChartOnlineStrategy(chart, isBelowZero);
         }
 
+    }
+
+    // complicated strategy in case of no internet access for some time
+    private void postChartOnlineStrategy(File chart, boolean isBelowZero) {
+        for (int i = 0; i < 12; i++) {
+            try {
+                if (ping.isReachable("facebook.com")) {
+                    postChart(chart, isBelowZero);
+                    break;
+                }
+                Thread.sleep(TEN_MINUTES);
+            } catch (InterruptedException e) {
+                log.error(e.getMessage());
+            }
+        }
+    }
+
+    private void postChart(File chart, boolean isBelowZero) {
+        facebookManager.postChart(chart, scheduleTools.getEmoji(isBelowZero)
+                + "Ostatnia noc \n [ wygenerowano "
+                + TextFormatters.getPrettyDateTime(LocalDateTime.now()) + " ]");
     }
 }
