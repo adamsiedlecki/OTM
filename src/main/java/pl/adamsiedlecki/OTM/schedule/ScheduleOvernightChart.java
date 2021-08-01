@@ -32,6 +32,7 @@ public class ScheduleOvernightChart {
     private static final int TEN_MINUTES = 10 * 60 * 1000;
     private final Ping ping;
     private final Environment env;
+    private static final String ADDRESS = "8.8.8.8";
 
     @Autowired
     public ScheduleOvernightChart(TemperatureDataService temperatureDataService, FacebookManager facebookManager, ScheduleTools scheduleTools, Ping ping, Environment env) {
@@ -64,12 +65,12 @@ public class ScheduleOvernightChart {
     private void postChartOnlineStrategy(File chart, boolean isBelowZero, LocalDateTime generationTime) {
         for (int i = 0; i < 12; i++) {
             try {
-                if (ping.isReachable("facebook.com")) {
-                    log.info("facebook.com is reachable; attempt number: " + i);
+                if (ping.isReachable(ADDRESS)) {
+                    log.info(ADDRESS + " is reachable; attempt number: " + i);
                     postChart(chart, isBelowZero, generationTime);
                     break;
                 } else {
-                    log.info("facebook.com is NOT reachable; attempt number: " + i);
+                    log.info(ADDRESS + " is NOT reachable; attempt number: " + i);
                     Thread.sleep(TEN_MINUTES);
                 }
             } catch (InterruptedException e) {

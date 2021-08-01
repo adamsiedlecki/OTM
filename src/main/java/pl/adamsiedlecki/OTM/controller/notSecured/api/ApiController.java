@@ -46,7 +46,7 @@ public class ApiController {
     @GetMapping("/facebook-post")
     public @ResponseBody
     String postOnFacebook() {
-        scheduleOvernightChart.createAndPostChart();
+        new Thread(scheduleOvernightChart::createAndPostChart).start();
         return "method is running";
     }
 
