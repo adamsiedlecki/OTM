@@ -43,17 +43,19 @@ public class ScheduleOvernightChart {
     }
 
     @Scheduled(cron = "0 31 6 * * *")
-    public void createChart() {
+    public void createAndPostChart() {
         log.info("SCHEDULE 0 31 6 * * * RUNNING");
 
         List<TemperatureData> lastXHours = temperatureDataService.findAllLastXHours(9);
         if (lastXHours.size() != 0) {
+            log.info("there is enough data to build overnight chart");
             boolean isBelowZero = scheduleTools.getBelowZero(lastXHours);
 
             ChartCreator chartCreator = new OvernightChartCreator();
             File chart = chartCreator.createChart(lastXHours, 1200, 628, ChartTitle.DEFAULT.get());
-            LocalDateTime generationTime = LocalDateTime.now();
-            postChartOnlineStrategy(chart, isBelowZero, generationTime);
+            postChartOnlineStrategy(chart, isBelowZero, LocalDateTime.now());
+        } else {
+            log.info("there is NOT enough data to build overnight chart");
         }
 
     }
@@ -63,10 +65,13 @@ public class ScheduleOvernightChart {
         for (int i = 0; i < 12; i++) {
             try {
                 if (ping.isReachable("facebook.com")) {
+                    log.info("facebook.com is reachable; attempt number: " + i);
                     postChart(chart, isBelowZero, generationTime);
                     break;
+                } else {
+                    log.info("facebook.com is NOT reachable; attempt number: " + i);
+                    Thread.sleep(TEN_MINUTES);
                 }
-                Thread.sleep(TEN_MINUTES);
             } catch (InterruptedException e) {
                 log.error(e.getMessage());
             }
@@ -80,5 +85,6 @@ public class ScheduleOvernightChart {
                 + ", \n opublikowano: "
                 + TextFormatters.getPrettyDateTime(LocalDateTime.now())
                 + " ]");
+        log.info("overnight chart posted on facebook");
     }
 }

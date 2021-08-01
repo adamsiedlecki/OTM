@@ -15,6 +15,7 @@ import pl.adamsiedlecki.OTM.db.tempData.TemperatureData;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureDataService;
 import pl.adamsiedlecki.OTM.db.tempDataAlias.TempDataAlias;
 import pl.adamsiedlecki.OTM.db.tempDataAlias.TempDataAliasService;
+import pl.adamsiedlecki.OTM.schedule.ScheduleOvernightChart;
 import pl.adamsiedlecki.OTM.tools.files.MyFilesystem;
 
 import java.io.File;
@@ -32,12 +33,21 @@ public class ApiController {
     private final String s = File.separator;
     private final DataFetcher dataFetcher;
     private final Logger log = LoggerFactory.getLogger(ApiController.class);
+    private final ScheduleOvernightChart scheduleOvernightChart;
 
     @Autowired
-    public ApiController(TemperatureDataService temperatureDataService, TempDataAliasService tempDataAliasService, DataFetcher dataFetcher) {
+    public ApiController(TemperatureDataService temperatureDataService, TempDataAliasService tempDataAliasService, DataFetcher dataFetcher, ScheduleOvernightChart scheduleOvernightChart) {
         this.temperatureDataService = temperatureDataService;
         this.tempDataAliasService = tempDataAliasService;
         this.dataFetcher = dataFetcher;
+        this.scheduleOvernightChart = scheduleOvernightChart;
+    }
+
+    @GetMapping("/facebook-post")
+    public @ResponseBody
+    String postOnFacebook() {
+        scheduleOvernightChart.createAndPostChart();
+        return "method is running";
     }
 
     @GetMapping("/aliases")
