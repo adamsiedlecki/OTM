@@ -36,6 +36,9 @@ class EspApiTool {
             con.disconnect();
             content = stringBuilder.toString();
 
+            if (content == null || content.isEmpty() || content.length() < 2) {
+                throw new EspNoResponseException();
+            }
             if (content.contains("no response")) {
                 throw new EspNoResponseException();
             }
