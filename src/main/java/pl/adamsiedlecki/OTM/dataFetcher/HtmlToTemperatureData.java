@@ -21,6 +21,9 @@ class HtmlToTemperatureData {
     }
 
     public List<TemperatureData> process(String html) {
+        if (html == null || html.isBlank()) {
+            return List.of();
+        }
         List<TemperatureData> tempList = new ArrayList<>();
 
         String[] strings = html.split(";");
