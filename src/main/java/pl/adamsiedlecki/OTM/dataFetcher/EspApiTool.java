@@ -50,7 +50,7 @@ class EspApiTool {
         return content;
     }
 
-    String espNoResponseStrategy(String apiAddress) {
+    public String espNoResponseStrategy(String apiAddress) {
         String content = "";
         log.info("esp no response");
         sendRestartCommand(apiAddress);
@@ -70,7 +70,7 @@ class EspApiTool {
         return content;
     }
 
-    void sendRestartCommand(String apiAddress) {
+    public void sendRestartCommand(String apiAddress) {
         try {
             log.info("Sending restart command to ESP");
             URLConnection conn = new URL(apiAddress + "/restart").openConnection();
