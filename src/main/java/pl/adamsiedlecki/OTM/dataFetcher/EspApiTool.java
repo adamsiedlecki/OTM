@@ -36,15 +36,14 @@ class EspApiTool {
             con.disconnect();
             content = stringBuilder.toString();
 
-            if (content == null || content.isEmpty() || content.length() < 2) {
-                throw new EspNoResponseException();
-            }
-            if (content.contains("no response")) {
-                throw new EspNoResponseException();
-            }
-
         } catch (Exception ex) {
             log.error(ex.getMessage());
+        }
+        if (content == null || content.isEmpty() || content.length() < 2) {
+            throw new EspNoResponseException();
+        }
+        if (content.contains("no response")) {
+            throw new EspNoResponseException();
         }
         log.info("esp status: " + status + ", HTML content: " + content);
         return content;
