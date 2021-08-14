@@ -15,7 +15,7 @@ import java.net.URLConnection;
 class EspApiTool {
 
     private final Logger log = LoggerFactory.getLogger(EspApiTool.class);
-    private long noResponseCounter = 0;
+    private final long noResponseCounter = 0;
 
     public String getHtml(String apiAddress) throws EspNoResponseException {
         String content = null;
@@ -59,12 +59,12 @@ class EspApiTool {
         } catch (InterruptedException e) {
             log.error(e.getMessage());
         } catch (EspNoResponseException e) {
-            if (noResponseCounter < 5) {
-                return espNoResponseStrategy(apiAddress);
-            } else {
-                noResponseCounter = 0;
-                return content;
-            }
+//            if (noResponseCounter < 2) {
+//                return espNoResponseStrategy(apiAddress);
+//            } else {
+//                noResponseCounter = 0;
+//                return content;
+//            }
         }
         return content;
     }
