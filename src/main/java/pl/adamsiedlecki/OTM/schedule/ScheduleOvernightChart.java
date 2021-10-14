@@ -54,7 +54,7 @@ public class ScheduleOvernightChart {
             boolean isBelowZero = scheduleTools.getBelowZero(lastXHours);
 
             ChartCreator chartCreator = new OvernightChartCreator();
-            File chart = chartCreator.createChart(lastXHours, 1200, 628, ChartTitle.DEFAULT.get());
+            File chart = chartCreator.createChart(lastXHours, 900, 460, ChartTitle.DEFAULT.get());
             postChartOnlineStrategy(chart, isBelowZero, LocalDateTime.now());
         } else {
             log.info("there is NOT enough data to build overnight chart");
