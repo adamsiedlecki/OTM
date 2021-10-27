@@ -4,9 +4,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import pl.adamsiedlecki.OTM.config.OtmConfigProperties;
 import pl.adamsiedlecki.OTM.dataFetcher.DataFetcher;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureData;
 import pl.adamsiedlecki.OTM.db.user.User;
@@ -18,6 +20,7 @@ import java.util.TimeZone;
 
 @EnableScheduling
 @EnableAspectJAutoProxy
+@EnableConfigurationProperties(OtmConfigProperties.class)
 @SpringBootApplication
 public class OtmApplication {
 
@@ -46,7 +49,5 @@ public class OtmApplication {
 					.build();
 			userDs.saveUser(admin);
 		}
-
 	}
-
 }
