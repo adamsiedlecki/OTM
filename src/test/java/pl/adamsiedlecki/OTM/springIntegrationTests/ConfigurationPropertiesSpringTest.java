@@ -25,20 +25,38 @@ public class ConfigurationPropertiesSpringTest extends AbstractTestNGSpringConte
     private Environment env;
 
     @Test
-    public void shouldReturnCorreectValueForProperty() {
+    public void shouldReturnValue() {
         //given
 
         //when
         String result = sut.getApiAddress();
-        String expectedProperty = env.getProperty("api.address");
 
         //then
         assertThat(result).isNotNull();
         assertThat(result).isNotBlank();
+    }
 
+    @Test
+    public void shouldReturnValueEqualToEnvironment() {
+        //given
+
+        //when
+        String result = sut.getApiAddress();
+        String expectedProperty = env.getProperty("otm.api.address");
+
+        //then
+        assertThat(result).isEqualTo(expectedProperty);
+    }
+
+    @Test
+    public void environmentShouldBeSet() {
+        //given
+
+        //when
+        String expectedProperty = env.getProperty("otm.api.address");
+
+        //then
         assertThat(expectedProperty).isNotNull();
         assertThat(expectedProperty).isNotBlank();
-
-        assertThat(result).isEqualTo(expectedProperty);
     }
 }

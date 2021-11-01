@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>pl.adamsiedlecki</groupId>
 	<artifactId>OTM</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>OTM</name>
 	<description>Orchard Temperature Monitor</description>
 	<properties>

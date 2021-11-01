@@ -5,6 +5,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.XYPlot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureData;
 import pl.adamsiedlecki.OTM.tools.charts.tools.ChartElementsCreator;
 import pl.adamsiedlecki.OTM.tools.files.MyFilesystem;
@@ -18,6 +19,7 @@ import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.List;
 
+@Service
 public class SimpleChartCreator implements ChartCreator {
 
     private final Logger log = LoggerFactory.getLogger(SimpleChartCreator.class);
