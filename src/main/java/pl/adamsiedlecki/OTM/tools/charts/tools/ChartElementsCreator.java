@@ -63,6 +63,20 @@ public class ChartElementsCreator {
         renderer1.setDefaultItemLabelGenerator(new StandardXYItemLabelGenerator());
         renderer1.setDefaultItemLabelsVisible(true);
 
+        renderer1.setSeriesItemLabelFont(0, new Font(Font.MONOSPACED, Font.PLAIN, 13));
+        renderer1.setSeriesItemLabelFont(1, new Font(Font.MONOSPACED, Font.PLAIN, 12));
+        renderer1.setSeriesItemLabelFont(2, new Font(Font.MONOSPACED, Font.PLAIN, 11));
+        renderer1.setSeriesItemLabelFont(3, new Font(Font.MONOSPACED, Font.PLAIN, 10));
+        renderer1.setSeriesItemLabelFont(4, new Font(Font.MONOSPACED, Font.PLAIN, 9));
+        renderer1.setSeriesItemLabelFont(5, new Font(Font.MONOSPACED, Font.PLAIN, 8));
+        renderer1.setSeriesItemLabelFont(6, new Font(Font.MONOSPACED, Font.PLAIN, 7));
+        renderer1.setSeriesItemLabelFont(7, new Font(Font.MONOSPACED, Font.PLAIN, 6));
+        renderer1.setSeriesItemLabelFont(8, new Font(Font.MONOSPACED, Font.PLAIN, 6));
+        renderer1.setSeriesItemLabelFont(9, new Font(Font.MONOSPACED, Font.PLAIN, 6));
+        renderer1.setSeriesItemLabelFont(10, new Font(Font.MONOSPACED, Font.PLAIN, 6));
+        renderer1.setSeriesItemLabelFont(11, new Font(Font.MONOSPACED, Font.PLAIN, 6));
+
+
         XYPlot plot = new XYPlot(createSampleData(temperatureDataList), xAxis, yAxis, renderer1);
         plot.setBackgroundPaint(Color.lightGray);
         plot.setDomainGridlinePaint(Color.white);
