@@ -46,7 +46,5 @@ public class OtmApplication {
 					.build();
 			userDs.saveUser(admin);
 		}
-
 	}
-
 }

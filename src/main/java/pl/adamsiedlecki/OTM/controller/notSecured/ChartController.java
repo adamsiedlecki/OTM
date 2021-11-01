@@ -1,37 +1,32 @@
 package pl.adamsiedlecki.OTM.controller.notSecured;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureData;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureDataService;
-import pl.adamsiedlecki.OTM.tools.charts.ChartCreator;
 import pl.adamsiedlecki.OTM.tools.charts.SimpleChartCreator;
 import pl.adamsiedlecki.OTM.tools.charts.tools.ChartTitle;
 
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 public class ChartController {
 
     private final TemperatureDataService temperatureDataService;
-
-    @Autowired
-    public ChartController(TemperatureDataService temperatureDataService) {
-        this.temperatureDataService = temperatureDataService;
-    }
+    private final SimpleChartCreator chartCreator;
 
     @GetMapping("/chart")
     public String getIndex(Model model,
                            @RequestParam(value = "numberOfHours") int numberOfHours,
-                           @RequestParam(value = "width", defaultValue = "3000") int width,
-                           @RequestParam(value = "height", defaultValue = "1000") int height
+                           @RequestParam(value = "width", defaultValue = "${otm.default.chart.width}") int width,
+                           @RequestParam(value = "height", defaultValue = "${otm.default.chart.height}") int height
     ) {
         List<TemperatureData> temperatureData = temperatureDataService.findAllLastXHours(numberOfHours);
         if (temperatureData.size() != 0) {
-            ChartCreator chartCreator = new SimpleChartCreator();
             chartCreator.createChart(temperatureData, width, height, ChartTitle.DEFAULT.get());
         }
         return "chart";

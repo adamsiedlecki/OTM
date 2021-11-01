@@ -13,11 +13,12 @@ public class Ping {
 
     private static final short TIMEOUT = 1000;
     private static final Logger log = LoggerFactory.getLogger(Ping.class);
+    private static final Socket socket = new Socket();
 
     public boolean isReachable(String address, short port) {
         try {
-            try (Socket soc = new Socket()) {
-                soc.connect(new InetSocketAddress(address, port), TIMEOUT);
+            try (socket) {
+                socket.connect(new InetSocketAddress(address, port), TIMEOUT);
             }
             return true;
         } catch (IOException ex) {

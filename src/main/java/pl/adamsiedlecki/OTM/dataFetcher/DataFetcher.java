@@ -3,8 +3,8 @@ package pl.adamsiedlecki.OTM.dataFetcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import pl.adamsiedlecki.OTM.config.OtmConfigProperties;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureData;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureDataService;
 import pl.adamsiedlecki.OTM.exceptions.EspNoResponseException;
@@ -15,26 +15,26 @@ import java.util.List;
 @Service
 public class DataFetcher {
 
-    @Value("${api.address}")
-    private String apiAddress;
+    private final OtmConfigProperties properties;
     private final HtmlToTemperatureData htmlToData;
     private final TemperatureDataService temperatureDataService;
     private final Logger log = LoggerFactory.getLogger(DataFetcher.class);
     private final EspApiTool apiTool;
 
     @Autowired
-    public DataFetcher(HtmlToTemperatureData htmlToData, TemperatureDataService temperatureDataService, EspApiTool apiTool) {
+    public DataFetcher(HtmlToTemperatureData htmlToData, TemperatureDataService temperatureDataService, EspApiTool apiTool, OtmConfigProperties properties) {
         this.htmlToData = htmlToData;
         this.temperatureDataService = temperatureDataService;
         this.apiTool = apiTool;
+        this.properties = properties;
     }
 
     public List<TemperatureData> fetch() {
         String content;
         try {
-            content = apiTool.getHtml(apiAddress);
+            content = apiTool.getHtml(properties.getApiAddress());
         } catch (EspNoResponseException e) {
-            content = apiTool.espNoResponseStrategy(apiAddress);
+            content = apiTool.espNoResponseStrategy(properties.getApiAddress());
         }
 
         List<TemperatureData> temperatureData = htmlToData.process(content);

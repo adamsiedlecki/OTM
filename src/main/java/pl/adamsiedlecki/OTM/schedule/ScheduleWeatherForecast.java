@@ -1,11 +1,12 @@
 package pl.adamsiedlecki.OTM.schedule;
 
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import pl.adamsiedlecki.OTM.config.OtmConfigProperties;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureData;
 import pl.adamsiedlecki.OTM.db.tempDataAlias.TempDataAlias;
 import pl.adamsiedlecki.OTM.db.tempDataAlias.TempDataAliasService;
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
 
 @Component
 @Scope("singleton")
+@RequiredArgsConstructor
 public class ScheduleWeatherForecast {
 
     private final Logger log = LoggerFactory.getLogger(ScheduleWeatherForecast.class);
@@ -39,14 +41,7 @@ public class ScheduleWeatherForecast {
     private final FacebookManager facebookManager;
     private final ScheduleTools scheduleTools;
     private final OpenWeatherTools openWeatherTools = new OpenWeatherTools();
-
-    @Autowired
-    public ScheduleWeatherForecast(TempDataAliasService aliasService, OpenWeatherFetcher openWeatherFetcher, FacebookManager facebookManager, ScheduleTools scheduleTools) {
-        this.aliasService = aliasService;
-        this.openWeatherFetcher = openWeatherFetcher;
-        this.facebookManager = facebookManager;
-        this.scheduleTools = scheduleTools;
-    }
+    private final OtmConfigProperties config;
 
     @Scheduled(cron = "0 0 20 * * *")
     public void publishOpenWeatherPredictions() {
@@ -67,7 +62,7 @@ public class ScheduleWeatherForecast {
             boolean isBelowZero = scheduleTools.getBelowZero(predictionTdList);
 
             ChartCreator chartCreator = new ForecastChartCreator();
-            File chart = chartCreator.createChart(predictionTdList, 1200, 628, ChartTitle.OPEN_WEATHER_FORECAST.get());
+            File chart = chartCreator.createChart(predictionTdList, config.getDefaultChartWidth(), config.getDefaultChartHeight(), ChartTitle.OPEN_WEATHER_FORECAST.get());
             if (MyFilesystem.fileExistsAndIsNoOlderThanXSeconds(chart, 10)) {
                 facebookManager.postChart(chart,
                         scheduleTools.getEmoji(isBelowZero)
