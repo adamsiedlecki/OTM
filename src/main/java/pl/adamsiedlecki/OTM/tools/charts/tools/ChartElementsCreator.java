@@ -1,5 +1,6 @@
 package pl.adamsiedlecki.OTM.tools.charts.tools;
 
+import lombok.extern.slf4j.Slf4j;
 import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.labels.StandardXYItemLabelGenerator;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class ChartElementsCreator {
 
     public XYDataset createSampleData(List<TemperatureData> temperatureDataList) {
@@ -76,6 +78,21 @@ public class ChartElementsCreator {
         renderer1.setSeriesItemLabelFont(10, new Font(Font.MONOSPACED, Font.PLAIN, 6));
         renderer1.setSeriesItemLabelFont(11, new Font(Font.MONOSPACED, Font.PLAIN, 6));
 
+
+        int fontSize = 13;
+        List<String> colorList = List.of("#182c25", "#ffd759", "#9d867e", "#e54f6e", "#3aff03", "#2403a4",
+                "#0038fa", "#ff280a", "#00ffef", "#fd00fa", "#4d8679");
+        colorList = colorList.stream().distinct().collect(Collectors.toList());
+        for (int i = 0; i < 11; i++) {
+
+            renderer1.setSeriesPaint(i, Color.decode(colorList.get(i)));
+            renderer1.setSeriesItemLabelFont(i, new Font(Font.MONOSPACED, Font.BOLD, fontSize));
+            renderer1.setSeriesItemLabelPaint(i, renderer1.getSeriesPaint(i));
+            log.info("Series no: {}, fontSize: {}, color: {}", i, fontSize, renderer1.getSeriesPaint(i));
+            if (fontSize > 6) {
+                fontSize--;
+            }
+        }
 
         XYPlot plot = new XYPlot(createSampleData(temperatureDataList), xAxis, yAxis, renderer1);
         plot.setBackgroundPaint(Color.lightGray);

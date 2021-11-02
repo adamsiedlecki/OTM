@@ -38,7 +38,7 @@ public class OvernightChartCreatorTest extends BaseSpringTest {
     @Test
     public void shouldCreateChartUsingRandomData() {
         //given
-        List<TemperatureData> tempList = prepareRandomTemperatureDataList();
+        List<TemperatureData> tempList = prepareRandomTemperatureDataList(10);
 
         //when
         File file = overnightChartCreator.createChart(tempList, 1000, 500, "just simple chart title");
@@ -50,10 +50,22 @@ public class OvernightChartCreatorTest extends BaseSpringTest {
     @Test
     public void shouldCreateChartUsingRandomDataWithRealDimensions() {
         //given
-        List<TemperatureData> tempList = prepareRandomTemperatureDataList();
+        List<TemperatureData> tempList = prepareRandomTemperatureDataList(10);
 
         //when
         File file = overnightChartCreator.createChart(tempList, config.getDefaultChartWidth(), config.getDefaultChartHeight(), "just simple chart title");
+
+        //then
+        assertTrue(file.exists());
+    }
+
+    @Test
+    public void shouldCreateChartFromFiveStationsUsingRandomDataWithRealDimensions() {
+        //given
+        List<TemperatureData> tempList = prepareRandomTemperatureDataListWithFixedStationAmount(5);
+
+        //when
+        File file = overnightChartCreator.createChart(tempList, config.getDefaultChartWidth(), config.getDefaultChartHeight(), "title of chart with data from 5 stations");
 
         //then
         assertTrue(file.exists());
@@ -81,10 +93,26 @@ public class OvernightChartCreatorTest extends BaseSpringTest {
         return new ArrayList<>(List.of(td1, td2, td3, td4, td5, td6, td7, td8));
     }
 
-    private List<TemperatureData> prepareRandomTemperatureDataList() {
+    private List<TemperatureData> prepareRandomTemperatureDataList(int maxStationAmount) {
         Random rand = new Random();
         List<TemperatureData> tdList = new ArrayList<>();
-        int stationAmount = rand.nextInt(5) + 5;
+        int stationAmount = rand.nextInt(maxStationAmount + 1);
+        LocalDateTime start = LocalDateTime.of(2021, 11, 1, 22, 0);
+
+        for (int i = 1; i <= stationAmount; i++) {
+            for (int j = 0; j < 24; j++) {
+                TemperatureData td = new TemperatureData();
+                setData(td, "station-" + i, start.plusMinutes(j * 30), (rand.nextInt(31) - 10.55f));
+                tdList.add(td);
+            }
+        }
+
+        return tdList;
+    }
+
+    private List<TemperatureData> prepareRandomTemperatureDataListWithFixedStationAmount(int stationAmount) {
+        Random rand = new Random();
+        List<TemperatureData> tdList = new ArrayList<>();
         LocalDateTime start = LocalDateTime.of(2021, 11, 1, 22, 0);
 
         for (int i = 1; i <= stationAmount; i++) {
