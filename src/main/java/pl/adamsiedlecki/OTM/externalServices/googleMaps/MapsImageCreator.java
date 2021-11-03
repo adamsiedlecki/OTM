@@ -1,10 +1,10 @@
 package pl.adamsiedlecki.OTM.externalServices.googleMaps;
 
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import pl.adamsiedlecki.OTM.config.GoogleApiProperties;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureData;
 import pl.adamsiedlecki.OTM.db.tempData.TemperatureDataService;
 import pl.adamsiedlecki.OTM.tools.files.MyFilesystem;
@@ -20,17 +20,12 @@ import java.util.List;
 
 // class is not finished yet; temperature is not included at marker because of behaviour of Google api(only one char for label)
 @Component
+@RequiredArgsConstructor
 public class MapsImageCreator {
 
     private final TemperatureDataService temperatureDataService;
     private final Logger log = LoggerFactory.getLogger(MapsImageCreator.class);
-    @Value("${google.maps.api.key}")
-    private String apiKey;
-
-    @Autowired
-    public MapsImageCreator(TemperatureDataService temperatureDataService) {
-        this.temperatureDataService = temperatureDataService;
-    }
+    private final GoogleApiProperties properties;
 
     public File get(List<TemperatureData> tdList) {
 
@@ -57,7 +52,7 @@ public class MapsImageCreator {
         sb.append("?size=1000x1000")
                 .append("&maptype=satellite")
                 .append("&key=")
-                .append(apiKey)
+                .append(properties.getMapsApiKey())
                 .append("&scale=2");
         for (TemperatureData td : tdList) {
             String color;
