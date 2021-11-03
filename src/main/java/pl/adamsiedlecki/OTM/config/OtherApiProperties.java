@@ -14,7 +14,7 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource("classpath:application.properties")
 public class OtherApiProperties {
 
-    @Value("${open.weather.api.key}")
+    @Value("${open.weather.api.key:defaultOpenWeatherApiKey}")
     private String openWeatherApiKey;
 
 }
