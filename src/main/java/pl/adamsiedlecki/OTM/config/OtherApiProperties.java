@@ -10,11 +10,11 @@ import org.springframework.context.annotation.PropertySource;
 @Getter
 @Setter
 @Configuration
-@ConfigurationProperties(prefix = "google")
+@ConfigurationProperties
 @PropertySource("classpath:application.properties")
-public class GoogleApiProperties {
+public class OtherApiProperties {
 
-    @Value("${maps.api.key:defaultGoogleMapsApiKey}")
-    private String mapsApiKey;
+    @Value("${open.weather.api.key}")
+    private String openWeatherApiKey;
 
 }
