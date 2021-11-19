@@ -17,7 +17,7 @@ This application is just a part of a larger system, which also includes server o
 
 <h3>Examples of charts:</h3>
 <p align="center">
-  <img src="materials/chart1.jpg"/>
+  <img src="https://github.com/adamsiedlecki/readme-pics/blob/master/pics/otm/chart1.jpg?raw=true"/>
 </p>
 <p align="center">
   <img src="materials/long term chart.jpg"/>
@@ -25,23 +25,23 @@ This application is just a part of a larger system, which also includes server o
 
 <h3>Station overview:</h3>
 <p align="center">
-  <img src="materials/station overview.jpg" height="50%" width="50%" align="center"/>
+  <img src="https://github.com/adamsiedlecki/readme-pics/blob/master/pics/otm/station overview.jpg" height="50%" width="50%" align="center"/>
 </p>
 
 <h3>Solar panels and station inside: </h3>
 <div width="100%">
-  <img src="materials/big solar.jpg" height="30%" width="30%" align="left"/> <img src="materials/small solar.jpg" height="30%" width="30%"  align="center"/> <img src="materials/station inside.jpg" height="30%" width="30%" align="right"/>
+  <img src="https://github.com/adamsiedlecki/readme-pics/blob/master/pics/otm/big solar.jpg" height="30%" width="30%" align="left"/> <img src="https://github.com/adamsiedlecki/readme-pics/blob/master/pics/otm/small solar.jpg" height="30%" width="30%"  align="center"/> <img src="https://github.com/adamsiedlecki/readme-pics/blob/master/pics/otm/station inside.jpg" height="30%" width="30%" align="right"/>
 </div>
 
 <p align="center">
-  <img src="materials/station in blooming orchard.jpg" height="80%" width="80%" />
+  <img src="https://github.com/adamsiedlecki/readme-pics/blob/master/pics/otm/station in blooming orchard.jpg" height="80%" width="80%" />
 </p>
 
 <h3>Facebook:</h3>
 <p align="center">
-  <img align="center" src="materials/frost facebook post.jpg" />
+  <img align="center" src="https://github.com/adamsiedlecki/readme-pics/blob/master/pics/otm/frost facebook post.jpg" />
 </p>
 
 <p align="center">
-  <img src="materials/facebook page.jpg"/>
+  <img src="https://github.com/adamsiedlecki/readme-pics/blob/master/pics/otm/facebook page.jpg"/>
 </p>
