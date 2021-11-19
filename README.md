@@ -20,7 +20,7 @@ This application is just a part of a larger system, which also includes server o
   <img src="https://github.com/adamsiedlecki/readme-pics/blob/master/pics/otm/chart1.jpg?raw=true"/>
 </p>
 <p align="center">
-  <img src="materials/long term chart.jpg"/>
+  <img src="https://github.com/adamsiedlecki/readme-pics/blob/master/pics/otm/long term chart.jpg"/>
 </p>
 
 <h3>Station overview:</h3>
