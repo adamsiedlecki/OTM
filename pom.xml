@@ -9,6 +9,7 @@
         <module>utils</module>
         <module>db</module>
         <module>commons</module>
+        <module>gateway</module>
     </modules>
 
     <parent>

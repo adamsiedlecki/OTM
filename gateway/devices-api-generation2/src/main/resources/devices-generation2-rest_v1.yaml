@@ -1,0 +1,209 @@
+swagger: "2.0"
+info:
+  description: "Temperature station gateway generation 2 API"
+  version: "1.0.0"
+  title: ""
+tags:
+  - name: "Gateway for temperature stations gen2"
+    externalDocs:
+      description: "Find out more"
+      url: "https://github.com/adamsiedlecki/OTM"
+schemes:
+  - "https"
+  - "http"
+paths:
+  /genericRequest:
+    post:
+      summary: "Send generic request to gateway"
+      operationId: "sendGenericRequest"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "genericMessageInput"
+          description: "Body of the generic request"
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "Everything correct, there is a reply 4 you!"
+          schema:
+            items:
+              type: string
+
+  /healthCheck:
+    post:
+      summary: "Send request for health check to gateway"
+      operationId: "sendRequestForHealthCheck"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "healthCheckInput"
+          description: 'Body of the health check request
+        required: true
+        schema:
+          $ref: '#/definitions/healthCheckInput'
+      responses:
+        "200":
+          description: "Everything correct, there is a reply 4 you!"
+          schema:
+            items:
+              $ref: '#/definitions/healthCheckOutput'
+
+  /temperature:
+    post:
+      summary: "Send request for temperature to gateway"
+      operationId: "sendRequestForTemperature"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "temperatureInput"
+          description: "Body of the request for temperature
+        required: true
+        schema:
+          $ref: "#/definitions/TemperatureInput"
+      responses:
+        "200":
+          description: "Everything correct, there is a reply 4 you!"
+          schema:
+            items:
+              $ref: '#/definitions/TemperatureOutput'
+
+  /goSleep:
+    post:
+      summary: "Send request for sleep to gateway"
+      operationId: "sendRequest"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "GoSleepInput"
+          description: "Body of the request for sleep
+        required: true
+        schema:
+          $ref: "#/definitions/GoSleepInput"
+      responses:
+        "200":
+          description: "Everything correct, there is a reply 4 you!"
+          schema:
+            items:
+              $ref: '#/definitions/GoSleepOutput'
+
+  /genericMessageToHandover:
+    post:
+      summary: "Send request for relaying the message to gateway"
+      operationId: "sendGenericMessageToHandover"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "genericMessageToHandoverInput"
+          description: "Body of the request"
+        required: true
+        schema:
+          $ref: '#definitions/GenericMessageToHandoverInput'
+      responses:
+        "200":
+          description: "Everything correct, there is a reply 4 you!"
+          schema:
+            items:
+              type: string
+
+definitions:
+
+  healthCheckInput:
+    type: "object"
+    properties:
+      target:
+        type: string
+      command:
+        enum:
+          - healthCheck
+    required:
+      - target
+      - command
+
+  healthCheckOutput:
+    type: "object"
+    properties:
+      sn: # station number
+        type: string
+      vol: # battery voltage
+        type: number
+      error: # error
+        type: string
+
+  temperatureInput:
+    type: "object"
+    properties:
+      target:
+        type: string
+      command:
+        enum:
+          - tempReq
+    required:
+      - target
+      - command
+
+  temperatureOutput:
+    type: "object"
+    properties:
+      sn: # station number
+        type: string
+      tp: # temperature
+        type: number
+      error: # error
+        type: string
+
+  GoSleepInput:
+    type: "object"
+    properties:
+      target:
+        type: string
+      command:
+        enum:
+          - goSleep
+      seconds:
+        type: int
+    required:
+      - target
+      - command
+
+  GoSleepOutput:
+    type: "object"
+    properties:
+      sn: # station number
+        type: string
+      res: # response
+        type: string
+      error: # error
+        type: string
+
+  GenericMessageToHandoverInput:
+    type: "object"
+    properties:
+      command:
+        enum:
+          - goSleep
+      relayPath:
+        type: array
+        items:
+          type: int
+      recCount: # receiver counter
+        type: int
+    required:
+      - target
+      - command
