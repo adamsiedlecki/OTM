@@ -24,9 +24,9 @@ paths:
         - in: "body"
           name: "genericMessageInput"
           description: "Body of the generic request"
-        required: true
-        schema:
-          type: string
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: "Everything correct, there is a reply 4 you!"
@@ -44,17 +44,17 @@ paths:
         - "application/json"
       parameters:
         - in: "body"
-          name: "healthCheckInput"
-          description: 'Body of the health check request
-        required: true
-        schema:
-          $ref: '#/definitions/healthCheckInput'
+          name: "HealthCheckInput"
+          description: Body of the health check request
+          required: true
+          schema:
+            $ref: "#/definitions/HealthCheckInput"
       responses:
         "200":
           description: "Everything correct, there is a reply 4 you!"
           schema:
             items:
-              $ref: '#/definitions/healthCheckOutput'
+              $ref: "#/definitions/HealthCheckOutput"
 
   /temperature:
     post:
@@ -67,10 +67,10 @@ paths:
       parameters:
         - in: "body"
           name: "temperatureInput"
-          description: "Body of the request for temperature
-        required: true
-        schema:
-          $ref: "#/definitions/TemperatureInput"
+          description: Body of the request for temperature
+          required: true
+          schema:
+            $ref: "#/definitions/TemperatureInput"
       responses:
         "200":
           description: "Everything correct, there is a reply 4 you!"
@@ -89,16 +89,16 @@ paths:
       parameters:
         - in: "body"
           name: "GoSleepInput"
-          description: "Body of the request for sleep
-        required: true
-        schema:
-          $ref: "#/definitions/GoSleepInput"
+          description: Body of the request for sleep
+          required: true
+          schema:
+            $ref: "#/definitions/GoSleepInput"
       responses:
         "200":
           description: "Everything correct, there is a reply 4 you!"
           schema:
             items:
-              $ref: '#/definitions/GoSleepOutput'
+              $ref: "#/definitions/GoSleepOutput"
 
   /genericMessageToHandover:
     post:
@@ -112,9 +112,9 @@ paths:
         - in: "body"
           name: "genericMessageToHandoverInput"
           description: "Body of the request"
-        required: true
-        schema:
-          $ref: '#definitions/GenericMessageToHandoverInput'
+          required: true
+          schema:
+            $ref: "#/definitions/GenericMessageToHandoverInput"
       responses:
         "200":
           description: "Everything correct, there is a reply 4 you!"
@@ -124,7 +124,7 @@ paths:
 
 definitions:
 
-  healthCheckInput:
+  HealthCheckInput:
     type: "object"
     properties:
       target:
@@ -136,7 +136,7 @@ definitions:
       - target
       - command
 
-  healthCheckOutput:
+  HealthCheckOutput:
     type: "object"
     properties:
       sn: # station number
@@ -146,7 +146,7 @@ definitions:
       error: # error
         type: string
 
-  temperatureInput:
+  TemperatureInput:
     type: "object"
     properties:
       target:
@@ -158,7 +158,7 @@ definitions:
       - target
       - command
 
-  temperatureOutput:
+  TemperatureOutput:
     type: "object"
     properties:
       sn: # station number
@@ -177,7 +177,7 @@ definitions:
         enum:
           - goSleep
       seconds:
-        type: int
+        type: integer
     required:
       - target
       - command
@@ -197,13 +197,13 @@ definitions:
     properties:
       command:
         enum:
-          - goSleep
+          - handover
       relayPath:
         type: array
         items:
-          type: int
+          type: integer
       recCount: # receiver counter
-        type: int
+        type: integer
     required:
       - target
       - command

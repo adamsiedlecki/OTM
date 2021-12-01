@@ -29,7 +29,7 @@
         <otm.version>ver.1.0.0</otm.version>
 
         <java.version>11</java.version>
-        <spring.boot.version>2.4.4</spring.boot.version>
+        <spring.boot.version>2.6.0</spring.boot.version>
         <spring.security.test.version>5.6.0</spring.security.test.version>
         <thymeleaf.extras.version>3.0.4.RELEASE</thymeleaf.extras.version>
         <mysql.connector.version>8.0.27</mysql.connector.version>
@@ -80,6 +80,11 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-webflux</artifactId>
                 <version>${spring.boot.version}</version>
             </dependency>
 
