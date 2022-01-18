@@ -30,7 +30,7 @@ public class OtmApplication {
 		log.info("APPLICATION LAUNCHED");
 
 		DataFetcher dataFetcher = ctx.getBean(DataFetcher.class);
-		List<TemperatureData> tdList = dataFetcher.fetch();
+        List<TemperatureData> tdList = dataFetcher.fetchAndSaveTemperatures();
 
 //		MapsImageCreator mapsCreator = ctx.getBean(MapsImageCreator.class);
 //		mapsCreator.get(tdList);

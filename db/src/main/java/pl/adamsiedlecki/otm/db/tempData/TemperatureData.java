@@ -1,6 +1,8 @@
 package pl.adamsiedlecki.otm.db.tempData;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import pl.adamsiedlecki.otm.db.location.Location;
 
 import javax.persistence.Entity;
@@ -12,6 +14,8 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
+@AllArgsConstructor
+@Builder
 public class TemperatureData {
 
     @Id

@@ -29,7 +29,7 @@ public class ScheduleHalfHourNightly {
     @Scheduled(cron = " 0 30 22,23,0,1,2,3,4,5,6,7 * * *")
     public void checkTemperatures() {
         log.info("SCHEDULE 0 30 22,23,0,1,2,3,4,5,6,7 RUNNING");
-        List<TemperatureData> data = dataFetcher.fetch();
+        List<TemperatureData> data = dataFetcher.fetchAndSaveTemperatures();
         scheduleTools.sendPostOrComment(data);
 
     }

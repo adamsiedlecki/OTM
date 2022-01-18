@@ -29,7 +29,7 @@ public class ScheduleHourly {
     @Scheduled(cron = "0 0 * * * *")
     public void checkTemperaturesHourly() {
         log.info("SCHEDULE 0 0 * * * * RUNNING");
-        List<TemperatureData> data = dataFetcher.fetch();
+        List<TemperatureData> data = dataFetcher.fetchAndSaveTemperatures();
         scheduleTools.sendPostOrComment(data);
     }
 }

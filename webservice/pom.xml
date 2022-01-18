@@ -26,6 +26,11 @@
             <groupId>pl.adamsiedlecki.otm</groupId>
             <artifactId>utils</artifactId>
         </dependency>
+        <dependency>
+            <groupId>pl.adamsiedlecki.otm</groupId>
+            <artifactId>devices-api-generation2</artifactId>
+            <version>ver.1.0.0</version>
+        </dependency>
 
         <!-- SPRING -->
         <dependency>

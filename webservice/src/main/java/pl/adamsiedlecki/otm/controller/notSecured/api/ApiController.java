@@ -59,7 +59,7 @@ public class ApiController {
     @GetMapping("/temperature-now")
     public @ResponseBody
     List<TemperatureData> getTemperaturesNow() {
-        return dataFetcher.fetch();
+        return dataFetcher.fetchAndSaveTemperatures();
     }
 
     @GetMapping(path = "/temperature-data")

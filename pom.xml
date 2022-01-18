@@ -55,6 +55,16 @@
                 <artifactId>utils</artifactId>
                 <version>${otm.version}</version>
             </dependency>
+            <dependency>
+                <groupId>pl.adamsiedlecki.otm</groupId>
+                <artifactId>gateway</artifactId>
+                <version>${otm.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pl.adamsiedlecki.otm</groupId>
+                <artifactId>devices-api-generation2</artifactId>
+                <version>${otm.version}</version>
+            </dependency>
 
             <!-- SPRING -->
             <dependency>
