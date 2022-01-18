@@ -3,6 +3,7 @@ package pl.adamsiedlecki.otm.devices.api.gen2;
 import __project.generatedClassesPackage_.devices.gen2.client.api.Gen2DevicesApi;
 import __project.generatedClassesPackage_.devices.gen2.client.invoker.ApiException;
 import __project.generatedClassesPackage_.devices.gen2.model.GenericMessageToHandoverInput;
+import __project.generatedClassesPackage_.devices.gen2.model.HealthCheckInput;
 import __project.generatedClassesPackage_.devices.gen2.model.TemperatureInput;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +16,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class TemperatureGen2Service {
-
 
     private final Gen2DevicesApi gen2DevicesApi;
 
@@ -38,7 +38,19 @@ public class TemperatureGen2Service {
         try {
             gen2DevicesApi.sendGenericMessageToHandover(input);
         } catch (ApiException e) {
-            log.error("Exception was thrown during temperature request");
+            log.error("Exception was thrown during mnessage handover request");
+            throw new Gen2DevicesApiException(e.getMessage());
+        }
+    }
+
+    public void sendHealthCheckRequest(String targetDevice) {
+        HealthCheckInput healthCheckInput = new HealthCheckInput();
+        healthCheckInput.setTarget(targetDevice);
+        healthCheckInput.setCommand(HealthCheckInput.CommandEnum.HEALTHCHECK);
+        try {
+            gen2DevicesApi.sendRequestForHealthCheck(healthCheckInput);
+        } catch (ApiException e) {
+            log.error("Exception was thrown during health check request");
             throw new Gen2DevicesApiException(e.getMessage());
         }
     }
