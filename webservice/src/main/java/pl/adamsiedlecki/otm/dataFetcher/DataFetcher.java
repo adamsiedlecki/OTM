@@ -8,16 +8,15 @@ import pl.adamsiedlecki.otm.config.OtmConfigProperties;
 import pl.adamsiedlecki.otm.db.location.Location;
 import pl.adamsiedlecki.otm.db.tempData.TemperatureData;
 import pl.adamsiedlecki.otm.db.tempData.TemperatureDataService;
-import pl.adamsiedlecki.otm.devices.api.gen2.Gen2Device;
 import pl.adamsiedlecki.otm.devices.api.gen2.Gen2DevicesInfo;
-import pl.adamsiedlecki.otm.devices.api.gen2.TemperatureGen2Service;
+import pl.adamsiedlecki.otm.devices.api.gen2.StationGen2Service;
 import pl.adamsiedlecki.otm.exceptions.EspNoResponseException;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,7 +28,7 @@ public class DataFetcher {
     private final TemperatureDataService temperatureDataService;
     private final Logger log = LoggerFactory.getLogger(DataFetcher.class);
     private final EspApiTool apiTool;
-    private final TemperatureGen2Service temperatureGen2Service;
+    private final StationGen2Service temperatureGen2Service;
     private Gen2DevicesInfo gen2DevicesInfo;
 
     public List<TemperatureData> fetchAndSaveTemperatures() {
@@ -60,20 +59,21 @@ public class DataFetcher {
 
     private List<TemperatureData> getTemperaturesFromGen2Stations() {
         LocalDateTime now = LocalDateTime.now();
-        return temperatureGen2Service.sendTemperatureRequest(gen2DevicesInfo.ALL_DEVICES_ADDRESS)
-                .stream()
-                .map(output -> {
-                    Optional<Gen2Device> device = gen2DevicesInfo.getByName(output.getSn());
-                    if (device.isEmpty()) {
-                        log.error("gen2 device is not recognized: " + output);
-                        return null;
+        return gen2DevicesInfo.get().stream().map(gen2Device -> {
+                    BigDecimal temperature = null;
+                    try {
+                        temperature = temperatureGen2Service.sendTemperatureRequest(gen2Device.getId(), false);
+
+                    } catch (Exception ex) {
+                        log.error("Temperature request error catched", ex);
                     }
                     return TemperatureData.builder()
                             .date(now)
-                            .temperatureCelsius(output.getTp())
-                            .transmitterName(output.getSn())
-                            .location(new Location(device.get().getLatitude(), device.get().getLongitude()))
+                            .temperatureCelsius(temperature)
+                            .transmitterName(gen2Device.getName())
+                            .location(new Location(gen2Device.getLatitude(), gen2Device.getLongitude()))
                             .build();
+
                 })
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());

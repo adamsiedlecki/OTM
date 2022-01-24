@@ -12,7 +12,7 @@ schemes:
   - "https"
   - "http"
 paths:
-  /genericRequest:
+  /sendRequest:
     post:
       tags:
         - "Gen2Devices"
@@ -24,205 +24,62 @@ paths:
         - "application/json"
       parameters:
         - in: "body"
-          name: "genericMessageInput"
-          description: "Body of the generic request"
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: "Everything correct, there is a reply 4 you!"
-          type: array
-          schema:
-            items:
-              type: string
-
-  /healthCheck:
-    post:
-      tags:
-        - "Gen2Devices"
-      summary: "Send request for health check to gateway"
-      operationId: "sendRequestForHealthCheck"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "HealthCheckInput"
+          name: "GenericMessageInput"
           description: Body of the health check request
           required: true
           schema:
-            $ref: "#/definitions/HealthCheckInput"
+            $ref: "#/definitions/GenericMessageInput"
       responses:
         "200":
           description: "Everything correct, there is a reply 4 you!"
           schema:
-            type: array
-            items:
-              $ref: "#/definitions/HealthCheckOutput"
-
-  /temperature:
-    post:
-      tags:
-        - "Gen2Devices"
-      summary: "Send request for temperature to gateway"
-      operationId: "sendRequestForTemperature"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "temperatureInput"
-          description: Body of the request for temperature
-          required: true
-          schema:
-            $ref: "#/definitions/TemperatureInput"
-      responses:
-        "200":
-          description: "Everything correct, there is a reply 4 you!"
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/TemperatureOutput'
-
-  /goSleep:
-    post:
-      tags:
-        - "Gen2Devices"
-      summary: "Send request for sleep to gateway"
-      operationId: "sendRequest"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "GoSleepInput"
-          description: Body of the request for sleep
-          required: true
-          schema:
-            $ref: "#/definitions/GoSleepInput"
-      responses:
-        "200":
-          description: "Everything correct, there is a reply 4 you!"
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/GoSleepOutput"
-
-  /genericMessageToHandover:
-    post:
-      tags:
-        - "Gen2Devices"
-      summary: "Send request for relaying the message to gateway"
-      operationId: "sendGenericMessageToHandover"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "genericMessageToHandoverInput"
-          description: "Body of the request"
-          required: true
-          schema:
-            $ref: "#/definitions/GenericMessageToHandoverInput"
-      responses:
-        "200":
-          description: "Everything correct, there is a reply 4 you!"
-          schema:
-            type: array
-            items:
-              type: string
+            $ref: "#/definitions/GenericMessageOutput"
 
 definitions:
-
-  HealthCheckInput:
+  GenericMessageInput:
     type: "object"
     properties:
-      target:
-        type: string
-      command:
-        enum:
-          - healthCheck
-    required:
-      - target
-      - command
-
-  HealthCheckOutput:
-    type: "object"
-    properties:
-      sn: # station number
-        type: string
-      vol: # battery voltage
-        type: number
-      error: # error
-        type: string
-
-  TemperatureInput:
-    type: "object"
-    properties:
-      target:
-        type: string
-      command:
-        enum:
-          - tempReq
-    required:
-      - target
-      - command
-
-  TemperatureOutput:
-    type: "object"
-    properties:
-      sn: # station number
-        type: string
-      tp: # temperature
-        type: number
-      error: # error
-        type: string
-
-  GoSleepInput:
-    type: "object"
-    properties:
-      target:
-        type: string
-      command:
-        enum:
-          - goSleep
-      seconds:
+      tg:
+        description: "target"
         type: integer
-    required:
-      - target
-      - command
-
-  GoSleepOutput:
-    type: "object"
-    properties:
-      sn: # station number
-        type: string
-      res: # response
-        type: string
-      error: # error
-        type: string
-
-  GenericMessageToHandoverInput:
-    type: "object"
-    properties:
-      c: # command
+      cmm:
+        description: "command"
         enum:
-          - handover
-      mes: # message
-        type: string
-      rePa: # receiver path
-        type: array
-        items:
-          type: integer
-      recC: # receiver counter
-        type: integer
+          - tR          # temperature request
+          - hC          # health check
+          - hR          # humidity request
+          - 10hS        # enable 10 hour sleep mode
+
+      m:
+        description: "mode"
+        enum:
+          - tF          # transfer - with this flag non-recipient stations will repeat the whole message
     required:
-      - c
-      - mes
-      - rePa
-      - recC
+      - tg
+      - cmm
+
+  GenericMessageOutput:
+    type: "object"
+    properties:
+      a:
+        description: "station number"
+        type: integer
+      tp:
+        description: "temperature"
+        type: number
+      vol:
+        description: "battery voltage"
+        type: number
+      hu:
+        description: "humidity"
+        type: number
+      res:
+        description: "text response"
+        type: string
+      error:
+        description: "error"
+        type: string
+      m:
+        description: "mode"
+        enum:
+          - tF # transfer - with this flag non-recipient stations will repeat the whole message
