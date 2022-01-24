@@ -12,9 +12,10 @@ import org.springframework.context.annotation.Primary;
 @RequiredArgsConstructor
 public class Gen2DevicesConfiguration {
 
-    private final int DEFAULT_TIMEOUT = 10000;
+    public final int DEFAULT_TIMEOUT = 10000;
+    public final int DEFAULT_TF_FLAG_TIMEOUT = 10000;
     private final Gen2DevicesApi gen2DevicesApi;
-    @Value("gen2.api.address:localhost:9090")
+    @Value("gen2.api.address:http://10.0.0.72")
     private String gen2ApiAddress;
 
     @Bean
