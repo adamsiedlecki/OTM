@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import pl.adamsiedlecki.otm.db.location.Location;
+import pl.adamsiedlecki.otm.db.locationPlace.LocationPlace;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,11 +24,21 @@ public class TemperatureData {
     private Long id;
     private BigDecimal temperatureCelsius;
     private String transmitterName;
-    @ManyToOne()
+    @ManyToOne
     private Location location;
+    @ManyToOne
+    private LocationPlace locationPlace;
     private LocalDateTime date;
 
     public TemperatureData() {
+    }
+
+    public LocationPlace getLocationPlace() {
+        return locationPlace;
+    }
+
+    public void setLocationPlace(LocationPlace locationPlace) {
+        this.locationPlace = locationPlace;
     }
 
     public Long getId() {
@@ -78,9 +89,11 @@ public class TemperatureData {
     @Override
     public String toString() {
         return "TemperatureData{" +
-                "temperatureCelsius=" + temperatureCelsius +
+                "id=" + id +
+                ", temperatureCelsius=" + temperatureCelsius +
                 ", transmitterName='" + transmitterName + '\'' +
                 ", location=" + location +
+                ", locationPlace=" + locationPlace +
                 ", date=" + date +
                 '}';
     }

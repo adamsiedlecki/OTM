@@ -14,6 +14,7 @@ import org.testng.annotations.Test;
 import pl.adamsiedlecki.otm.OtmApplication;
 import pl.adamsiedlecki.otm.controller.notSecured.api.ApiController;
 import pl.adamsiedlecki.otm.db.tempData.TemperatureData;
+import pl.adamsiedlecki.otm.db.tempData.TemperatureDataService;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -33,6 +34,9 @@ public class ApiControllerSpringTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private ApiController sut;
+
+    @Autowired
+    private TemperatureDataService temperatureDataService;
 
     private MockServerClient mockServer;
 
@@ -83,6 +87,8 @@ public class ApiControllerSpringTest extends AbstractTestNGSpringContextTests {
         assertThat(result.size()).isEqualTo(responsesCount);
         assertThatCorrectTemperatures(result, stationTemperatures);
         assertThatCorrectStationNames(result, stationIdsAfterAliasing);
+
+        temperatureDataService.findAll().forEach(System.out::println);
     }
 
     private void assertThatCorrectStationNames(List<TemperatureData> result, List<String> expected) {

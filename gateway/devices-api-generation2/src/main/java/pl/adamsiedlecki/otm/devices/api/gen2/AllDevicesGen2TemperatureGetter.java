@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.adamsiedlecki.otm.db.location.LocationService;
+import pl.adamsiedlecki.otm.db.locationPlace.LocationPlaceService;
 import pl.adamsiedlecki.otm.db.tempData.TemperatureData;
 import pl.adamsiedlecki.otm.stationInfo.gen2.Gen2DevicesInfo;
+import pl.adamsiedlecki.otm.stationInfo.locations.LocationPlacesInfo;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -20,7 +22,9 @@ public class AllDevicesGen2TemperatureGetter {
 
     private final StationGen2Service stationGen2Service;
     private final Gen2DevicesInfo gen2DevicesInfo;
+    private final LocationPlacesInfo locationPlacesInfo;
     private final LocationService locationService;
+    private final LocationPlaceService locationPlaceService;
 
     public List<TemperatureData> get() {
         LocalDateTime now = LocalDateTime.now();
@@ -37,6 +41,7 @@ public class AllDevicesGen2TemperatureGetter {
                             .temperatureCelsius(temperature)
                             .transmitterName(gen2Device.getName())
                             .location(locationService.getOrSave(gen2Device.getLatitude(), gen2Device.getLongitude()))
+                            .locationPlace(locationPlaceService.updateOrSave(locationPlacesInfo.getById(gen2Device.getLocationPlaceId())))
                             .build();
 
                 })

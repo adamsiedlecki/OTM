@@ -1,6 +1,7 @@
 package pl.adamsiedlecki.otm.stationInfo.gen2;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,12 +30,14 @@ public class Gen2DevicesInfo {
         devicesList = new ArrayList<>();
         for (String device : devicesJsons) {
             try {
-                int id = objectMapper.readTree(device).findValue("id").asInt();
-                String name = objectMapper.readTree(device).findValue("name").asText();
-                String lng = objectMapper.readTree(device).findValue("lng").asText();
-                String lat = objectMapper.readTree(device).findValue("lat").asText();
+                JsonNode jsonNode = objectMapper.readTree(device);
+                int id = jsonNode.findValue("id").asInt();
+                String name = jsonNode.findValue("name").asText();
+                String lng = jsonNode.findValue("lng").asText();
+                String lat = jsonNode.findValue("lat").asText();
+                long locationPlaceId = jsonNode.findValue("lp").asLong();
 
-                devicesList.add(Gen2Device.builder().name(name).id(id).longitude(lng).latitude(lat).build());
+                devicesList.add(Gen2Device.builder().name(name).id(id).longitude(lng).latitude(lat).locationPlaceId(locationPlaceId).build());
 
             } catch (JsonProcessingException e) {
                 log.error("Error during json deviceGen2 parsing: \n" + device, e);

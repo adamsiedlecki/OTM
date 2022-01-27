@@ -12,4 +12,9 @@ public class Gen2Device {
     private String name;
     private String longitude;
     private String latitude;
+    private long locationPlaceId;
+
+    public long getLocationPlaceId() {
+        return locationPlaceId;
+    }
 }

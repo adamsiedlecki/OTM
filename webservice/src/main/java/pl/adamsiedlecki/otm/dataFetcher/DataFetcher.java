@@ -3,7 +3,6 @@ package pl.adamsiedlecki.otm.dataFetcher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.adamsiedlecki.otm.AllDevicesGen1TemperatureGetter;
-import pl.adamsiedlecki.otm.db.location.LocationService;
 import pl.adamsiedlecki.otm.db.tempData.TemperatureData;
 import pl.adamsiedlecki.otm.db.tempData.TemperatureDataService;
 import pl.adamsiedlecki.otm.devices.api.gen2.AllDevicesGen2TemperatureGetter;
@@ -18,7 +17,6 @@ public class DataFetcher {
     private final AllDevicesGen1TemperatureGetter allDevicesGen1TemperatureGetter;
     private final AllDevicesGen2TemperatureGetter allDevicesGen2TemperatureGetter;
     private final TemperatureDataService temperatureDataService;
-    private final LocationService locationService;
 
     public List<TemperatureData> fetchAndSaveTemperatures() {
         List<TemperatureData> allResults = new ArrayList<>();

@@ -1,6 +1,7 @@
 package pl.adamsiedlecki.otm.stationInfo.gen1;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,12 +30,21 @@ public class Gen1DevicesInfo {
         devicesList = new ArrayList<>();
         for (String device : devicesJsons) {
             try {
-                String originalName = objectMapper.readTree(device).findValue("o").asText();
-                String aliasName = objectMapper.readTree(device).findValue("a").asText();
-                String lng = objectMapper.readTree(device).findValue("lng").asText();
-                String lat = objectMapper.readTree(device).findValue("lat").asText();
+                JsonNode jsonNode = objectMapper.readTree(device);
+                String originalName = jsonNode.findValue("o").asText();
+                String aliasName = jsonNode.findValue("a").asText();
+                String lng = jsonNode.findValue("lng").asText();
+                String lat = jsonNode.findValue("lat").asText();
+                long locationPlaceId = jsonNode.findValue("lp").asLong();
 
-                devicesList.add(Gen1Device.builder().originalName(originalName).aliasName(aliasName).longitude(lng).latitude(lat).build());
+                devicesList.add(
+                        Gen1Device.builder()
+                                .originalName(originalName)
+                                .aliasName(aliasName)
+                                .longitude(lng)
+                                .latitude(lat)
+                                .locationPlaceId(locationPlaceId)
+                                .build());
 
             } catch (JsonProcessingException e) {
                 log.error("Error during json deviceGen1 parsing: \n" + device, e);

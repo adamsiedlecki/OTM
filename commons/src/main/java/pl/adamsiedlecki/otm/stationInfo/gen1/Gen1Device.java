@@ -12,4 +12,5 @@ public class Gen1Device {
     private String aliasName;
     private String longitude;
     private String latitude;
+    private long locationPlaceId;
 }
