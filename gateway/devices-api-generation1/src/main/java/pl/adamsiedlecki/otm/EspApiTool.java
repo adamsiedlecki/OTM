@@ -1,9 +1,9 @@
-package pl.adamsiedlecki.otm.dataFetcher;
+package pl.adamsiedlecki.otm;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import pl.adamsiedlecki.otm.exceptions.EspNoResponseException;
+import pl.adamsiedlecki.otm.exception.EspNoResponseException;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -12,7 +12,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 @Component
-class EspApiTool {
+public class EspApiTool {
 
     private final Logger log = LoggerFactory.getLogger(EspApiTool.class);
     private final long noResponseCounter = 0;
@@ -39,7 +39,7 @@ class EspApiTool {
         } catch (Exception ex) {
             log.error(ex.getMessage());
         }
-        if (content == null || content.isEmpty() || content.length() < 2) {
+        if (content == null || content.length() < 2) {
             throw new EspNoResponseException();
         }
         if (content.contains("no response")) {

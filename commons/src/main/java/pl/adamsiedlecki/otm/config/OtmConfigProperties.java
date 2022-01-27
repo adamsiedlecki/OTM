@@ -14,8 +14,11 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource("classpath:application.properties")
 public class OtmConfigProperties {
 
-    @Value("${otm.api.address}")
-    private String apiAddress;
+    @Value("${gen1.api.address}")
+    private String gen1ApiAddress;
+
+    @Value("${gen2.api.address}")
+    private String gen2ApiAddress;
 
     @Value("${otm.default.chart.width}")
     private int defaultChartWidth;

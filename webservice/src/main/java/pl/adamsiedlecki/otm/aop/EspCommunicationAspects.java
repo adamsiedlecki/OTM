@@ -21,19 +21,19 @@ public class EspCommunicationAspects {
         this.statService = statService;
     }
 
-    @After("execution(* pl.adamsiedlecki.otm.dataFetcher.EspApiTool.getHtml(..))")
+    @After("execution(* pl.adamsiedlecki.otm.EspApiTool.getHtml(..))")
     private void requestsToEsp() {
         statService.increment(ExistingStatistics.REQUESTS_TO_ESP_COUNT);
         log.info("esp request aspect worked");
     }
 
-    @After("execution(* pl.adamsiedlecki.otm.dataFetcher.EspApiTool.espNoResponseStrategy(..))")
+    @After("execution(* pl.adamsiedlecki.otm.EspApiTool.espNoResponseStrategy(..))")
     private void espNoResponse() {
         statService.increment(ExistingStatistics.ESP_NO_RESPONSE_COUNT);
         log.info("esp no response aspect worked");
     }
 
-    @After("execution(* pl.adamsiedlecki.otm.dataFetcher.EspApiTool.sendRestartCommand(..))")
+    @After("execution(* pl.adamsiedlecki.otm.EspApiTool.sendRestartCommand(..))")
     private void espRestart() {
         statService.increment(ExistingStatistics.ESP_RESTART_COUNT);
         log.info("esp restart aspect worked");

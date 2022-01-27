@@ -29,7 +29,7 @@ public class ConfigurationPropertiesSpringTest extends AbstractTestNGSpringConte
         //given
 
         //when
-        String result = sut.getApiAddress();
+        String result = sut.getGen1ApiAddress();
 
         //then
         assertThat(result).isNotNull();
@@ -41,8 +41,8 @@ public class ConfigurationPropertiesSpringTest extends AbstractTestNGSpringConte
         //given
 
         //when
-        String result = sut.getApiAddress();
-        String expectedProperty = env.getProperty("otm.api.address");
+        String result = sut.getGen1ApiAddress();
+        String expectedProperty = env.getProperty("gen1.api.address");
 
         //then
         assertThat(result).isEqualTo(expectedProperty);
@@ -53,7 +53,7 @@ public class ConfigurationPropertiesSpringTest extends AbstractTestNGSpringConte
         //given
 
         //when
-        String expectedProperty = env.getProperty("otm.api.address");
+        String expectedProperty = env.getProperty("gen1.api.address");
 
         //then
         assertThat(expectedProperty).isNotNull();

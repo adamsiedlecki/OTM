@@ -21,12 +21,12 @@
 
     <groupId>pl.adamsiedlecki.otm</groupId>
     <artifactId>OTM</artifactId>
-    <version>ver.1.0.0</version>
+    <version>ver.1.0.1</version>
     <name>OTM</name>
     <description>Orchard Temperature Monitor</description>
 
     <properties>
-        <otm.version>ver.1.0.0</otm.version>
+        <otm.version>ver.1.0.1</otm.version>
 
         <java.version>11</java.version>
         <spring.boot.version>2.6.0</spring.boot.version>
@@ -137,6 +137,12 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-test</artifactId>
                 <version>${spring.boot.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.4</version>
                 <scope>test</scope>
             </dependency>
             <dependency>

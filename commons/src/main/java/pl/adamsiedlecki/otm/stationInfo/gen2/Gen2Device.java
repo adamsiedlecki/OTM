@@ -1,4 +1,4 @@
-package pl.adamsiedlecki.otm.devices.api.gen2;
+package pl.adamsiedlecki.otm.stationInfo.gen2;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

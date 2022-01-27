@@ -1,4 +1,4 @@
-package pl.adamsiedlecki.otm.exceptions;
+package pl.adamsiedlecki.otm.exception;
 
 public class EspNoResponseException extends Exception {
 }

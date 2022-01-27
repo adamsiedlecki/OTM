@@ -54,6 +54,9 @@ definitions:
         description: "mode"
         enum:
           - tF          # transfer - with this flag non-recipient stations will repeat the whole message
+      mw:
+        description: "minutesToWait" # this property is obligatory only when tF mode is enabled
+        type: integer
     required:
       - tg
       - cmm
