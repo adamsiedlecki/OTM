@@ -32,6 +32,7 @@ public class OvernightChartCreatorTest extends BaseSpringTest {
         File file = overnightChartCreator.createChart(tempList, 1000, 500, "just simple chart title");
 
         //then
+        waitForCreation();
         assertTrue(file.exists());
     }
 
@@ -44,6 +45,7 @@ public class OvernightChartCreatorTest extends BaseSpringTest {
         File file = overnightChartCreator.createChart(tempList, 1000, 500, "just simple chart title");
 
         //then
+        waitForCreation();
         assertTrue(file.exists());
     }
 
@@ -56,6 +58,7 @@ public class OvernightChartCreatorTest extends BaseSpringTest {
         File file = overnightChartCreator.createChart(tempList, config.getDefaultChartWidth(), config.getDefaultChartHeight(), "just simple chart title");
 
         //then
+        waitForCreation();
         assertTrue(file.exists());
     }
 
@@ -68,6 +71,7 @@ public class OvernightChartCreatorTest extends BaseSpringTest {
         File file = overnightChartCreator.createChart(tempList, config.getDefaultChartWidth(), config.getDefaultChartHeight(), "title of chart with data from 5 stations");
 
         //then
+        waitForCreation();
         assertTrue(file.exists());
     }
 
@@ -130,5 +134,13 @@ public class OvernightChartCreatorTest extends BaseSpringTest {
         td.setTransmitterName(stationName);
         td.setDate(time);
         td.setTemperatureCelsius(BigDecimal.valueOf(temperature));
+    }
+
+    private void waitForCreation() {
+        try {
+            Thread.sleep(400);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

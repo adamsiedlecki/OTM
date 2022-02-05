@@ -28,7 +28,7 @@ public class AllDevicesGen2TemperatureGetter {
 
     public List<TemperatureData> get() {
         LocalDateTime now = LocalDateTime.now();
-        return gen2DevicesInfo.get().stream().map(gen2Device -> {
+        return gen2DevicesInfo.getDevices().stream().map(gen2Device -> {
                     BigDecimal temperature = null;
                     try {
                         temperature = stationGen2Service.sendTemperatureRequest(gen2Device.getId(), false);

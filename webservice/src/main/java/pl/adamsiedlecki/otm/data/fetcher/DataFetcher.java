@@ -1,4 +1,4 @@
-package pl.adamsiedlecki.otm.dataFetcher;
+package pl.adamsiedlecki.otm.data.fetcher;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,14 +18,25 @@ public class DataFetcher {
     private final AllDevicesGen2TemperatureGetter allDevicesGen2TemperatureGetter;
     private final TemperatureDataService temperatureDataService;
 
-    public List<TemperatureData> fetchAndSaveTemperatures() {
+    public List<TemperatureData> fetchAndSaveAllTemperatures() {
         List<TemperatureData> allResults = new ArrayList<>();
 
-        allResults.addAll(allDevicesGen1TemperatureGetter.get());
-        allResults.addAll(allDevicesGen2TemperatureGetter.get());
+        allResults.addAll(fetchAndSaveTemperaturesFromGen1Stations());
+        allResults.addAll(fetchAndSaveTemperaturesFromGen2Stations());
 
-        saveToDatabase(allResults);
         return allResults;
+    }
+
+    public List<TemperatureData> fetchAndSaveTemperaturesFromGen1Stations() {
+        List<TemperatureData> temperatureData = allDevicesGen1TemperatureGetter.get();
+        saveToDatabase(temperatureData);
+        return temperatureData;
+    }
+
+    public List<TemperatureData> fetchAndSaveTemperaturesFromGen2Stations() {
+        List<TemperatureData> temperatureData = allDevicesGen2TemperatureGetter.get();
+        saveToDatabase(temperatureData);
+        return temperatureData;
     }
 
     private void saveToDatabase(List<TemperatureData> td) {

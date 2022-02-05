@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import pl.adamsiedlecki.otm.dataFetcher.DataFetcher;
+import pl.adamsiedlecki.otm.data.fetcher.DataFetcher;
 import pl.adamsiedlecki.otm.db.tempData.TemperatureData;
 import pl.adamsiedlecki.otm.db.tempData.TemperatureDataService;
 import pl.adamsiedlecki.otm.db.tempDataAlias.TempDataAlias;
@@ -30,7 +30,7 @@ public class ApiController {
 
     private final TemperatureDataService temperatureDataService;
     private final TempDataAliasService tempDataAliasService;
-    private final String s = File.separator;
+    private static final String SEP = File.separator;
     private final DataFetcher dataFetcher;
     private final Logger log = LoggerFactory.getLogger(ApiController.class);
     private final ScheduleOvernightChart scheduleOvernightChart;
@@ -56,10 +56,22 @@ public class ApiController {
         return tempDataAliasService.findAll();
     }
 
-    @GetMapping("/temperature-now")
+    @GetMapping("/temperature/current")
     public @ResponseBody
-    List<TemperatureData> getTemperaturesNow() {
-        return dataFetcher.fetchAndSaveTemperatures();
+    List<TemperatureData> getCurrentTemperatures() {
+        return dataFetcher.fetchAndSaveAllTemperatures();
+    }
+
+    @GetMapping("/gen1/temperature/current")
+    public @ResponseBody
+    List<TemperatureData> getCurrentTemperaturesFromGen1() {
+        return dataFetcher.fetchAndSaveTemperaturesFromGen1Stations();
+    }
+
+    @GetMapping("/gen2/temperature/current")
+    public @ResponseBody
+    List<TemperatureData> getCurrentTemperaturesFromGen2() {
+        return dataFetcher.fetchAndSaveTemperaturesFromGen2Stations();
     }
 
     @GetMapping(path = "/temperature-data")
@@ -77,16 +89,13 @@ public class ApiController {
     byte[] getImageWithMediaType(
             @RequestParam(value = "name", defaultValue = "chart.jpg") String name
     ) {
-        InputStream targetStream;
-        try {
-            File f = new File(MyFilesystem.getStoragePath() + "img" + s + name);
-            log.info("DESIRED FILE: " + f.getAbsolutePath());
-            targetStream = new FileInputStream(f);
+        File f = new File(MyFilesystem.getStoragePath() + "img" + SEP + name);
+        log.info("DESIRED FILE: {}", f.getAbsolutePath());
+        try (InputStream targetStream = new FileInputStream(f)) {
             return targetStream.readAllBytes();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return new byte[]{};
     }
 }
