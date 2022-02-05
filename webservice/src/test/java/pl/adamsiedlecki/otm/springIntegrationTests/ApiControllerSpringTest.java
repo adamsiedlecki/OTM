@@ -80,7 +80,7 @@ public class ApiControllerSpringTest extends AbstractTestNGSpringContextTests {
                 );
 
         //when
-        List<TemperatureData> result = sut.getTemperaturesNow();
+        List<TemperatureData> result = sut.getCurrentTemperatures();
 
         //then
         assertThat(result).isNotNull();
@@ -89,6 +89,19 @@ public class ApiControllerSpringTest extends AbstractTestNGSpringContextTests {
         assertThatCorrectStationNames(result, stationIdsAfterAliasing);
 
         temperatureDataService.findAll().forEach(System.out::println);
+    }
+
+    @Test
+    public void shouldReturnNoDataFromGen2() {
+        //given
+        mockServer.stop();
+
+        //when
+        List<TemperatureData> result = sut.getCurrentTemperaturesFromGen2();
+
+        //then
+        assertThat(result).isNotNull();
+        assertThat(result.size()).isZero();
     }
 
     private void assertThatCorrectStationNames(List<TemperatureData> result, List<String> expected) {

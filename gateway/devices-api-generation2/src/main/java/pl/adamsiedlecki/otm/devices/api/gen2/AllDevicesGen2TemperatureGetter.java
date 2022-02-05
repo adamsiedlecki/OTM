@@ -29,12 +29,13 @@ public class AllDevicesGen2TemperatureGetter {
     public List<TemperatureData> get() {
         LocalDateTime now = LocalDateTime.now();
         return gen2DevicesInfo.getDevices().stream().map(gen2Device -> {
-                    BigDecimal temperature = null;
+                    BigDecimal temperature;
                     try {
                         temperature = stationGen2Service.sendTemperatureRequest(gen2Device.getId(), false);
 
                     } catch (Exception ex) {
-                        log.error("Temperature request error catched", ex);
+                        log.error("Temperature request error catched: {}", ex.getMessage());
+                        return null;
                     }
                     return TemperatureData.builder()
                             .date(now)
