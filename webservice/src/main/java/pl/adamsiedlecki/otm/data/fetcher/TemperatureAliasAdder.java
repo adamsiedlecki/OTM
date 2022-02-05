@@ -30,8 +30,6 @@ class TemperatureAliasAdder {
 
                 Location location = locationService.getOrSave("" + alias.getLatitude(), "" + alias.getLongitude());
                 tempData.setLocation(location);
-
-
             }
         }
     }

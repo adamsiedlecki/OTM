@@ -41,7 +41,7 @@ public class ScheduleOvernightChart {
         log.info("SCHEDULE 0 31 6 * * * RUNNING");
 
         List<TemperatureData> lastXHours = temperatureDataService.findAllLastXHours(9);
-        if (lastXHours.size() != 0) {
+        if (!lastXHours.isEmpty()) {
             log.info("there is enough data to build overnight chart");
             boolean isBelowZero = scheduleTools.getBelowZero(lastXHours);
 
@@ -58,11 +58,11 @@ public class ScheduleOvernightChart {
         for (int i = 0; i < 12; i++) {
             try {
                 if (ping.isReachable(ADDRESS, PORT)) {
-                    log.info(ADDRESS + " with port:" + PORT + " is reachable; attempt number: " + i);
+                    log.info("{} with port: {} is reachable; attempt number: {}", ADDRESS, PORT, i);
                     postChart(chart, isBelowZero, generationTime);
                     break;
                 } else {
-                    log.info(ADDRESS + " with port:" + PORT + " is NOT reachable; attempt number: " + i);
+                    log.info("{} with port: {} is NOT reachable; attempt number: {}", ADDRESS, PORT, i);
                     Thread.sleep(TEN_MINUTES);
                 }
             } catch (InterruptedException e) {
