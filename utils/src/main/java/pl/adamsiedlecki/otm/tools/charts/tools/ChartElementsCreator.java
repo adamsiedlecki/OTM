@@ -87,7 +87,7 @@ public class ChartElementsCreator {
 
             renderer1.setSeriesPaint(i, Color.decode(colorList.get(i)));
             renderer1.setSeriesItemLabelFont(i, new Font(Font.MONOSPACED, Font.BOLD, fontSize));
-            renderer1.setSeriesItemLabelPaint(i, Color.decode(colorList.get(i)).brighter());
+            renderer1.setSeriesItemLabelPaint(i, Color.decode(colorList.get(i)).brighter().brighter());
             if (fontSize > 6) {
                 fontSize--;
             }
