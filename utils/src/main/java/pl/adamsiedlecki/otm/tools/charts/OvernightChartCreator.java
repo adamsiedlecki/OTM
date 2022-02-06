@@ -51,7 +51,7 @@ public class OvernightChartCreator implements ChartCreator {
             log.error(e.getMessage());
             return new File("");
         }
-        log.info("CHART CREATED, path: " + destination.getAbsolutePath());
+        log.info("CHART CREATED, path: {}", destination.getAbsolutePath());
         return destination;
     }
 

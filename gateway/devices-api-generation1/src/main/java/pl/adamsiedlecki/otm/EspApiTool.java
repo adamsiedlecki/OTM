@@ -1,7 +1,6 @@
 package pl.adamsiedlecki.otm;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import pl.adamsiedlecki.otm.exception.EspNoResponseException;
 
@@ -12,10 +11,8 @@ import java.net.URL;
 import java.net.URLConnection;
 
 @Component
+@Slf4j
 public class EspApiTool {
-
-    private final Logger log = LoggerFactory.getLogger(EspApiTool.class);
-    private final long noResponseCounter = 0;
 
     public String getHtml(String apiAddress) throws EspNoResponseException {
         String content = null;
@@ -58,13 +55,9 @@ public class EspApiTool {
             content = getHtml(apiAddress);
         } catch (InterruptedException e) {
             log.error(e.getMessage());
+            Thread.currentThread().interrupt();
         } catch (EspNoResponseException e) {
-//            if (noResponseCounter < 2) {
-//                return espNoResponseStrategy(apiAddress);
-//            } else {
-//                noResponseCounter = 0;
-//                return content;
-//            }
+            log.error(e.getMessage());
         }
         return content;
     }

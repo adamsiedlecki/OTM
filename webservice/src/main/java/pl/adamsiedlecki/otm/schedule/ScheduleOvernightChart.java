@@ -13,7 +13,6 @@ import pl.adamsiedlecki.otm.externalServices.facebook.FacebookManager;
 import pl.adamsiedlecki.otm.schedule.tools.ScheduleTools;
 import pl.adamsiedlecki.otm.tools.charts.OvernightChartCreator;
 import pl.adamsiedlecki.otm.tools.charts.tools.ChartTitle;
-import pl.adamsiedlecki.otm.tools.net.Ping;
 import pl.adamsiedlecki.otm.tools.text.TextFormatters;
 
 import java.io.File;
@@ -32,9 +31,6 @@ public class ScheduleOvernightChart {
     private final OtmConfigProperties config;
     private final OvernightChartCreator chartCreator;
     private static final int TEN_MINUTES = 10 * 60 * 1000;
-    private final Ping ping;
-    private static final String ADDRESS = "facebook.com";
-    private static final short PORT = 443;
 
     @Scheduled(cron = "0 31 6 * * *")
     public void createAndPostChart() {
@@ -53,20 +49,16 @@ public class ScheduleOvernightChart {
 
     }
 
-    // complicated strategy in case of no internet access for some time
+    // strategy in case of no internet access for some time
     private void postChartOnlineStrategy(File chart, boolean isBelowZero, LocalDateTime generationTime) {
         for (int i = 0; i < 12; i++) {
             try {
-                if (ping.isReachable(ADDRESS, PORT)) {
-                    log.info("{} with port: {} is reachable; attempt number: {}", ADDRESS, PORT, i);
-                    postChart(chart, isBelowZero, generationTime);
-                    break;
-                } else {
-                    log.info("{} with port: {} is NOT reachable; attempt number: {}", ADDRESS, PORT, i);
-                    Thread.sleep(TEN_MINUTES);
-                }
-            } catch (InterruptedException e) {
-                log.error(e.getMessage());
+                postChart(chart, isBelowZero, generationTime);
+                break;
+            } catch (Exception ex) {
+                log.error("Posting chart on Facebook failed; attempt number: {}", i);
+                log.error(ex.getMessage());
+                sleep(TEN_MINUTES);
             }
         }
     }
@@ -79,5 +71,14 @@ public class ScheduleOvernightChart {
                 + TextFormatters.getPrettyDateTime(LocalDateTime.now())
                 + " ]");
         log.info("overnight chart posted on facebook");
+    }
+
+    private void sleep(int millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            log.error(e.getMessage());
+            Thread.currentThread().interrupt();
+        }
     }
 }
