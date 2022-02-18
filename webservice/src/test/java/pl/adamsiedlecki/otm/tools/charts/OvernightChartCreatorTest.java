@@ -3,7 +3,7 @@ package pl.adamsiedlecki.otm.tools.charts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.Test;
 import pl.adamsiedlecki.otm.config.OtmConfigProperties;
-import pl.adamsiedlecki.otm.db.tempData.TemperatureData;
+import pl.adamsiedlecki.otm.db.temperature.TemperatureData;
 import pl.adamsiedlecki.otm.testTools.BaseSpringTest;
 
 import java.io.File;
@@ -32,7 +32,6 @@ public class OvernightChartCreatorTest extends BaseSpringTest {
         File file = overnightChartCreator.createChart(tempList, 1000, 500, "just simple chart title");
 
         //then
-        waitForCreation();
         assertTrue(file.exists());
     }
 
@@ -45,7 +44,6 @@ public class OvernightChartCreatorTest extends BaseSpringTest {
         File file = overnightChartCreator.createChart(tempList, 1000, 500, "just simple chart title");
 
         //then
-        waitForCreation();
         assertTrue(file.exists());
     }
 
@@ -58,7 +56,6 @@ public class OvernightChartCreatorTest extends BaseSpringTest {
         File file = overnightChartCreator.createChart(tempList, config.getDefaultChartWidth(), config.getDefaultChartHeight(), "just simple chart title");
 
         //then
-        waitForCreation();
         assertTrue(file.exists());
     }
 
@@ -71,7 +68,6 @@ public class OvernightChartCreatorTest extends BaseSpringTest {
         File file = overnightChartCreator.createChart(tempList, config.getDefaultChartWidth(), config.getDefaultChartHeight(), "title of chart with data from 5 stations");
 
         //then
-        waitForCreation();
         assertTrue(file.exists());
     }
 
@@ -134,13 +130,5 @@ public class OvernightChartCreatorTest extends BaseSpringTest {
         td.setTransmitterName(stationName);
         td.setDate(time);
         td.setTemperatureCelsius(BigDecimal.valueOf(temperature));
-    }
-
-    private void waitForCreation() {
-        try {
-            Thread.sleep(400);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 }

@@ -1,7 +1,6 @@
 package pl.adamsiedlecki.otm.controller.secured;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,17 +8,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import pl.adamsiedlecki.otm.db.statistics.ExistingStatistics;
 import pl.adamsiedlecki.otm.db.statistics.StatisticsService;
 import pl.adamsiedlecki.otm.db.statistics.Statitics;
-import pl.adamsiedlecki.otm.db.tempData.TemperatureDataService;
+import pl.adamsiedlecki.otm.db.temperature.TemperatureDataService;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
+@Slf4j
 public class StatisticsController {
 
     private final TemperatureDataService tempDataService;
     private final StatisticsService statService;
-    private final Logger log = LoggerFactory.getLogger(StatisticsController.class);
 
     @Autowired
     public StatisticsController(TemperatureDataService tempDataService, StatisticsService statService) {
@@ -50,9 +49,7 @@ public class StatisticsController {
                                 long noResponseCount = s2.getsValue();
                                 float percentage = (float) noResponseCount / total * 100;
                                 model.addAttribute("espNoResponsePercentage", percentage + "%");
-                            }, () -> {
-                                model.addAttribute("espNoResponsePercentage", 0 + "%");
-                            });
+                            }, () -> model.addAttribute("espNoResponsePercentage", 0 + "%"));
                 });
 
     }

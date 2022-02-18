@@ -6,12 +6,13 @@ import org.springframework.stereotype.Service;
 import pl.adamsiedlecki.otm.config.OtmConfigProperties;
 import pl.adamsiedlecki.otm.db.location.Location;
 import pl.adamsiedlecki.otm.db.location.LocationService;
-import pl.adamsiedlecki.otm.db.locationPlace.LocationPlaceService;
-import pl.adamsiedlecki.otm.db.tempData.TemperatureData;
+import pl.adamsiedlecki.otm.db.location.place.LocationPlaceService;
+import pl.adamsiedlecki.otm.db.temperature.TemperatureData;
+import pl.adamsiedlecki.otm.dto.LocationPlaceDto;
 import pl.adamsiedlecki.otm.exception.EspNoResponseException;
-import pl.adamsiedlecki.otm.stationInfo.gen1.Gen1Device;
-import pl.adamsiedlecki.otm.stationInfo.gen1.Gen1DevicesInfo;
-import pl.adamsiedlecki.otm.stationInfo.locations.LocationPlacesInfo;
+import pl.adamsiedlecki.otm.station.info.gen1.Gen1Device;
+import pl.adamsiedlecki.otm.station.info.gen1.Gen1DevicesInfo;
+import pl.adamsiedlecki.otm.station.info.locations.LocationPlacesInfo;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -43,24 +44,25 @@ public class AllDevicesGen1TemperatureGetter {
         for (TemperatureData td : temperatureData) {
             Optional<Gen1Device> gen1Device = gen1DevicesInfo.getByOriginalName(td.getTransmitterName().trim());
             td.setDate(now);
-            updateNameAndLocation(td, gen1Device);
-            updateLocationPlace(td, gen1Device);
+            updateNameAndLocation(td, gen1Device.orElse(null));
+            updateLocationPlace(td, gen1Device.orElse(null));
         }
         return temperatureData;
     }
 
-    private void updateLocationPlace(TemperatureData td, Optional<Gen1Device> gen1Device) {
-        if (gen1Device.isPresent()) {
-            td.setLocationPlace(locationPlaceService.updateOrSave(locationPlacesInfo.getById(gen1Device.get().getLocationPlaceId())));
+    private void updateLocationPlace(TemperatureData td, Gen1Device gen1Device) {
+        if (gen1Device != null) {
+            Optional<LocationPlaceDto> locationPlaceDtoOptional = locationPlacesInfo.getById(gen1Device.getLocationPlaceId());
+            td.setLocationPlace(locationPlaceService.updateOrSave(locationPlaceDtoOptional.orElse(null)));
         }
     }
 
-    private void updateNameAndLocation(TemperatureData td, Optional<Gen1Device> gen1Device) {
-        if (gen1Device.isEmpty()) {
+    private void updateNameAndLocation(TemperatureData td, Gen1Device gen1Device) {
+        if (gen1Device == null) {
             log.error("No information found about gen1 device: " + td.getTransmitterName());
         } else {
-            td.setTransmitterName(td.getTransmitterName() + " " + gen1Device.get().getAliasName());
-            Location location = locationService.getOrSave("" + gen1Device.get().getLatitude(), "" + gen1Device.get().getLongitude());
+            td.setTransmitterName(td.getTransmitterName() + " " + gen1Device.getAliasName());
+            Location location = locationService.getOrSave("" + gen1Device.getLatitude(), "" + gen1Device.getLongitude());
             td.setLocation(location);
         }
     }

@@ -5,16 +5,15 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.XYPlot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.adamsiedlecki.otm.db.tempData.TemperatureData;
+import pl.adamsiedlecki.otm.db.temperature.TemperatureData;
 import pl.adamsiedlecki.otm.tools.charts.tools.ChartElementsCreator;
 import pl.adamsiedlecki.otm.tools.files.MyFilesystem;
 import pl.adamsiedlecki.otm.tools.text.TextFormatters;
+import pl.adamsiedlecki.otm.tools.uuid.UuidTool;
 
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.List;
 
@@ -42,19 +41,14 @@ public class ForecastChartCreator implements ChartCreator {
         chart.getLegend().setItemFont(font);
         chart.setBackgroundPaint(Color.YELLOW);
 
-        File file = new File(MyFilesystem.getStoragePath() + "img");
-        file.mkdirs();
-        URI uri = file.toURI();
-        String mainPath = Paths.get(uri).toString();
-
-        File destination = new File(mainPath + MyFilesystem.getSeparator() + "predictions.jpg");
+        File destination = new File(MyFilesystem.getForecastChartsPath() + UuidTool.getRandom() + ".jpg");
         try {
             ChartUtils.saveChartAsJPEG(destination, chart, width, height);
         } catch (IOException e) {
             log.error(e.getMessage());
             return new File("");
         }
-        log.info("CHART CREATED, path: " + destination.getAbsolutePath());
+        log.info("Chart created: {}", destination.getAbsolutePath());
         return destination;
     }
 }

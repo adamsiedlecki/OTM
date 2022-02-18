@@ -6,16 +6,15 @@ import org.jfree.chart.plot.XYPlot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import pl.adamsiedlecki.otm.db.tempData.TemperatureData;
+import pl.adamsiedlecki.otm.db.temperature.TemperatureData;
 import pl.adamsiedlecki.otm.tools.charts.tools.ChartElementsCreator;
 import pl.adamsiedlecki.otm.tools.files.MyFilesystem;
 import pl.adamsiedlecki.otm.tools.text.TextFormatters;
+import pl.adamsiedlecki.otm.tools.uuid.UuidTool;
 
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.List;
 
@@ -44,40 +43,14 @@ public class OvernightChartCreator implements ChartCreator {
                 JFreeChart.DEFAULT_TITLE_FONT, plot, true);
         chart.getLegend().setItemFont(font);
 
-        File destination = getDestinationAndMoveOthers();
+        File destination = new File(MyFilesystem.getOvernightChartsPath() + UuidTool.getRandom() + ".jpg");
         try {
             ChartUtils.saveChartAsJPEG(destination, chart, width, height);
         } catch (IOException e) {
             log.error(e.getMessage());
             return new File("");
         }
-        log.info("CHART CREATED, path: {}", destination.getAbsolutePath());
+        log.info("Chart created: {}", destination.getAbsolutePath());
         return destination;
     }
-
-    private File getDestinationAndMoveOthers() {
-        File file = new File(MyFilesystem.getStoragePath() + "img");
-        file.mkdirs();
-        URI uri = file.toURI();
-        String mainPath = Paths.get(uri).toString();
-
-        new File(mainPath + MyFilesystem.getSeparator() + "night7").delete();
-
-        File f = new File(mainPath + MyFilesystem.getSeparator() + "night6.jpg");
-        f.renameTo(new File(mainPath + MyFilesystem.getSeparator() + "night7.jpg"));
-        File f1 = new File(mainPath + MyFilesystem.getSeparator() + "night5.jpg");
-        f1.renameTo(new File(mainPath + MyFilesystem.getSeparator() + "night6.jpg"));
-        File f2 = new File(mainPath + MyFilesystem.getSeparator() + "night4.jpg");
-        f2.renameTo(new File(mainPath + MyFilesystem.getSeparator() + "night5.jpg"));
-        File f3 = new File(mainPath + MyFilesystem.getSeparator() + "night3.jpg");
-        f3.renameTo(new File(mainPath + MyFilesystem.getSeparator() + "night4.jpg"));
-        File f4 = new File(mainPath + MyFilesystem.getSeparator() + "night2.jpg");
-        f4.renameTo(new File(mainPath + MyFilesystem.getSeparator() + "night3.jpg"));
-        File f5 = new File(mainPath + MyFilesystem.getSeparator() + "night1.jpg");
-        f5.renameTo(new File(mainPath + MyFilesystem.getSeparator() + "night2.jpg"));
-
-        return new File(mainPath + MyFilesystem.getSeparator() + "night1.jpg");
-    }
-
-
 }

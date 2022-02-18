@@ -24,13 +24,9 @@
     </div>
     <input class="button" onClick="location.href='/admin-panel'" type="button" value="ADMIN PANEL">
 
-    <img th:src="@{/api/v1/image?name=night1.jpg}">
-    <img th:src="@{/api/v1/image?name=night2.jpg}">
-    <img th:src="@{/api/v1/image?name=night3.jpg}">
-    <img th:src="@{/api/v1/image?name=night4.jpg}">
-    <img th:src="@{/api/v1/image?name=night5.jpg}">
-    <img th:src="@{/api/v1/image?name=night6.jpg}">
-    <img th:src="@{/api/v1/image?name=night7.jpg}">
+    <th:block th:each="imageName: ${imageNames}">
+        <img th:src="@{/api/v1/image(name = ${imageName})}">
+    </th:block>
 
 </div>
 

@@ -3,8 +3,8 @@ package pl.adamsiedlecki.otm.data.fetcher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.adamsiedlecki.otm.AllDevicesGen1TemperatureGetter;
-import pl.adamsiedlecki.otm.db.tempData.TemperatureData;
-import pl.adamsiedlecki.otm.db.tempData.TemperatureDataService;
+import pl.adamsiedlecki.otm.db.temperature.TemperatureData;
+import pl.adamsiedlecki.otm.db.temperature.TemperatureDataService;
 import pl.adamsiedlecki.otm.devices.api.gen2.AllDevicesGen2TemperatureGetter;
 
 import java.util.ArrayList;

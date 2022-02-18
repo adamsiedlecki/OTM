@@ -8,10 +8,10 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.Test;
 import pl.adamsiedlecki.otm.OtmApplication;
-import pl.adamsiedlecki.otm.stationInfo.gen1.Gen1Device;
-import pl.adamsiedlecki.otm.stationInfo.gen1.Gen1DevicesInfo;
-import pl.adamsiedlecki.otm.stationInfo.gen2.Gen2Device;
-import pl.adamsiedlecki.otm.stationInfo.gen2.Gen2DevicesInfo;
+import pl.adamsiedlecki.otm.station.info.gen1.Gen1Device;
+import pl.adamsiedlecki.otm.station.info.gen1.Gen1DevicesInfo;
+import pl.adamsiedlecki.otm.station.info.gen2.Gen2Device;
+import pl.adamsiedlecki.otm.station.info.gen2.Gen2DevicesInfo;
 
 import java.util.List;
 

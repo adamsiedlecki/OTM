@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -29,16 +30,20 @@ public class OtmApplication {
 		ConfigurableApplicationContext ctx = SpringApplication.run(OtmApplication.class, args);
 		log.info("APPLICATION LAUNCHED");
 
-		// create admin if do not exist
+		createAdminUserIfNotExists(ctx);
+	}
+
+	private static void createAdminUserIfNotExists(ApplicationContext ctx) {
+		String admin = "admin";
 		UserDs userDs = ctx.getBean(UserDs.class);
-		if (userDs.getUserByUsername("admin").isEmpty()) {
-			User admin = User.UserBuilder
+		if (userDs.getUserByUsername(admin).isEmpty()) {
+			User user = User.UserBuilder
 					.anUser()
-					.withUsername("admin")
-					.withPassword("admin")
+					.withUsername(admin)
+					.withPassword(admin)
 					.withRoles(List.of(new UserAuthority("ADMIN")))
 					.build();
-			userDs.saveUser(admin);
+			userDs.saveUser(user);
 		}
 	}
 }

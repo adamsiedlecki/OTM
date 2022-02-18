@@ -4,15 +4,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.adamsiedlecki.otm.db.location.LocationService;
-import pl.adamsiedlecki.otm.db.locationPlace.LocationPlaceService;
-import pl.adamsiedlecki.otm.db.tempData.TemperatureData;
-import pl.adamsiedlecki.otm.stationInfo.gen2.Gen2DevicesInfo;
-import pl.adamsiedlecki.otm.stationInfo.locations.LocationPlacesInfo;
+import pl.adamsiedlecki.otm.db.location.place.LocationPlaceService;
+import pl.adamsiedlecki.otm.db.temperature.TemperatureData;
+import pl.adamsiedlecki.otm.dto.LocationPlaceDto;
+import pl.adamsiedlecki.otm.station.info.gen2.Gen2DevicesInfo;
+import pl.adamsiedlecki.otm.station.info.locations.LocationPlacesInfo;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,12 +39,13 @@ public class AllDevicesGen2TemperatureGetter {
                         log.error("Temperature request error catched: {}", ex.getMessage());
                         return null;
                     }
+                    Optional<LocationPlaceDto> locPlaceOptional = locationPlacesInfo.getById(gen2Device.getLocationPlaceId());
                     return TemperatureData.builder()
                             .date(now)
                             .temperatureCelsius(temperature)
                             .transmitterName(gen2Device.getName())
                             .location(locationService.getOrSave(gen2Device.getLatitude(), gen2Device.getLongitude()))
-                            .locationPlace(locationPlaceService.updateOrSave(locationPlacesInfo.getById(gen2Device.getLocationPlaceId())))
+                            .locationPlace(locationPlaceService.updateOrSave(locPlaceOptional.orElse(null)))
                             .build();
 
                 })

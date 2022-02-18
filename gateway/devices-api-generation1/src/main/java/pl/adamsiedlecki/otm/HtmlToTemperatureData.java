@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.stereotype.Component;
-import pl.adamsiedlecki.otm.db.tempData.TemperatureData;
+import pl.adamsiedlecki.otm.db.temperature.TemperatureData;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -35,25 +35,26 @@ class HtmlToTemperatureData {
     }
 
     private Optional<TemperatureData> getTemperatureDataByValues(String[] values) {
-        if (values.length > 1) {
-
-            TemperatureData temperatureData = new TemperatureData();
-            String name = values[0];
-            name = name.replaceAll("�", "");
-            temperatureData.setTransmitterName(name);
-
-            String temperature = values[1];
-            Optional<BigDecimal> optionalTemp = extractTemperature(temperature);
-            if (optionalTemp.isPresent()) {
-                temperatureData.setTemperatureCelsius(optionalTemp.get());
-            } else {
-                return Optional.empty();
-            }
-
-            return Optional.of(temperatureData);
+        if (values.length <= 1) {
+            return Optional.empty();
         }
-        return Optional.empty();
+
+        TemperatureData temperatureData = new TemperatureData();
+        String name = values[0];
+        name = name.replace("�", "");
+        temperatureData.setTransmitterName(name.trim());
+
+        String temperature = values[1];
+        Optional<BigDecimal> optionalTemp = extractTemperature(temperature);
+        if (optionalTemp.isPresent()) {
+            temperatureData.setTemperatureCelsius(optionalTemp.get());
+        } else {
+            return Optional.empty();
+        }
+
+        return Optional.of(temperatureData);
     }
+
 
     private Optional<BigDecimal> extractTemperature(String temperature) {
         temperature = temperature.trim();

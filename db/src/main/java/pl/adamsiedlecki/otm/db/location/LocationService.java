@@ -3,6 +3,7 @@ package pl.adamsiedlecki.otm.db.location;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,6 +30,10 @@ public class LocationService {
             locationRepo.saveAndFlush(loc);
             return loc;
         }
+    }
+
+    public List<Location> findAll() {
+        return locationRepo.findAll();
     }
 
     public long count() {

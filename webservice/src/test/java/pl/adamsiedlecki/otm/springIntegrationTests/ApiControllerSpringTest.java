@@ -12,9 +12,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pl.adamsiedlecki.otm.OtmApplication;
-import pl.adamsiedlecki.otm.controller.notSecured.api.ApiController;
-import pl.adamsiedlecki.otm.db.tempData.TemperatureData;
-import pl.adamsiedlecki.otm.db.tempData.TemperatureDataService;
+import pl.adamsiedlecki.otm.controller.not.secured.api.ApiController;
+import pl.adamsiedlecki.otm.db.temperature.TemperatureData;
+import pl.adamsiedlecki.otm.db.temperature.TemperatureDataService;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -118,9 +118,9 @@ public class ApiControllerSpringTest extends AbstractTestNGSpringContextTests {
     public Object[][] getCorrectGen1DataFromEsp() {
         return new Object[][]{
                 // order: reponseBodyGen1, responsesCount, stationIds, stationIdsAfterAliasing, stationTemperatures
-                arr("t1::9.49; t3::9.63; ", 3, List.of("t1", "t3", "1 stacja 2 generacji"), List.of("t1 staw", "t3 domek", "1 stacja 2 generacji"), List.of("9.49", "9.63", "21.37")),
-                arr("t2::9.48; t3::9.44; ", 3, List.of("t2", "t3", "1 stacja 2 generacji"), List.of("t2 gala", "t3 domek", "1 stacja 2 generacji"), List.of("9.48", "9.44", "21.37")),
-                arr("t1::9.49; t2::10.11; t3::-10.1; t4::-0.01; ", 5, List.of("t1", "t2", "t3", "t4", "1 stacja 2 generacji"), List.of("t1 staw", "t2 gala", "t3 domek", "t4", "1 stacja 2 generacji"), List.of("9.49", "10.11", "-10.1", "-0.01", "21.37")),
+                arr("t1::9.49;t3::9.63; ", 3, List.of("t1", "t3", "1 stacja 2 generacji"), List.of("t1 staw", "t3 domek", "1 stacja 2 generacji"), List.of("9.49", "9.63", "21.37")),
+                arr("t2::9.48;t3::9.44; ", 3, List.of("t2", "t3", "1 stacja 2 generacji"), List.of("t2 gala", "t3 domek", "1 stacja 2 generacji"), List.of("9.48", "9.44", "21.37")),
+                arr("t1::9.49;t2::10.11;t3::-10.1;t4::-0.01; ", 5, List.of("t1", "t2", "t3", "t4", "1 stacja 2 generacji"), List.of("t1 staw", "t2 gala", "t3 domek", "t4", "1 stacja 2 generacji"), List.of("9.49", "10.11", "-10.1", "-0.01", "21.37")),
         };
     }
 

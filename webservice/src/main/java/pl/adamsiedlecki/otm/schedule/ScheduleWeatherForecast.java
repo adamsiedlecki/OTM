@@ -7,14 +7,14 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import pl.adamsiedlecki.otm.config.OtmConfigProperties;
-import pl.adamsiedlecki.otm.db.tempData.TemperatureData;
-import pl.adamsiedlecki.otm.db.tempDataAlias.TempDataAlias;
-import pl.adamsiedlecki.otm.db.tempDataAlias.TempDataAliasService;
-import pl.adamsiedlecki.otm.externalServices.facebook.FacebookManager;
-import pl.adamsiedlecki.otm.externalServices.openWeather.OpenWeatherFetcher;
-import pl.adamsiedlecki.otm.externalServices.openWeather.OpenWeatherTools;
-import pl.adamsiedlecki.otm.externalServices.openWeather.pojo.openWeatherTwoDaysAhead.Hourly;
-import pl.adamsiedlecki.otm.externalServices.openWeather.pojo.openWeatherTwoDaysAhead.OpenWeatherTwoDaysAheadPojo;
+import pl.adamsiedlecki.otm.db.location.Location;
+import pl.adamsiedlecki.otm.db.location.LocationService;
+import pl.adamsiedlecki.otm.db.temperature.TemperatureData;
+import pl.adamsiedlecki.otm.external.services.facebook.FacebookManager;
+import pl.adamsiedlecki.otm.external.services.open.weather.OpenWeatherFetcher;
+import pl.adamsiedlecki.otm.external.services.open.weather.OpenWeatherTools;
+import pl.adamsiedlecki.otm.external.services.open.weather.pojo.open.weather.two.days.ahead.Hourly;
+import pl.adamsiedlecki.otm.external.services.open.weather.pojo.open.weather.two.days.ahead.OpenWeatherTwoDaysAheadPojo;
 import pl.adamsiedlecki.otm.schedule.tools.ScheduleTools;
 import pl.adamsiedlecki.otm.tools.charts.ChartCreator;
 import pl.adamsiedlecki.otm.tools.charts.ForecastChartCreator;
@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
 public class ScheduleWeatherForecast {
 
     private final Logger log = LoggerFactory.getLogger(ScheduleWeatherForecast.class);
-    private final TempDataAliasService aliasService;
+    private final LocationService locationService;
     private final OpenWeatherFetcher openWeatherFetcher;
     private final FacebookManager facebookManager;
     private final ScheduleTools scheduleTools;
@@ -47,7 +47,7 @@ public class ScheduleWeatherForecast {
     public void publishOpenWeatherPredictions() {
         log.info("SCHEDULE 0 0 20 RUNNING");
 
-        Optional<OpenWeatherTwoDaysAheadPojo> twoDaysAhead = getTwoDaysAheadBasedOnStationCoordinates("t1");
+        Optional<OpenWeatherTwoDaysAheadPojo> twoDaysAhead = getTwoDaysAheadBasedOnFirstLocationFromDb();
         if (twoDaysAhead.isPresent()) {
             List<Hourly> hourly = twoDaysAhead.get().getHourly();
             hourly = openWeatherTools.getOnlyXHoursForward(hourly, 11);
@@ -77,13 +77,13 @@ public class ScheduleWeatherForecast {
 
     }
 
-    private Optional<OpenWeatherTwoDaysAheadPojo> getTwoDaysAheadBasedOnStationCoordinates(String stationName) {
-        Optional<TempDataAlias> t1 = aliasService.findByOriginalName(stationName);
-        if (t1.isPresent()) {
-            return openWeatherFetcher.getTwoDaysAhead(t1.get().getLatitude(), t1.get().getLongitude());
+    private Optional<OpenWeatherTwoDaysAheadPojo> getTwoDaysAheadBasedOnFirstLocationFromDb() {
+        Optional<Location> optionalLocation = locationService.findAll().stream().findFirst();
+        if (optionalLocation.isPresent()) {
+            return openWeatherFetcher.getTwoDaysAhead(optionalLocation.get().getLatitude(), optionalLocation.get().getLongitude());
 
         } else {
-            log.error("alias t1 now found");
+            log.error("there are no locations in database to use for weather forecast");
         }
         return Optional.empty();
     }

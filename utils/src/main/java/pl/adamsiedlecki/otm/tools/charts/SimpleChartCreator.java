@@ -6,7 +6,7 @@ import org.jfree.chart.plot.XYPlot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import pl.adamsiedlecki.otm.db.tempData.TemperatureData;
+import pl.adamsiedlecki.otm.db.temperature.TemperatureData;
 import pl.adamsiedlecki.otm.tools.charts.tools.ChartElementsCreator;
 import pl.adamsiedlecki.otm.tools.files.MyFilesystem;
 import pl.adamsiedlecki.otm.tools.text.TextFormatters;
@@ -15,6 +15,8 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.List;
@@ -28,7 +30,7 @@ public class SimpleChartCreator implements ChartCreator {
 
     @Override
     public File createChart(List<TemperatureData> temperatureDataList, int width, int height, String title) {
-        if (temperatureDataList.size() == 0) {
+        if (temperatureDataList.isEmpty()) {
             return new File("");
         }
         temperatureDataList.sort(Comparator.comparing(TemperatureData::getDate));
@@ -43,17 +45,24 @@ public class SimpleChartCreator implements ChartCreator {
                 JFreeChart.DEFAULT_TITLE_FONT, plot, true);
         chart.getLegend().setItemFont(font);
 
-        URI uri = null;
+        URI uri;
         File file = new File(MyFilesystem.getStoragePath() + "img");
-        file.mkdirs();
+        if (!file.mkdirs()) {
+            log.error("Failed to mkdir for chart");
+        }
         uri = file.toURI();
         String mainPath = Paths.get(uri).toString();
-        new File(mainPath + MyFilesystem.getSeparator() + "chart.jpg").delete();
+        try {
+            Files.delete(Path.of(mainPath, MyFilesystem.getSeparator(), "chart.jpg"));
+        } catch (IOException e) {
+            log.error("Failed to delete file {}", e.getMessage());
+        }
+
 
         File destination = new File(mainPath + MyFilesystem.getSeparator() + "chart.jpg");
         try {
             ChartUtils.saveChartAsJPEG(destination, chart, width, height);
-            log.info("CHART CREATED");
+            log.info("Chart created");
         } catch (IOException e) {
             log.error(e.getMessage());
         }

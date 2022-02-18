@@ -5,8 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import pl.adamsiedlecki.otm.db.tempData.TemperatureData;
-import pl.adamsiedlecki.otm.externalServices.facebook.FacebookManager;
+import pl.adamsiedlecki.otm.db.temperature.TemperatureData;
+import pl.adamsiedlecki.otm.external.services.facebook.FacebookManager;
 import pl.adamsiedlecki.otm.tools.text.TextFormatters;
 
 import java.math.BigDecimal;
@@ -39,7 +39,7 @@ public class ScheduleTools {
 
     // one post is created for 12 hours; next data is published as comment of this post
     public void sendPostOrComment(List<TemperatureData> data) {
-        if (data.size() == 0) {
+        if (data.isEmpty()) {
             return;
         }
         boolean isBelowZero = getBelowZero(data);
@@ -59,12 +59,12 @@ public class ScheduleTools {
             if (lastTextPostTime == null || LocalDateTime.now().isAfter(lastTextPostTime.plusHours(12))) {
                 lastTextPostTime = LocalDateTime.now();
                 lastTextPostId = facebookManager.postMessage(sb.toString());
-                log.info("Text Post id: " + lastTextPostId);
+                log.info("Text Post id: {}", lastTextPostId);
 
             } else {
                 // in case of commenting existing post
                 String commentId = facebookManager.postComment(lastTextPostId, sb.toString());
-                log.info("Comment id: " + commentId);
+                log.info("Comment id: {}", commentId);
             }
         }
     }

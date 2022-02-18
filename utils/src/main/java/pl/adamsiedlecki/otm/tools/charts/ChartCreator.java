@@ -1,6 +1,6 @@
 package pl.adamsiedlecki.otm.tools.charts;
 
-import pl.adamsiedlecki.otm.db.tempData.TemperatureData;
+import pl.adamsiedlecki.otm.db.temperature.TemperatureData;
 
 import java.io.File;
 import java.util.List;
