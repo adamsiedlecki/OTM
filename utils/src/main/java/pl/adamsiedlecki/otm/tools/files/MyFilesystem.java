@@ -27,25 +27,36 @@ public class MyFilesystem {
 
     public static String getStoragePath() {
         if (SystemDetect.isUnix()) {
-            return SEP + STORAGE + SEP; // /storage/
+            return SEP + STORAGE + SEP;
         } else {
             return STORAGE + SEP;
         }
     }
 
     public static String getOvernightChartsPath() {
+        String path = STORAGE + SEP + "img" + SEP + "overnightCharts" + SEP;
         if (SystemDetect.isUnix()) {
-            return SEP + STORAGE + SEP + "img" + SEP + "overnightCharts" + SEP; // /storage/
+            return SEP + path;
         } else {
-            return STORAGE + SEP + "img" + SEP + "overnightCharts" + SEP;
+            return path;
         }
     }
 
     public static String getForecastChartsPath() {
+        String path = STORAGE + SEP + "img" + SEP + "forecastCharts" + SEP;
         if (SystemDetect.isUnix()) {
-            return SEP + STORAGE + SEP + "img" + SEP + "forecastCharts" + SEP; // /storage/
+            return SEP + path;
         } else {
-            return STORAGE + SEP + "img" + SEP + "forecastCharts" + SEP;
+            return path;
+        }
+    }
+
+    public static String getOnDemandChartsPath() {
+        String path = STORAGE + SEP + "img" + SEP + "onDemandCharts" + SEP;
+        if (SystemDetect.isUnix()) {
+            return SEP + path;
+        } else {
+            return path;
         }
     }
 
@@ -62,6 +73,7 @@ public class MyFilesystem {
         log.info("Performing old files cleanup");
         deleteAllFilesInDirectory(new File(getForecastChartsPath()));
         deleteAllFilesInDirectory(new File(getOvernightChartsPath()));
+        deleteAllFilesInDirectory(new File(getOnDemandChartsPath()));
     }
 
     @PostConstruct
@@ -70,6 +82,9 @@ public class MyFilesystem {
             log.error("Error creating directories for forecast charts");
         }
         if (!new File(getOvernightChartsPath()).mkdirs()) {
+            log.error("Error creating directories for overnight charts");
+        }
+        if (!new File(getOnDemandChartsPath()).mkdirs()) {
             log.error("Error creating directories for overnight charts");
         }
     }
