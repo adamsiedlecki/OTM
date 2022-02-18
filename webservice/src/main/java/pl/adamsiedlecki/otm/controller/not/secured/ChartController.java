@@ -1,6 +1,7 @@
 package pl.adamsiedlecki.otm.controller.not.secured;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,10 +11,12 @@ import pl.adamsiedlecki.otm.db.temperature.TemperatureDataService;
 import pl.adamsiedlecki.otm.tools.charts.SimpleChartCreator;
 import pl.adamsiedlecki.otm.tools.charts.tools.ChartTitle;
 
+import java.io.File;
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class ChartController {
 
     private final TemperatureDataService temperatureDataService;
@@ -23,12 +26,14 @@ public class ChartController {
     public String getIndex(Model model,
                            @RequestParam(value = "numberOfHours") int numberOfHours,
                            @RequestParam(value = "width", defaultValue = "${otm.default.chart.width}") int width,
-                           @RequestParam(value = "height", defaultValue = "${otm.default.chart.height}") int height
-    ) {
+                           @RequestParam(value = "height", defaultValue = "${otm.default.chart.height}") int height) {
         List<TemperatureData> temperatureData = temperatureDataService.findAllLastXHours(numberOfHours);
         if (temperatureData.isEmpty()) {
-            chartCreator.createChart(temperatureData, width, height, ChartTitle.DEFAULT.get());
+            model.addAttribute("filename", "notEnoughData");
+            return "chart";
         }
+        File chart = chartCreator.createChart(temperatureData, width, height, ChartTitle.DEFAULT.get());
+        model.addAttribute("filename", chart.getName());
         return "chart";
     }
 }

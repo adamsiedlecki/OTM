@@ -22,7 +22,7 @@ public class MainPageController {
     @GetMapping("/main")
     public String getIndex(Model model) {
         List<String> overnightChartsFilenameList = Arrays
-                .stream(myFilesystem.getAllFilesInDirectory(new File(MyFilesystem.getOvernightChartsPath())))
+                .stream(myFilesystem.getAllFilesInDirectory(new File(myFilesystem.getOvernightChartsPath())))
                 .sorted((file1, file2) -> {
                     Optional<BasicFileAttributes> optionalBasicFileAttributes1 = myFilesystem.getFileAttributes(file1);
                     Optional<BasicFileAttributes> optionalBasicFileAttributes2 = myFilesystem.getFileAttributes(file2);

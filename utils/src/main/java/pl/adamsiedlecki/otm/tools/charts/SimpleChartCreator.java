@@ -30,6 +30,7 @@ public class SimpleChartCreator implements ChartCreator {
     @Override
     public File createChart(List<TemperatureData> temperatureDataList, int width, int height, String title) {
         if (temperatureDataList.isEmpty()) {
+            log.error("Cannot create chart due to no data");
             return new File("");
         }
         temperatureDataList.sort(Comparator.comparing(TemperatureData::getDate));
@@ -44,12 +45,13 @@ public class SimpleChartCreator implements ChartCreator {
                 JFreeChart.DEFAULT_TITLE_FONT, plot, true);
         chart.getLegend().setItemFont(font);
 
-        File destination = new File(MyFilesystem.getOnDemandChartsPath() + UuidTool.getRandom());
+        String path = myFilesystem.getOnDemandChartsPath() + UuidTool.getRandom() + ".jpg";
+        File destination = new File(path);
         try {
             ChartUtils.saveChartAsJPEG(destination, chart, width, height);
-            log.info("Chart created");
+            log.info("On-demand chart created: {}", destination.getName());
         } catch (IOException e) {
-            log.error(e.getMessage());
+            log.error("Error while creating a chart: {}", e.getMessage());
         }
         return destination;
     }

@@ -33,7 +33,7 @@ public class MyFilesystem {
         }
     }
 
-    public static String getOvernightChartsPath() {
+    public String getOvernightChartsPath() {
         String path = STORAGE + SEP + "img" + SEP + "overnightCharts" + SEP;
         if (SystemDetect.isUnix()) {
             return SEP + path;
@@ -42,7 +42,7 @@ public class MyFilesystem {
         }
     }
 
-    public static String getForecastChartsPath() {
+    public String getForecastChartsPath() {
         String path = STORAGE + SEP + "img" + SEP + "forecastCharts" + SEP;
         if (SystemDetect.isUnix()) {
             return SEP + path;
@@ -51,17 +51,13 @@ public class MyFilesystem {
         }
     }
 
-    public static String getOnDemandChartsPath() {
+    public String getOnDemandChartsPath() {
         String path = STORAGE + SEP + "img" + SEP + "onDemandCharts" + SEP;
         if (SystemDetect.isUnix()) {
             return SEP + path;
         } else {
             return path;
         }
-    }
-
-    public static String getSeparator() {
-        return SEP;
     }
 
     public static boolean fileExistsAndIsNoOlderThanXSeconds(File file, long x) {
@@ -79,13 +75,13 @@ public class MyFilesystem {
     @PostConstruct
     public void makeAllDirectories() {
         if (!new File(getForecastChartsPath()).mkdirs()) {
-            log.error("Error creating directories for forecast charts");
+            log.warn("Cannot create directories for forecast charts");
         }
         if (!new File(getOvernightChartsPath()).mkdirs()) {
-            log.error("Error creating directories for overnight charts");
+            log.warn("Cannot create directories for overnight charts");
         }
         if (!new File(getOnDemandChartsPath()).mkdirs()) {
-            log.error("Error creating directories for overnight charts");
+            log.warn("Cannot create directories for overnight charts");
         }
     }
 

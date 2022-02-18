@@ -16,7 +16,6 @@ import pl.adamsiedlecki.otm.external.services.open.weather.OpenWeatherTools;
 import pl.adamsiedlecki.otm.external.services.open.weather.pojo.open.weather.two.days.ahead.Hourly;
 import pl.adamsiedlecki.otm.external.services.open.weather.pojo.open.weather.two.days.ahead.OpenWeatherTwoDaysAheadPojo;
 import pl.adamsiedlecki.otm.schedule.tools.ScheduleTools;
-import pl.adamsiedlecki.otm.tools.charts.ChartCreator;
 import pl.adamsiedlecki.otm.tools.charts.ForecastChartCreator;
 import pl.adamsiedlecki.otm.tools.charts.tools.ChartTitle;
 import pl.adamsiedlecki.otm.tools.files.MyFilesystem;
@@ -42,6 +41,7 @@ public class ScheduleWeatherForecast {
     private final ScheduleTools scheduleTools;
     private final OpenWeatherTools openWeatherTools = new OpenWeatherTools();
     private final OtmConfigProperties config;
+    private final ForecastChartCreator chartCreator;
 
     @Scheduled(cron = "0 0 20 * * *")
     public void publishOpenWeatherPredictions() {
@@ -61,7 +61,6 @@ public class ScheduleWeatherForecast {
             }).collect(Collectors.toList());
             boolean isBelowZero = scheduleTools.getBelowZero(predictionTdList);
 
-            ChartCreator chartCreator = new ForecastChartCreator();
             File chart = chartCreator.createChart(predictionTdList, config.getDefaultChartWidth(), config.getDefaultChartHeight(), ChartTitle.OPEN_WEATHER_FORECAST.get());
             if (MyFilesystem.fileExistsAndIsNoOlderThanXSeconds(chart, 10)) {
                 facebookManager.postChart(chart,
