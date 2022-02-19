@@ -50,7 +50,7 @@ public class OvernightChartCreatorTest extends BaseSpringTest {
     @Test
     public void shouldCreateChartUsingRandomDataWithRealDimensions() {
         //given
-        List<TemperatureData> tempList = prepareRandomTemperatureDataList(10);
+        List<TemperatureData> tempList = prepareRandomTemperatureDataList(6);
 
         //when
         File file = overnightChartCreator.createChart(tempList, config.getDefaultChartWidth(), config.getDefaultChartHeight(), "just simple chart title");

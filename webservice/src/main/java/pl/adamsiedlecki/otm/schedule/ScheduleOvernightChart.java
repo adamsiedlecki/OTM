@@ -1,8 +1,7 @@
 package pl.adamsiedlecki.otm.schedule;
 
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -22,9 +21,9 @@ import java.util.List;
 @Component
 @Scope("singleton")
 @RequiredArgsConstructor
+@Slf4j
 public class ScheduleOvernightChart {
 
-    private final Logger log = LoggerFactory.getLogger(ScheduleOvernightChart.class);
     private final TemperatureDataService temperatureDataService;
     private final FacebookManager facebookManager;
     private final ScheduleTools scheduleTools;
@@ -38,13 +37,13 @@ public class ScheduleOvernightChart {
 
         List<TemperatureData> lastXHours = temperatureDataService.findAllLastXHours(9);
         if (!lastXHours.isEmpty()) {
-            log.info("there is enough data to build overnight chart");
+            log.info("There is enough data to build overnight chart");
             boolean isBelowZero = scheduleTools.getBelowZero(lastXHours);
 
             File chart = chartCreator.createChart(lastXHours, config.getDefaultChartWidth(), config.getDefaultChartHeight(), ChartTitle.DEFAULT.get());
             postChartOnlineStrategy(chart, isBelowZero, LocalDateTime.now());
         } else {
-            log.info("there is NOT enough data to build overnight chart");
+            log.info("There is NOT enough data to build overnight chart");
         }
 
     }
@@ -64,7 +63,7 @@ public class ScheduleOvernightChart {
     }
 
     private void postChart(File chart, boolean isBelowZero, LocalDateTime generationTime) {
-        facebookManager.postChart(chart, scheduleTools.getEmoji(isBelowZero)
+        facebookManager.postChart(chart, scheduleTools.getTemperatureEmoji(isBelowZero)
                 + "Ostatnia noc \n [ wygenerowano: "
                 + TextFormatters.getPrettyDateTime(generationTime)
                 + ", \n opublikowano: "

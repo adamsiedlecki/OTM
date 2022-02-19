@@ -17,10 +17,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/img/**", "/image/**"
     };
 
-
-    public WebSecurityConfig() {
-    }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http

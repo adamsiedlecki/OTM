@@ -1,8 +1,7 @@
 package pl.adamsiedlecki.otm.schedule;
 
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -32,16 +31,16 @@ import java.util.stream.Collectors;
 @Component
 @Scope("singleton")
 @RequiredArgsConstructor
+@Slf4j
 public class ScheduleWeatherForecast {
 
-    private final Logger log = LoggerFactory.getLogger(ScheduleWeatherForecast.class);
     private final LocationService locationService;
     private final OpenWeatherFetcher openWeatherFetcher;
     private final FacebookManager facebookManager;
     private final ScheduleTools scheduleTools;
-    private final OpenWeatherTools openWeatherTools = new OpenWeatherTools();
     private final OtmConfigProperties config;
     private final ForecastChartCreator chartCreator;
+    private final OpenWeatherTools openWeatherTools = new OpenWeatherTools();
 
     @Scheduled(cron = "0 0 20 * * *")
     public void publishOpenWeatherPredictions() {
@@ -64,8 +63,8 @@ public class ScheduleWeatherForecast {
             File chart = chartCreator.createChart(predictionTdList, config.getDefaultChartWidth(), config.getDefaultChartHeight(), ChartTitle.OPEN_WEATHER_FORECAST.get());
             if (MyFilesystem.fileExistsAndIsNoOlderThanXSeconds(chart, 10)) {
                 facebookManager.postChart(chart,
-                        scheduleTools.getEmoji(isBelowZero)
-                                + " Prognoza z Open Weather na najbliższy czas: \n [ wygenerowano "
+                        scheduleTools.getTemperatureEmoji(isBelowZero)
+                                + " Prognoza z OpenWeather na najbliższy czas: \n [ wygenerowano "
                                 + TextFormatters.getPrettyDateTime(LocalDateTime.now()) + " ]");
             } else {
                 log.error("prediction chart does not exist or is older than 10 seconds");

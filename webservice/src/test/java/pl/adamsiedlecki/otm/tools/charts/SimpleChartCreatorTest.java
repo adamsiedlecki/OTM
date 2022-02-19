@@ -38,7 +38,7 @@ public class SimpleChartCreatorTest extends BaseSpringTest {
     @Test
     public void shouldCreateChartUsingRandomData() {
         //given
-        List<TemperatureData> tempList = prepareRandomTemperatureDataList(10);
+        List<TemperatureData> tempList = prepareRandomTemperatureDataList(6);
 
         //when
         File file = simpleChartCreator.createChart(tempList, 1000, 500, "just simple chart title");

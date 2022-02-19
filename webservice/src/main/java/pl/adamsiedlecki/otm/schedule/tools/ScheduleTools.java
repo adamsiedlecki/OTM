@@ -1,8 +1,8 @@
 package pl.adamsiedlecki.otm.schedule.tools;
 
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import pl.adamsiedlecki.otm.db.temperature.TemperatureData;
@@ -16,6 +16,7 @@ import java.util.List;
 
 @Component
 @Scope("singleton")
+@RequiredArgsConstructor
 public class ScheduleTools {
 
     private final FacebookManager facebookManager;
@@ -23,13 +24,7 @@ public class ScheduleTools {
     private LocalDateTime lastTextPostTime;
     private String lastTextPostId;
 
-
-    @Autowired
-    public ScheduleTools(FacebookManager facebookManager) {
-        this.facebookManager = facebookManager;
-    }
-
-    public String getEmoji(boolean isBelowZero) {
+    public String getTemperatureEmoji(boolean isBelowZero) {
         if (isBelowZero) {
             return "❄️";
         } else {
@@ -48,7 +43,7 @@ public class ScheduleTools {
             data.sort(Comparator.comparing(TemperatureData::getTemperatureCelsius));
             log.info("TEMPERATURES BELOW ZERO FOUND!");
             StringBuilder sb = new StringBuilder();
-            sb.append(getEmoji(true)).append(" Odnotowano temperaturę < 0  \n  [ ");
+            sb.append(getTemperatureEmoji(true)).append(" Odnotowano temperaturę < 0  \n  [ ");
             sb.append(TextFormatters.getPrettyDateTime(data.get(0).getDate()));
             sb.append(" ]\n ");
             for (TemperatureData td : data) {
