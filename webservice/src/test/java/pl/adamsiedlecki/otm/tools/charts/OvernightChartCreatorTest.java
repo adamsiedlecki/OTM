@@ -2,10 +2,12 @@ package pl.adamsiedlecki.otm.tools.charts;
 
 import org.awaitility.Awaitility;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 import pl.adamsiedlecki.otm.config.OtmConfigProperties;
 import pl.adamsiedlecki.otm.db.temperature.TemperatureData;
 import pl.adamsiedlecki.otm.testTools.BaseSpringTest;
+import pl.adamsiedlecki.otm.tools.files.MyFilesystem;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -25,6 +27,14 @@ public class OvernightChartCreatorTest extends BaseSpringTest {
     @Autowired
     private OtmConfigProperties config;
 
+    @Autowired
+    private MyFilesystem myFilesystem;
+
+    @AfterClass
+    private void clean() {
+        myFilesystem.removeAllFilesFromFileSystem();
+    }
+
     @Test
     public void shouldCreateChart() {
         //given
@@ -41,7 +51,7 @@ public class OvernightChartCreatorTest extends BaseSpringTest {
     @Test
     public void shouldCreateChartUsingRandomData() {
         //given
-        List<TemperatureData> tempList = prepareRandomTemperatureDataList(10);
+        List<TemperatureData> tempList = prepareRandomTemperatureDataList(6);
 
         //when
         File file = overnightChartCreator.createChart(tempList, 1000, 500, "just simple chart title");
@@ -60,7 +70,7 @@ public class OvernightChartCreatorTest extends BaseSpringTest {
         File file = overnightChartCreator.createChart(tempList, config.getDefaultChartWidth(), config.getDefaultChartHeight(), "just simple chart title");
 
         //then
-        Awaitility.await().atMost(10, TimeUnit.SECONDS).until(file::exists);
+        Awaitility.await().atMost(20, TimeUnit.SECONDS).until(file::exists);
         assertTrue(file.exists());
     }
 
@@ -102,7 +112,7 @@ public class OvernightChartCreatorTest extends BaseSpringTest {
     private List<TemperatureData> prepareRandomTemperatureDataList(int maxStationAmount) {
         Random rand = new Random();
         List<TemperatureData> tdList = new ArrayList<>();
-        int stationAmount = rand.nextInt(maxStationAmount + 1);
+        int stationAmount = rand.nextInt(maxStationAmount) + 1;
         LocalDateTime start = LocalDateTime.of(2021, 11, 1, 22, 0);
 
         for (int i = 1; i <= stationAmount; i++) {

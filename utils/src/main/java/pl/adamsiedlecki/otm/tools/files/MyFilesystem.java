@@ -60,16 +60,20 @@ public class MyFilesystem {
         }
     }
 
-    public static boolean fileExistsAndIsNoOlderThanXSeconds(File file, long x) {
+    public void removeAllFilesFromFileSystem() {
+        deleteAllFilesInDirectory(new File(getStoragePath()), 0);
+    }
+
+    public boolean fileExistsAndIsNoOlderThanXSeconds(File file, long x) {
         return file.exists() && (System.currentTimeMillis() - file.lastModified()) < (x * 1000);
     }
 
     @Scheduled(cron = "0 0 0 1 * *") // first day of month
     public void cleanupOldFiles() {
         log.info("Performing old files cleanup");
-        deleteAllFilesInDirectory(new File(getForecastChartsPath()));
-        deleteAllFilesInDirectory(new File(getOvernightChartsPath()));
-        deleteAllFilesInDirectory(new File(getOnDemandChartsPath()));
+        deleteAllFilesInDirectory(new File(getForecastChartsPath()), TWO_WEEKS_MILLIS);
+        deleteAllFilesInDirectory(new File(getOvernightChartsPath()), TWO_WEEKS_MILLIS);
+        deleteAllFilesInDirectory(new File(getOnDemandChartsPath()), TWO_WEEKS_MILLIS);
     }
 
     @PostConstruct
@@ -85,16 +89,16 @@ public class MyFilesystem {
         }
     }
 
-    private void deleteAllFilesInDirectory(File directory) {
-        if (!directory.isDirectory()) {
-            log.error(THIS_IS_NOT_A_DIRECTORY, directory.getAbsolutePath());
+    private void deleteAllFilesInDirectory(File file, long minimalAgeMillis) {
+        if (!file.isDirectory()) {
+            deleteFile(file);
             return;
         }
-        final File[] filesToDelete = directory.listFiles(file -> {
+        final File[] filesToDelete = file.listFiles(f -> {
             BasicFileAttributes attributes;
             try {
-                attributes = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
-                return System.currentTimeMillis() - attributes.lastModifiedTime().toMillis() >= TWO_WEEKS_MILLIS;
+                attributes = Files.readAttributes(f.toPath(), BasicFileAttributes.class);
+                return System.currentTimeMillis() - attributes.lastModifiedTime().toMillis() >= minimalAgeMillis;
             } catch (IOException e) {
                 log.error("Failed to read file attributes: {}", e.getMessage());
             }
@@ -105,12 +109,16 @@ public class MyFilesystem {
             return;
         }
         for (File fileToDelete : filesToDelete) {
-            try {
-                Files.delete(fileToDelete.toPath());
-                log.info("Deleted file successfully: {}", fileToDelete.getName());
-            } catch (IOException e) {
-                log.error("There was an error deleting a file: {}", e.getMessage());
-            }
+            deleteAllFilesInDirectory(fileToDelete, minimalAgeMillis);
+        }
+    }
+
+    private void deleteFile(File fileToDelete) {
+        try {
+            Files.delete(fileToDelete.toPath());
+            log.info("Deleted file successfully: {}", fileToDelete.getName());
+        } catch (IOException e) {
+            log.error("There was an error deleting a file: {}", e.getMessage());
         }
     }
 

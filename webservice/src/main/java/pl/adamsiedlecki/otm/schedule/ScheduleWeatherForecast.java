@@ -43,6 +43,7 @@ public class ScheduleWeatherForecast {
     private final ScheduleTools scheduleTools;
     private final OtmConfigProperties config;
     private final ForecastChartCreator chartCreator;
+    private final MyFilesystem myFilesystem;
     private final OpenWeatherTools openWeatherTools = new OpenWeatherTools();
 
     @Scheduled(cron = "0 0 20 * * *")
@@ -64,7 +65,7 @@ public class ScheduleWeatherForecast {
             boolean isBelowZero = scheduleTools.getBelowZero(predictionTdList);
 
             File chart = chartCreator.createChart(predictionTdList, config.getDefaultChartWidth(), config.getDefaultChartHeight(), ChartTitle.OPEN_WEATHER_FORECAST.get());
-            if (MyFilesystem.fileExistsAndIsNoOlderThanXSeconds(chart, MAX_CHART_AGE_IN_SECONDS)) {
+            if (myFilesystem.fileExistsAndIsNoOlderThanXSeconds(chart, MAX_CHART_AGE_IN_SECONDS)) {
                 facebookManager.postChart(chart,
                         scheduleTools.getTemperatureEmoji(isBelowZero)
                                 + " Prognoza z OpenWeather na najbliższy czas: \n [ wygenerowano "

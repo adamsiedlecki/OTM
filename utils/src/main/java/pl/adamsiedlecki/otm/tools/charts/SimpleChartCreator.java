@@ -24,7 +24,7 @@ import java.util.List;
 public class SimpleChartCreator implements ChartCreator {
 
     private final Font font = new Font("Dialog", Font.PLAIN, 14);
-    private final ChartElementsCreator elemCreator = new ChartElementsCreator();
+    private final ChartElementsCreator elemCreator;
     private final MyFilesystem myFilesystem;
 
     @Override

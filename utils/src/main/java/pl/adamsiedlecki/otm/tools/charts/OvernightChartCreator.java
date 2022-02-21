@@ -25,7 +25,7 @@ public class OvernightChartCreator implements ChartCreator {
 
     private final Logger log = LoggerFactory.getLogger(OvernightChartCreator.class);
     private final Font font = new Font("Dialog", Font.PLAIN, 14);
-    private final ChartElementsCreator elemCreator = new ChartElementsCreator();
+    private final ChartElementsCreator elemCreator;
     private final MyFilesystem myFilesystem;
 
     @Override
