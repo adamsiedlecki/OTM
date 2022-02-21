@@ -36,6 +36,7 @@
         <mysql.connector.version>8.0.27</mysql.connector.version>
         <h2.test.database.version>1.4.200</h2.test.database.version>
         <hibernate.validator.version>6.0.16.Final</hibernate.validator.version>
+        <awaitility.version>3.0.0</awaitility.version>
     </properties>
 
     <dependencyManagement>
@@ -138,6 +139,12 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-test</artifactId>
                 <version>${spring.boot.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.awaitility</groupId>
+                <artifactId>awaitility</artifactId>
+                <version>${awaitility.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>

@@ -1,5 +1,6 @@
 package pl.adamsiedlecki.otm.tools.charts;
 
+import org.awaitility.Awaitility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.Test;
 import pl.adamsiedlecki.otm.config.OtmConfigProperties;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import static org.testng.Assert.assertTrue;
 
@@ -32,6 +34,7 @@ public class OvernightChartCreatorTest extends BaseSpringTest {
         File file = overnightChartCreator.createChart(tempList, 1000, 500, "just simple chart title");
 
         //then
+        Awaitility.await().atMost(10, TimeUnit.SECONDS).until(file::exists);
         assertTrue(file.exists());
     }
 
@@ -44,6 +47,7 @@ public class OvernightChartCreatorTest extends BaseSpringTest {
         File file = overnightChartCreator.createChart(tempList, 1000, 500, "just simple chart title");
 
         //then
+        Awaitility.await().atMost(20, TimeUnit.SECONDS).until(file::exists);
         assertTrue(file.exists());
     }
 
@@ -56,6 +60,7 @@ public class OvernightChartCreatorTest extends BaseSpringTest {
         File file = overnightChartCreator.createChart(tempList, config.getDefaultChartWidth(), config.getDefaultChartHeight(), "just simple chart title");
 
         //then
+        Awaitility.await().atMost(10, TimeUnit.SECONDS).until(file::exists);
         assertTrue(file.exists());
     }
 
@@ -68,6 +73,7 @@ public class OvernightChartCreatorTest extends BaseSpringTest {
         File file = overnightChartCreator.createChart(tempList, config.getDefaultChartWidth(), config.getDefaultChartHeight(), "title of chart with data from 5 stations");
 
         //then
+        Awaitility.await().atMost(10, TimeUnit.SECONDS).until(file::exists);
         assertTrue(file.exists());
     }
 
