@@ -34,6 +34,9 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ScheduleWeatherForecast {
 
+    private static final int FORECAST_HOURS_FORWARD = 11;
+    private static final long MAX_CHART_AGE_IN_SECONDS = 15;
+
     private final LocationService locationService;
     private final OpenWeatherFetcher openWeatherFetcher;
     private final FacebookManager facebookManager;
@@ -49,7 +52,7 @@ public class ScheduleWeatherForecast {
         Optional<OpenWeatherTwoDaysAheadPojo> twoDaysAhead = getTwoDaysAheadBasedOnFirstLocationFromDb();
         if (twoDaysAhead.isPresent()) {
             List<Hourly> hourly = twoDaysAhead.get().getHourly();
-            hourly = openWeatherTools.getOnlyXHoursForward(hourly, 11);
+            hourly = openWeatherTools.getOnlyXHoursForward(hourly, FORECAST_HOURS_FORWARD);
 
             List<TemperatureData> predictionTdList = hourly.stream().map(h -> {
                 TemperatureData td = new TemperatureData();
@@ -61,7 +64,7 @@ public class ScheduleWeatherForecast {
             boolean isBelowZero = scheduleTools.getBelowZero(predictionTdList);
 
             File chart = chartCreator.createChart(predictionTdList, config.getDefaultChartWidth(), config.getDefaultChartHeight(), ChartTitle.OPEN_WEATHER_FORECAST.get());
-            if (MyFilesystem.fileExistsAndIsNoOlderThanXSeconds(chart, 10)) {
+            if (MyFilesystem.fileExistsAndIsNoOlderThanXSeconds(chart, MAX_CHART_AGE_IN_SECONDS)) {
                 facebookManager.postChart(chart,
                         scheduleTools.getTemperatureEmoji(isBelowZero)
                                 + " Prognoza z OpenWeather na najbliższy czas: \n [ wygenerowano "

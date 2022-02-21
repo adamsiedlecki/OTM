@@ -24,18 +24,21 @@ import java.util.List;
 @Slf4j
 public class ScheduleOvernightChart {
 
+    private static final int TEN_MINUTES = 10 * 60 * 1000;
+    private static final int NUMBER_OF_HOURS_FOR_OVERNIGHT_CHART = 9;
+    private static final int MAX_POST_ON_FACEBOOK_ATTEMPTS = 12;
+
     private final TemperatureDataService temperatureDataService;
     private final FacebookManager facebookManager;
     private final ScheduleTools scheduleTools;
     private final OtmConfigProperties config;
     private final OvernightChartCreator chartCreator;
-    private static final int TEN_MINUTES = 10 * 60 * 1000;
 
     @Scheduled(cron = "0 31 6 * * *")
     public void createAndPostChart() {
         log.info("SCHEDULE 0 31 6 * * * RUNNING");
 
-        List<TemperatureData> lastXHours = temperatureDataService.findAllLastXHours(9);
+        List<TemperatureData> lastXHours = temperatureDataService.findAllLastXHours(NUMBER_OF_HOURS_FOR_OVERNIGHT_CHART);
         if (!lastXHours.isEmpty()) {
             log.info("There is enough data to build overnight chart");
             boolean isBelowZero = scheduleTools.getBelowZero(lastXHours);
@@ -49,8 +52,8 @@ public class ScheduleOvernightChart {
     }
 
     // strategy in case of no internet access for some time
-    private void postChartOnlineStrategy(File chart, boolean isBelowZero, LocalDateTime generationTime) {
-        for (int i = 0; i < 12; i++) {
+    private void postChartOnlineStrategy(final File chart, final boolean isBelowZero, final LocalDateTime generationTime) {
+        for (int i = 0; i < MAX_POST_ON_FACEBOOK_ATTEMPTS; i++) {
             try {
                 postChart(chart, isBelowZero, generationTime);
                 break;
@@ -62,7 +65,7 @@ public class ScheduleOvernightChart {
         }
     }
 
-    private void postChart(File chart, boolean isBelowZero, LocalDateTime generationTime) {
+    private void postChart(final File chart, final boolean isBelowZero, final LocalDateTime generationTime) {
         facebookManager.postChart(chart, scheduleTools.getTemperatureEmoji(isBelowZero)
                 + "Ostatnia noc \n [ wygenerowano: "
                 + TextFormatters.getPrettyDateTime(generationTime)
@@ -72,7 +75,7 @@ public class ScheduleOvernightChart {
         log.info("overnight chart posted on facebook");
     }
 
-    private void sleep(int millis) {
+    private void sleep(final int millis) {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException e) {

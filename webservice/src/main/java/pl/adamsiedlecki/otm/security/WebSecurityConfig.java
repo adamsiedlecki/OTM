@@ -18,9 +18,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     };
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
+    protected void configure(final HttpSecurity http) throws Exception {
+        http.authorizeRequests()
                 .antMatchers(WHITELIST).permitAll()
                 .antMatchers("/remove-user", "/admin-panel", "/statistics").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
@@ -35,8 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .logoutSuccessUrl("/login")
                 .and()
-                .csrf().disable()
-        ;
+                .csrf().disable();
     }
 
     @Bean

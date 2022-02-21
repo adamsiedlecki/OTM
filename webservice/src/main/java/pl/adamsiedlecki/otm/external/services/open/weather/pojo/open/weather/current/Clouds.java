@@ -1,13 +1,10 @@
 package pl.adamsiedlecki.otm.external.services.open.weather.pojo.open.weather.current;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Clouds {
     private int all;
-
-    public int getAll() {
-        return all;
-    }
-
-    public void setAll(int all) {
-        this.all = all;
-    }
 }

@@ -33,11 +33,11 @@ public class ApiController {
     private final ScheduleOvernightChart scheduleOvernightChart;
     private final MyFilesystem myFilesystem;
 
-    @GetMapping("/facebook-post")
+    @GetMapping("/facebook/post/overnight/chart")
     public @ResponseBody
     String postOnFacebook() {
-        new Thread(scheduleOvernightChart::createAndPostChart).start();
-        return "method is running";
+        scheduleOvernightChart.createAndPostChart();
+        return "Operation completed.";
     }
 
     @GetMapping("/temperature/current")
@@ -60,8 +60,8 @@ public class ApiController {
 
     @GetMapping(path = "/temperature-data")
     public @ResponseBody
-    List<TemperatureData> getTempData(@RequestParam(value = "page", defaultValue = "0") int page,
-                                      @RequestParam(value = "size", defaultValue = "50") int size) {
+    List<TemperatureData> getTempData(final @RequestParam(value = "page", defaultValue = "0") int page,
+                                      final @RequestParam(value = "size", defaultValue = "50") int size) {
         return temperatureDataService.findAll(PageRequest.of(page, size)).getContent();
     }
 
@@ -70,7 +70,7 @@ public class ApiController {
             produces = MediaType.IMAGE_JPEG_VALUE
     )
     public @ResponseBody
-    byte[] getImageWithMediaType(@RequestParam(value = "name", defaultValue = "chart.jpg") String name) {
+    byte[] getImageWithMediaType(final @RequestParam(value = "name", defaultValue = "chart.jpg") String name) {
         log.info("Desired file: {}", name);
         List<File> allFilesRecursively = myFilesystem.getAllFilesRecursively(MyFilesystem.getStoragePath() + "img");
         Optional<File> optionalDesiredFile = allFilesRecursively.stream().filter(file -> file.getName().equals(name)).findFirst();

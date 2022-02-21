@@ -27,7 +27,7 @@ public class MapsImageCreator {
     private final Logger log = LoggerFactory.getLogger(MapsImageCreator.class);
     private final GoogleApiProperties properties;
 
-    public File get(List<TemperatureData> tdList) {
+    public File get(final List<TemperatureData> tdList) {
 
         URL url;
         try {
@@ -48,11 +48,12 @@ public class MapsImageCreator {
         return new File("");
     }
 
-    private void writeToFile(BufferedInputStream in, File mapFile) {
+    private void writeToFile(final BufferedInputStream in, final File mapFile) {
+        final int bufferSize = 1024;
         try (FileOutputStream out = new FileOutputStream(mapFile)) {
-            byte[] dataBuffer = new byte[1024];
+            byte[] dataBuffer = new byte[bufferSize];
             int bytesRead;
-            while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
+            while ((bytesRead = in.read(dataBuffer, 0, bufferSize)) != -1) {
                 out.write(dataBuffer, 0, bytesRead);
             }
         } catch (IOException e) {
@@ -60,7 +61,7 @@ public class MapsImageCreator {
         }
     }
 
-    private URL getUrl(List<TemperatureData> tdList) throws MalformedURLException {
+    private URL getUrl(final List<TemperatureData> tdList) throws MalformedURLException {
         StringBuilder sb = new StringBuilder("https://maps.googleapis.com/maps/api/staticmap");
         sb.append("?size=1000x1000")
                 .append("&maptype=satellite")
@@ -82,8 +83,7 @@ public class MapsImageCreator {
                     .append("|")
                     .append(td.getLocation().getLatitude())
                     .append(",")
-                    .append(td.getLocation().getLongitude())
-            ;
+                    .append(td.getLocation().getLongitude());
         }
         String url = sb.toString();
         url = url.replace(" ", "%20");

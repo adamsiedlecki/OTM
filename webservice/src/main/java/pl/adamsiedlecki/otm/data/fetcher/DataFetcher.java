@@ -39,7 +39,7 @@ public class DataFetcher {
         return temperatureData;
     }
 
-    private void saveToDatabase(List<TemperatureData> td) {
+    private void saveToDatabase(final List<TemperatureData> td) {
         temperatureDataService.saveAll(td);
     }
 

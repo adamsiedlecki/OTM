@@ -20,7 +20,7 @@ public class MainPageController {
     private final MyFilesystem myFilesystem;
 
     @GetMapping("/main")
-    public String getIndex(Model model) {
+    public String getIndex(final Model model) {
         List<String> overnightChartsFilenameList = Arrays
                 .stream(myFilesystem.getAllFilesInDirectory(new File(myFilesystem.getOvernightChartsPath())))
                 .sorted((file1, file2) -> {

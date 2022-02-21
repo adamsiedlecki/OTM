@@ -23,10 +23,10 @@ public class ChartController {
     private final SimpleChartCreator chartCreator;
 
     @GetMapping("/chart")
-    public String getIndex(Model model,
-                           @RequestParam(value = "numberOfHours") int numberOfHours,
-                           @RequestParam(value = "width", defaultValue = "${otm.default.chart.width}") int width,
-                           @RequestParam(value = "height", defaultValue = "${otm.default.chart.height}") int height) {
+    public String getIndex(final Model model,
+                           final @RequestParam(value = "numberOfHours") int numberOfHours,
+                           final @RequestParam(value = "width", defaultValue = "${otm.default.chart.width}") int width,
+                           final @RequestParam(value = "height", defaultValue = "${otm.default.chart.height}") int height) {
         List<TemperatureData> temperatureData = temperatureDataService.findAllLastXHours(numberOfHours);
         if (temperatureData.isEmpty()) {
             model.addAttribute("filename", "notEnoughData");

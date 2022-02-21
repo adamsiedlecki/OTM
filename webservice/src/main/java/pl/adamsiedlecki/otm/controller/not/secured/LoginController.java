@@ -9,13 +9,13 @@ import pl.adamsiedlecki.otm.db.user.User;
 public class LoginController {
 
     @GetMapping("/login")
-    public String getLogin(Model model) {
+    public String getLogin(final Model model) {
         model.addAttribute("user", new User());
         return "login";
     }
 
     @GetMapping("/login-error")
-    public String getLoginWithError(Model model) {
+    public String getLoginWithError(final Model model) {
         model.addAttribute("loginError", true);
         return "login";
     }

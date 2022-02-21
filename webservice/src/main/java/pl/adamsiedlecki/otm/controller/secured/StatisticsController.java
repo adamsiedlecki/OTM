@@ -17,17 +17,19 @@ import java.util.List;
 @Slf4j
 public class StatisticsController {
 
+    private static final byte ONE_HUNDRED_PERCENT = 100;
+
     private final TemperatureDataService tempDataService;
     private final StatisticsService statService;
 
     @Autowired
-    public StatisticsController(TemperatureDataService tempDataService, StatisticsService statService) {
+    public StatisticsController(final TemperatureDataService tempDataService, final StatisticsService statService) {
         this.tempDataService = tempDataService;
         this.statService = statService;
     }
 
     @GetMapping("/statistics")
-    public String getAdminPanel(Model model) {
+    public String getAdminPanel(final Model model) {
         model.addAttribute("temperaturesDataAmount", tempDataService.count());
 
         List<Statitics> stats = statService.findAll();
@@ -37,7 +39,7 @@ public class StatisticsController {
         return "statistics";
     }
 
-    private void addEspNoResponsePercentage(Model model) {
+    private void addEspNoResponsePercentage(final Model model) {
         statService.get(ExistingStatistics.REQUESTS_TO_ESP_COUNT)
                 .ifPresent(s1 -> {
                     long total = s1.getsValue();
@@ -47,10 +49,15 @@ public class StatisticsController {
                     statService.get(ExistingStatistics.ESP_NO_RESPONSE_COUNT)
                             .ifPresentOrElse(s2 -> {
                                 long noResponseCount = s2.getsValue();
-                                float percentage = (float) noResponseCount / total * 100;
+                                float percentage = calcPercentage(noResponseCount, total);
                                 model.addAttribute("espNoResponsePercentage", percentage + "%");
                             }, () -> model.addAttribute("espNoResponsePercentage", 0 + "%"));
                 });
+
+    }
+
+    private float calcPercentage(final long noResponseCount, final long total) {
+        return (float) noResponseCount / total * ONE_HUNDRED_PERCENT;
 
     }
 }

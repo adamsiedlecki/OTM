@@ -17,7 +17,7 @@ public class EspCommunicationAspects {
     private final Logger log = LoggerFactory.getLogger(EspCommunicationAspects.class);
 
     @Autowired
-    public EspCommunicationAspects(StatisticsService statService) {
+    public EspCommunicationAspects(final StatisticsService statService) {
         this.statService = statService;
     }
 

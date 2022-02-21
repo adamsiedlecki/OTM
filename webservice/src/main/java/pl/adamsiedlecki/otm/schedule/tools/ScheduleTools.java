@@ -19,12 +19,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ScheduleTools {
 
+    private static final long MAX_POST_USAGE_HOURS = 12;
     private final FacebookManager facebookManager;
     private final Logger log = LoggerFactory.getLogger(ScheduleTools.class);
     private LocalDateTime lastTextPostTime;
     private String lastTextPostId;
 
-    public String getTemperatureEmoji(boolean isBelowZero) {
+    public String getTemperatureEmoji(final boolean isBelowZero) {
         if (isBelowZero) {
             return "❄️";
         } else {
@@ -33,7 +34,7 @@ public class ScheduleTools {
     }
 
     // one post is created for 12 hours; next data is published as comment of this post
-    public void sendPostOrComment(List<TemperatureData> data) {
+    public void sendPostOrComment(final List<TemperatureData> data) {
         if (data.isEmpty()) {
             return;
         }
@@ -50,12 +51,12 @@ public class ScheduleTools {
                 sb.append(td.getTransmitterNameAndTemperature());
                 sb.append(" \n ");
             }
-            // in case of creating new post
-            if (lastTextPostTime == null || LocalDateTime.now().isAfter(lastTextPostTime.plusHours(12))) {
+
+            if (lastTextPostTime == null || LocalDateTime.now().isAfter(lastTextPostTime.plusHours(MAX_POST_USAGE_HOURS))) {
+                // in case of creating new post (the old one is too old or des not exist)
                 lastTextPostTime = LocalDateTime.now();
                 lastTextPostId = facebookManager.postMessage(sb.toString());
                 log.info("Text Post id: {}", lastTextPostId);
-
             } else {
                 // in case of commenting existing post
                 String commentId = facebookManager.postComment(lastTextPostId, sb.toString());
@@ -64,7 +65,7 @@ public class ScheduleTools {
         }
     }
 
-    public boolean getBelowZero(List<TemperatureData> data) {
+    public boolean getBelowZero(final List<TemperatureData> data) {
         return data.stream().anyMatch(td -> td.getTemperatureCelsius().compareTo(BigDecimal.ZERO) < 0);
     }
 }
