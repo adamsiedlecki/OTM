@@ -30,4 +30,5 @@ public class Hourly {
     private List<Weather> weather;
     private int pop;
     private Rain rain;
+    private Snow snow;
 }

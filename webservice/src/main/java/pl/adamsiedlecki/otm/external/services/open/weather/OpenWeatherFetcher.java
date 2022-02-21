@@ -22,6 +22,7 @@ public class OpenWeatherFetcher {
 
     private static final int READ_TIMEOUT = 1000;
     private final OtherApiProperties otherApiProperties;
+    private final ObjectMapper objectMapper;
 
     public Optional<OpenWeatherCurrentPojo> getCurrent(final String latitude, final String longitude) {
         String fullAddress = "https://api.openweathermap.org/data/2.5/weather"
@@ -33,9 +34,8 @@ public class OpenWeatherFetcher {
         Optional<String> content = getResponse(fullAddress);
 
         if (content.isPresent()) {
-            ObjectMapper om = new ObjectMapper();
             try {
-                return Optional.of(om.readValue(content.get(), OpenWeatherCurrentPojo.class));
+                return Optional.of(objectMapper.readValue(content.get(), OpenWeatherCurrentPojo.class));
             } catch (JsonProcessingException e) {
                 log.error(e.getMessage());
             }
@@ -55,9 +55,8 @@ public class OpenWeatherFetcher {
         Optional<String> content = getResponse(fullAddress);
 
         if (content.isPresent()) {
-            ObjectMapper om = new ObjectMapper();
             try {
-                return Optional.of(om.readValue(content.get(), OpenWeatherTwoDaysAheadPojo.class));
+                return Optional.of(objectMapper.readValue(content.get(), OpenWeatherTwoDaysAheadPojo.class));
             } catch (JsonProcessingException e) {
                 log.error(e.getMessage());
             }
