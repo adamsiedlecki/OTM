@@ -37,6 +37,7 @@
         <h2.test.database.version>1.4.200</h2.test.database.version>
         <hibernate.validator.version>6.0.16.Final</hibernate.validator.version>
         <awaitility.version>3.0.0</awaitility.version>
+        <messenger.version>1.1.0</messenger.version>
     </properties>
 
     <dependencyManagement>
@@ -101,6 +102,11 @@
             </dependency>
 
             <!-- LIBRARIES -->
+            <dependency>
+                <groupId>com.github.messenger4j</groupId>
+                <artifactId>messenger4j</artifactId>
+                <version>${messenger.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.hibernate.validator</groupId>
                 <artifactId>hibernate-validator</artifactId>

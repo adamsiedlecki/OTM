@@ -21,4 +21,10 @@ public class FacebookApiProperties {
 
     @Value("${fb.otm.user.access.token:defaultFbUserAccessToken}")
     private String userAccessToken;
+
+    @Value("${fb.otm.app.secret}")
+    private String appSecret;
+
+    @Value("${fb.otm.verify.token}")
+    private String verifyToken;
 }
