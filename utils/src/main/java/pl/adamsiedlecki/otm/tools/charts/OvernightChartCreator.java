@@ -10,13 +10,11 @@ import org.springframework.stereotype.Service;
 import pl.adamsiedlecki.otm.db.temperature.TemperatureData;
 import pl.adamsiedlecki.otm.tools.charts.tools.ChartElementsCreator;
 import pl.adamsiedlecki.otm.tools.files.MyFilesystem;
-import pl.adamsiedlecki.otm.tools.text.TextFormatters;
 import pl.adamsiedlecki.otm.tools.uuid.UuidTool;
 
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -30,7 +28,6 @@ public class OvernightChartCreator implements ChartCreator {
 
     @Override
     public File createChart(List<TemperatureData> temperatureDataList, int width, int height, String title) {
-        temperatureDataList.sort(Comparator.comparing(TemperatureData::getDate));
         if (temperatureDataList.isEmpty()) {
             log.error("Cannot create chart due to no data");
             return new File("");
@@ -39,11 +36,7 @@ public class OvernightChartCreator implements ChartCreator {
         XYPlot plot = elemCreator.createXYPlot(temperatureDataList, font);
 
         // create and return the chart panel...
-        JFreeChart chart = new JFreeChart(
-                title + " "
-                        + TextFormatters.getPrettyDateTime(temperatureDataList.get(0).getDate())
-                        + "  -  " + TextFormatters.getPrettyDateTime(temperatureDataList.get(temperatureDataList.size() - 1).getDate()),
-                JFreeChart.DEFAULT_TITLE_FONT, plot, true);
+        JFreeChart chart = new JFreeChart(title, JFreeChart.DEFAULT_TITLE_FONT, plot, true);
         chart.getLegend().setItemFont(font);
 
         File destination = new File(myFilesystem.getOvernightChartsPath() + UuidTool.getRandom() + ".jpg");

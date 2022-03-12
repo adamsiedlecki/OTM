@@ -40,8 +40,8 @@ public class SimpleChartCreator implements ChartCreator {
         // create and return the chart panel...
         JFreeChart chart = new JFreeChart(
                 title
-                        + TextFormatters.getPrettyDateTime(temperatureDataList.get(0).getDate())
-                        + "  -  " + TextFormatters.getPrettyDateTime(temperatureDataList.get(temperatureDataList.size() - 1).getDate()),
+                        + TextFormatters.getPretty(temperatureDataList.get(0).getDate())
+                        + "  -  " + TextFormatters.getPretty(temperatureDataList.get(temperatureDataList.size() - 1).getDate()),
                 JFreeChart.DEFAULT_TITLE_FONT, plot, true);
         chart.getLegend().setItemFont(font);
 

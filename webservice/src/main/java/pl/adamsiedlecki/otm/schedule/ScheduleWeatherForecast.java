@@ -18,6 +18,7 @@ import pl.adamsiedlecki.otm.schedule.tools.ScheduleTools;
 import pl.adamsiedlecki.otm.tools.charts.ForecastChartCreator;
 import pl.adamsiedlecki.otm.tools.charts.tools.ChartTitle;
 import pl.adamsiedlecki.otm.tools.files.MyFilesystem;
+import pl.adamsiedlecki.otm.tools.text.Emojis;
 import pl.adamsiedlecki.otm.tools.text.TextFormatters;
 
 import java.io.File;
@@ -62,14 +63,14 @@ public class ScheduleWeatherForecast {
                 td.setTemperatureCelsius(new BigDecimal("" + h.getTemp()));
                 return td;
             }).collect(Collectors.toList());
-            boolean isBelowZero = scheduleTools.getBelowZero(predictionTdList);
+            boolean isBelowZero = scheduleTools.isBelowZero(predictionTdList);
 
             File chart = chartCreator.createChart(predictionTdList, config.getDefaultChartWidth(), config.getDefaultChartHeight(), ChartTitle.OPEN_WEATHER_FORECAST.get());
             if (myFilesystem.fileExistsAndIsNoOlderThanXSeconds(chart, MAX_CHART_AGE_IN_SECONDS)) {
                 facebookManager.postChart(chart,
-                        scheduleTools.getTemperatureEmoji(isBelowZero)
+                        isBelowZero ? Emojis.FROST : Emojis.WARM
                                 + " Prognoza z OpenWeather na najbliższy czas: \n [ wygenerowano "
-                                + TextFormatters.getPrettyDateTime(LocalDateTime.now()) + " ]");
+                                + TextFormatters.getPretty(LocalDateTime.now()) + " ]");
             } else {
                 log.error("prediction chart does not exist or is older than 10 seconds");
             }

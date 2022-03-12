@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import pl.adamsiedlecki.otm.db.temperature.TemperatureData;
 import pl.adamsiedlecki.otm.external.services.facebook.FacebookManager;
+import pl.adamsiedlecki.otm.tools.text.Emojis;
 import pl.adamsiedlecki.otm.tools.text.TextFormatters;
 
 import java.math.BigDecimal;
@@ -25,27 +26,19 @@ public class ScheduleTools {
     private LocalDateTime lastTextPostTime;
     private String lastTextPostId;
 
-    public String getTemperatureEmoji(final boolean isBelowZero) {
-        if (isBelowZero) {
-            return "❄️";
-        } else {
-            return "✔️";
-        }
-    }
-
     // one post is created for 12 hours; next data is published as comment of this post
     public void sendPostOrComment(final List<TemperatureData> data) {
         if (data.isEmpty()) {
             return;
         }
-        boolean isBelowZero = getBelowZero(data);
+        boolean isBelowZero = isBelowZero(data);
 
         if (isBelowZero) {
             data.sort(Comparator.comparing(TemperatureData::getTemperatureCelsius));
             log.info("TEMPERATURES BELOW ZERO FOUND!");
             StringBuilder sb = new StringBuilder();
-            sb.append(getTemperatureEmoji(true)).append(" Odnotowano temperaturę < 0  \n  [ ");
-            sb.append(TextFormatters.getPrettyDateTime(data.get(0).getDate()));
+            sb.append(Emojis.FROST).append(" Odnotowano temperaturę < 0  \n  [ ");
+            sb.append(TextFormatters.getPretty(data.get(0).getDate()));
             sb.append(" ]\n ");
             for (TemperatureData td : data) {
                 sb.append(td.getTransmitterNameAndTemperature());
@@ -65,7 +58,7 @@ public class ScheduleTools {
         }
     }
 
-    public boolean getBelowZero(final List<TemperatureData> data) {
+    public boolean isBelowZero(final List<TemperatureData> data) {
         return data.stream().anyMatch(td -> td.getTemperatureCelsius().compareTo(BigDecimal.ZERO) < 0);
     }
 }

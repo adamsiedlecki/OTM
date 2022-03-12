@@ -15,6 +15,7 @@
     <modules>
         <module>devices-api-generation1</module>
         <module>devices-api-generation2</module>
+        <module>email</module>
     </modules>
 
 </project>

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import pl.adamsiedlecki.otm.data.fetcher.DataFetcher;
 import pl.adamsiedlecki.otm.db.temperature.TemperatureData;
 import pl.adamsiedlecki.otm.db.temperature.TemperatureDataService;
-import pl.adamsiedlecki.otm.schedule.ScheduleOvernightChart;
+import pl.adamsiedlecki.otm.schedule.OvernightChartSchedule;
 import pl.adamsiedlecki.otm.tools.files.MyFilesystem;
 
 import java.io.File;
@@ -30,7 +30,7 @@ public class ApiController {
 
     private final TemperatureDataService temperatureDataService;
     private final DataFetcher dataFetcher;
-    private final ScheduleOvernightChart scheduleOvernightChart;
+    private final OvernightChartSchedule scheduleOvernightChart;
     private final MyFilesystem myFilesystem;
 
     @GetMapping("/facebook/post/overnight/chart")

@@ -36,6 +36,10 @@
             <artifactId>devices-api-generation2</artifactId>
             <version>ver.1.0.1</version>
         </dependency>
+        <dependency>
+            <groupId>pl.adamsiedlecki.otm</groupId>
+            <artifactId>email</artifactId>
+        </dependency>
 
         <!-- SPRING -->
         <dependency>
