@@ -2,6 +2,7 @@ package pl.adamsiedlecki.otm.db.temperature;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import pl.adamsiedlecki.otm.db.PresentableOnChart;
 import pl.adamsiedlecki.otm.db.location.Location;
 import pl.adamsiedlecki.otm.db.location.place.LocationPlace;
 
@@ -19,7 +20,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Getter
 @Setter
-public class TemperatureData {
+public class TemperatureData implements PresentableOnChart {
 
     @Id
     @GeneratedValue
@@ -35,6 +36,24 @@ public class TemperatureData {
     @JsonIgnore
     public String getTransmitterNameAndTemperature() {
         return " " + transmitterName + " : " + temperatureCelsius + " °C ";
+    }
+
+    @Override
+    @JsonIgnore
+    public LocalDateTime getTime() {
+        return date;
+    }
+
+    @Override
+    @JsonIgnore
+    public BigDecimal getValue() {
+        return temperatureCelsius;
+    }
+
+    @Override
+    @JsonIgnore
+    public String getGroupName() {
+        return transmitterName;
     }
 
     @Override

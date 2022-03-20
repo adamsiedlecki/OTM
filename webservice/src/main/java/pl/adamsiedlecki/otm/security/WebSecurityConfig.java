@@ -12,7 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] WHITELIST = {
-            "/", "/main", "/register", "/chart",
+            "/", "/main", "/register", "/chart/**",
             "/test/**", "/api/**", "/css/**", "/js/**",
             "/img/**", "/image/**"
     };

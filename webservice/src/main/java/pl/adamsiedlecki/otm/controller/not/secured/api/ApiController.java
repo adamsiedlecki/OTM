@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import pl.adamsiedlecki.otm.data.fetcher.DataFetcher;
+import pl.adamsiedlecki.otm.data.fetcher.TemperatureDataFetcher;
+import pl.adamsiedlecki.otm.db.health.check.HealthCheckData;
 import pl.adamsiedlecki.otm.db.temperature.TemperatureData;
 import pl.adamsiedlecki.otm.db.temperature.TemperatureDataService;
+import pl.adamsiedlecki.otm.schedule.HealthCheckSchedule;
 import pl.adamsiedlecki.otm.schedule.OvernightChartSchedule;
 import pl.adamsiedlecki.otm.tools.files.MyFilesystem;
 
@@ -29,8 +31,9 @@ import java.util.Optional;
 public class ApiController {
 
     private final TemperatureDataService temperatureDataService;
-    private final DataFetcher dataFetcher;
+    private final TemperatureDataFetcher dataFetcher;
     private final OvernightChartSchedule scheduleOvernightChart;
+    private final HealthCheckSchedule healthCheckSchedule;
     private final MyFilesystem myFilesystem;
 
     @GetMapping("/facebook/post/overnight/chart")
@@ -63,6 +66,12 @@ public class ApiController {
     List<TemperatureData> getTempData(final @RequestParam(value = "page", defaultValue = "0") int page,
                                       final @RequestParam(value = "size", defaultValue = "50") int size) {
         return temperatureDataService.findAll(PageRequest.of(page, size)).getContent();
+    }
+
+    @GetMapping("/health/current")
+    public @ResponseBody
+    List<HealthCheckData> getCurrentHealthCheck() {
+        return healthCheckSchedule.checkBatteryVoltage();
     }
 
     @GetMapping(

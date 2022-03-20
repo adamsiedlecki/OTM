@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class DataFetcher {
+public class TemperatureDataFetcher {
 
     private final AllDevicesGen1TemperatureGetter allDevicesGen1TemperatureGetter;
     private final AllDevicesGen2TemperatureGetter allDevicesGen2TemperatureGetter;

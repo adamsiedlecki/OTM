@@ -2,6 +2,7 @@ package pl.adamsiedlecki.otm.test.utils;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import pl.adamsiedlecki.otm.db.PresentableOnChart;
 import pl.adamsiedlecki.otm.db.temperature.TemperatureData;
 
 import java.math.BigDecimal;
@@ -9,9 +10,14 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class TestDataUtils {
+
+    public static List<PresentableOnChart> preparePresentableOnChartDataList(int groupAmount) {
+        return prepareTemperatureDataList(groupAmount).stream().map(PresentableOnChart.class::cast).collect(Collectors.toList());
+    }
 
     public static List<TemperatureData> prepareTemperatureDataList(int stationAmount) {
         Random rand = new Random();

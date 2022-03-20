@@ -6,7 +6,7 @@ import org.jfree.chart.ChartUtils;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.XYPlot;
 import org.springframework.stereotype.Service;
-import pl.adamsiedlecki.otm.db.temperature.TemperatureData;
+import pl.adamsiedlecki.otm.db.PresentableOnChart;
 import pl.adamsiedlecki.otm.tools.charts.tools.ChartElementsCreator;
 import pl.adamsiedlecki.otm.tools.files.MyFilesystem;
 import pl.adamsiedlecki.otm.tools.text.TextFormatters;
@@ -27,21 +27,22 @@ public class SimpleChartCreator implements ChartCreator {
     private final ChartElementsCreator elemCreator;
     private final MyFilesystem myFilesystem;
 
+
     @Override
-    public File createChart(List<TemperatureData> temperatureDataList, int width, int height, String title) {
-        if (temperatureDataList.isEmpty()) {
+    public File createChart(List<PresentableOnChart> healthCheckDataList, int width, int height, String title, String dataAxisLabel) {
+        if (healthCheckDataList.isEmpty()) {
             log.error("Cannot create chart due to no data");
             return new File("");
         }
-        temperatureDataList.sort(Comparator.comparing(TemperatureData::getDate));
+        healthCheckDataList.sort(Comparator.comparing(PresentableOnChart::getTime));
 
-        XYPlot plot = elemCreator.createXYPlot(temperatureDataList, font);
+        XYPlot plot = elemCreator.createXYPlot(healthCheckDataList, font, dataAxisLabel);
 
         // create and return the chart panel...
         JFreeChart chart = new JFreeChart(
                 title
-                        + TextFormatters.getPretty(temperatureDataList.get(0).getDate())
-                        + "  -  " + TextFormatters.getPretty(temperatureDataList.get(temperatureDataList.size() - 1).getDate()),
+                        + TextFormatters.getPretty(healthCheckDataList.get(0).getTime())
+                        + "  -  " + TextFormatters.getPretty(healthCheckDataList.get(healthCheckDataList.size() - 1).getTime()),
                 JFreeChart.DEFAULT_TITLE_FONT, plot, true);
         chart.getLegend().setItemFont(font);
 

@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import pl.adamsiedlecki.otm.db.PresentableOnChart;
 import pl.adamsiedlecki.otm.db.temperature.TemperatureData;
 import pl.adamsiedlecki.otm.external.services.facebook.FacebookManager;
 import pl.adamsiedlecki.otm.tools.text.Emojis;
@@ -14,6 +15,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @Scope("singleton")
@@ -31,7 +33,7 @@ public class ScheduleTools {
         if (data.isEmpty()) {
             return;
         }
-        boolean isBelowZero = isBelowZero(data);
+        boolean isBelowZero = isBelowZero(convert(data));
 
         if (isBelowZero) {
             data.sort(Comparator.comparing(TemperatureData::getTemperatureCelsius));
@@ -58,7 +60,11 @@ public class ScheduleTools {
         }
     }
 
-    public boolean isBelowZero(final List<TemperatureData> data) {
-        return data.stream().anyMatch(td -> td.getTemperatureCelsius().compareTo(BigDecimal.ZERO) < 0);
+    public boolean isBelowZero(final List<PresentableOnChart> data) {
+        return data.stream().anyMatch(td -> td.getValue().compareTo(BigDecimal.ZERO) < 0);
+    }
+
+    public List<PresentableOnChart> convert(final List<TemperatureData> data) {
+        return data.stream().map(PresentableOnChart.class::cast).collect(Collectors.toList());
     }
 }

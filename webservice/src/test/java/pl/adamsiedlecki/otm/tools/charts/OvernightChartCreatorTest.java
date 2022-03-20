@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 import pl.adamsiedlecki.otm.config.OtmConfigProperties;
+import pl.adamsiedlecki.otm.db.PresentableOnChart;
 import pl.adamsiedlecki.otm.db.temperature.TemperatureData;
 import pl.adamsiedlecki.otm.test.utils.TestDataUtils;
 import pl.adamsiedlecki.otm.testTools.BaseSpringTest;
@@ -37,10 +38,10 @@ public class OvernightChartCreatorTest extends BaseSpringTest {
     @Test
     public void shouldCreateChart() {
         //given
-        List<TemperatureData> tempList = prepareTemperatureDataList();
+        List<PresentableOnChart> tempList = preparePresentableOnChartDataList();
 
         //when
-        File file = overnightChartCreator.createChart(tempList, 1000, 500, "just simple chart title");
+        File file = overnightChartCreator.createChart(tempList, 1000, 500, "just simple chart title", "Temperature");
 
         //then
         Awaitility.await().atMost(10, TimeUnit.SECONDS).until(file::exists);
@@ -50,10 +51,10 @@ public class OvernightChartCreatorTest extends BaseSpringTest {
     @Test
     public void shouldCreateChartUsingRandomData() {
         //given
-        List<TemperatureData> tempList = TestDataUtils.prepareTemperatureDataList(6);
+        List<PresentableOnChart> tempList = TestDataUtils.preparePresentableOnChartDataList(6);
 
         //when
-        File file = overnightChartCreator.createChart(tempList, 1000, 500, "just simple chart title");
+        File file = overnightChartCreator.createChart(tempList, 1000, 500, "just simple chart title", "Temperature");
 
         //then
         Awaitility.await().atMost(20, TimeUnit.SECONDS).until(file::exists);
@@ -63,17 +64,17 @@ public class OvernightChartCreatorTest extends BaseSpringTest {
     @Test
     public void shouldCreateChartUsingRandomDataWithRealDimensions() {
         //given
-        List<TemperatureData> tempList = TestDataUtils.prepareTemperatureDataList(6);
+        List<PresentableOnChart> tempList = TestDataUtils.preparePresentableOnChartDataList(6);
 
         //when
-        File file = overnightChartCreator.createChart(tempList, config.getDefaultChartWidth(), config.getDefaultChartHeight(), "just simple chart title");
+        File file = overnightChartCreator.createChart(tempList, config.getDefaultChartWidth(), config.getDefaultChartHeight(), "just simple chart title", "Temperature");
 
         //then
         Awaitility.await().atMost(20, TimeUnit.SECONDS).until(file::exists);
         assertTrue(file.exists());
     }
 
-    private List<TemperatureData> prepareTemperatureDataList() {
+    private List<PresentableOnChart> preparePresentableOnChartDataList() {
         TemperatureData td1 = new TemperatureData();
         TestDataUtils.setData(td1, "test-t1", LocalDateTime.of(2021, 11, 1, 13, 0), 13);
         TemperatureData td2 = new TemperatureData();

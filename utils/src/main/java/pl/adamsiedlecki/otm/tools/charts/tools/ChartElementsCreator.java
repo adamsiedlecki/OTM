@@ -12,7 +12,7 @@ import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYDataset;
 import org.springframework.stereotype.Component;
-import pl.adamsiedlecki.otm.db.temperature.TemperatureData;
+import pl.adamsiedlecki.otm.db.PresentableOnChart;
 
 import java.awt.*;
 import java.time.LocalDateTime;
@@ -24,27 +24,27 @@ import java.util.stream.Collectors;
 @Component
 public class ChartElementsCreator {
 
-    public XYDataset createSampleData(List<TemperatureData> temperatureDataList) {
+    public XYDataset createSampleData(List<PresentableOnChart> temperatureDataList) {
 
         TimeSeriesCollection result = new TimeSeriesCollection();
-        Map<String, List<TemperatureData>> map =
-                temperatureDataList.stream().collect(Collectors.groupingBy(TemperatureData::getTransmitterName));
+        Map<String, List<PresentableOnChart>> map =
+                temperatureDataList.stream().collect(Collectors.groupingBy(PresentableOnChart::getGroupName));
         List<String> keys = new ArrayList<>(map.keySet());
         Collections.sort(keys);
         for (String tName : keys) {
             TimeSeries series = new TimeSeries(tName);
-            List<TemperatureData> list = map.get(tName);
-            list.sort(Comparator.comparing(TemperatureData::getDate));
-            LocalDateTime previous = list.get(0).getDate();
+            List<PresentableOnChart> list = map.get(tName);
+            list.sort(Comparator.comparing(PresentableOnChart::getTime));
+            LocalDateTime previous = list.get(0).getTime();
 
-            for (TemperatureData td : list) {
+            for (PresentableOnChart presentable : list) {
                 // adding null when three is no data
-                if (td.getDate().minusHours(2).isAfter(previous)) {
-                    LocalDateTime date = td.getDate().minusHours(1);
+                if (presentable.getTime().minusHours(2).isAfter(previous)) {
+                    LocalDateTime date = presentable.getTime().minusHours(1);
                     series.addOrUpdate(new Minute(date.getMinute(), date.getHour(), date.getDayOfMonth(), date.getMonthValue(), date.getYear()), null);
                 }
-                previous = td.getDate();
-                series.addOrUpdate(new Minute(previous.getMinute(), previous.getHour(), previous.getDayOfMonth(), previous.getMonthValue(), previous.getYear()), td.getTemperatureCelsius());
+                previous = presentable.getTime();
+                series.addOrUpdate(new Minute(previous.getMinute(), previous.getHour(), previous.getDayOfMonth(), previous.getMonthValue(), previous.getYear()), presentable.getValue());
             }
 
             result.addSeries(series);
@@ -52,11 +52,11 @@ public class ChartElementsCreator {
         return result;
     }
 
-    public XYPlot createXYPlot(List<TemperatureData> temperatureDataList, Font font) {
+    public XYPlot createXYPlot(List<PresentableOnChart> temperatureDataList, Font font, String dataAxisLabel) {
         DateAxis xAxis = new DateAxis("Czas");
         xAxis.setTickLabelFont(font);
 
-        NumberAxis yAxis = new NumberAxis("Temperatura w °C");
+        NumberAxis yAxis = new NumberAxis(dataAxisLabel);
         yAxis.setAutoRangeIncludesZero(false);
         yAxis.setTickLabelFont(font);
 
