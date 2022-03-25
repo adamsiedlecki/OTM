@@ -36,7 +36,7 @@ public class AllDevicesGen2BatteryVoltageGetter {
                         voltage = stationGen2Service.sendBatteryVoltageRequest(gen2Device.getId(), false);
 
                     } catch (Exception ex) {
-                        log.error("Voltage (healthCheck) request error catched: {}", ex.getMessage());
+                        log.error("Voltage (healthCheck) request error caught: {}", ex.getMessage());
                         return null;
                     }
                     Optional<LocationPlaceDto> locPlaceOptional = locationPlacesInfo.getById(gen2Device.getLocationPlaceId());

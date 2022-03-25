@@ -39,6 +39,13 @@ public class StationGen2Service {
         return genericSend(input, canBeTransferredByOtherStations).getVol();
     }
 
+    public String sendSleepModeRequest(int targetDevice, boolean canBeTransferredByOtherStations) {
+        GenericMessageInput input = new GenericMessageInput();
+        input.setTg(targetDevice);
+        input.setCmm(GenericMessageInput.CmmEnum._10HS);
+        return genericSend(input, canBeTransferredByOtherStations).getRes();
+    }
+
     private GenericMessageOutput genericSend(GenericMessageInput input, boolean canBeTransferredByOtherStations) {
         if (input.getTg() == null) {
             log.error("GEN2 target station is not specified!");

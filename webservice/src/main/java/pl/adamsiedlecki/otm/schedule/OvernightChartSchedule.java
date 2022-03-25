@@ -2,7 +2,6 @@ package pl.adamsiedlecki.otm.schedule;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import pl.adamsiedlecki.otm.OtmEmailSenderService;
@@ -13,7 +12,6 @@ import pl.adamsiedlecki.otm.db.temperature.TemperatureDataService;
 import pl.adamsiedlecki.otm.email.recipients.Subscribers;
 import pl.adamsiedlecki.otm.email.recipients.SubscribersInfo;
 import pl.adamsiedlecki.otm.external.services.facebook.FacebookManager;
-import pl.adamsiedlecki.otm.schedule.tools.ScheduleTools;
 import pl.adamsiedlecki.otm.tools.charts.OvernightChartCreator;
 import pl.adamsiedlecki.otm.tools.charts.tools.ChartProperties;
 import pl.adamsiedlecki.otm.tools.data.GenericsConverter;
@@ -29,7 +27,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-@Scope("singleton")
 @RequiredArgsConstructor
 @Slf4j
 public class OvernightChartSchedule {
@@ -40,7 +37,6 @@ public class OvernightChartSchedule {
 
     private final TemperatureDataService temperatureDataService;
     private final FacebookManager facebookManager;
-    private final ScheduleTools scheduleTools;
     private final OtmConfigProperties config;
     private final OvernightChartCreator chartCreator;
     private final OtmEmailSenderService otmEmailSenderService;

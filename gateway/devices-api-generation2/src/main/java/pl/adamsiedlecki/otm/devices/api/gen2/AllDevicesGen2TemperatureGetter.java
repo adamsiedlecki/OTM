@@ -36,7 +36,7 @@ public class AllDevicesGen2TemperatureGetter {
                         temperature = stationGen2Service.sendTemperatureRequest(gen2Device.getId(), false);
 
                     } catch (Exception ex) {
-                        log.error("Temperature request error catched: {}", ex.getMessage());
+                        log.error("Temperature request error caught: {}", ex.getMessage());
                         return null;
                     }
                     Optional<LocationPlaceDto> locPlaceOptional = locationPlacesInfo.getById(gen2Device.getLocationPlaceId());
