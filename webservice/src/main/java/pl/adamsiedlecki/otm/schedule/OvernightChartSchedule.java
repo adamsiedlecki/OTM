@@ -16,7 +16,9 @@ import pl.adamsiedlecki.otm.external.services.facebook.FacebookManager;
 import pl.adamsiedlecki.otm.schedule.tools.ScheduleTools;
 import pl.adamsiedlecki.otm.tools.charts.OvernightChartCreator;
 import pl.adamsiedlecki.otm.tools.charts.tools.ChartProperties;
+import pl.adamsiedlecki.otm.tools.data.GenericsConverter;
 import pl.adamsiedlecki.otm.tools.data.OtmStatistics;
+import pl.adamsiedlecki.otm.tools.data.TemperatureDataUtils;
 import pl.adamsiedlecki.otm.tools.text.Emojis;
 import pl.adamsiedlecki.otm.tools.text.TextFormatters;
 
@@ -52,8 +54,8 @@ public class OvernightChartSchedule {
         if (!lastXHours.isEmpty()) {
             log.info("There is enough data to build overnight chart");
             lastXHours.sort(Comparator.comparing(TemperatureData::getDate));
-            List<PresentableOnChart> presentableList = scheduleTools.convert(lastXHours);
-            boolean isBelowZero = scheduleTools.isBelowZero(presentableList);
+            List<PresentableOnChart> presentableList = GenericsConverter.convert(lastXHours);
+            boolean isBelowZero = TemperatureDataUtils.isAnyBelowZero(presentableList);
             String timePeriod = TextFormatters.getPretty(lastXHours.get(0).getDate()) + "  -  " + TextFormatters.getPretty(lastXHours.get(lastXHours.size() - 1).getDate());
 
             File chart = chartCreator.createChart(presentableList,

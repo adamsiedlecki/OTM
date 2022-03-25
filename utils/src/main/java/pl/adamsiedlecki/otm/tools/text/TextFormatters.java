@@ -15,6 +15,9 @@ public class TextFormatters {
     public static final DateTimeFormatter LOCAL_DATE_TIME_HOUR_FORMATTER = DateTimeFormatter.ofPattern("H:mm");
 
     public static String getPretty(LocalDateTime time) {
+        if (time == null) {
+            return "";
+        }
         return time.format(LOCAL_DATE_TIME_FORMATTER);
     }
 

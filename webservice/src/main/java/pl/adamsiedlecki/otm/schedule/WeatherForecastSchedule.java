@@ -15,9 +15,9 @@ import pl.adamsiedlecki.otm.external.services.open.weather.OpenWeatherFetcher;
 import pl.adamsiedlecki.otm.external.services.open.weather.OpenWeatherTools;
 import pl.adamsiedlecki.otm.external.services.open.weather.pojo.open.weather.two.days.ahead.Hourly;
 import pl.adamsiedlecki.otm.external.services.open.weather.pojo.open.weather.two.days.ahead.OpenWeatherTwoDaysAheadPojo;
-import pl.adamsiedlecki.otm.schedule.tools.ScheduleTools;
 import pl.adamsiedlecki.otm.tools.charts.ForecastChartCreator;
 import pl.adamsiedlecki.otm.tools.charts.tools.ChartProperties;
+import pl.adamsiedlecki.otm.tools.data.TemperatureDataUtils;
 import pl.adamsiedlecki.otm.tools.files.MyFilesystem;
 import pl.adamsiedlecki.otm.tools.text.Emojis;
 import pl.adamsiedlecki.otm.tools.text.TextFormatters;
@@ -42,7 +42,6 @@ public class WeatherForecastSchedule {
     private final LocationService locationService;
     private final OpenWeatherFetcher openWeatherFetcher;
     private final FacebookManager facebookManager;
-    private final ScheduleTools scheduleTools;
     private final OtmConfigProperties config;
     private final ForecastChartCreator chartCreator;
     private final MyFilesystem myFilesystem;
@@ -64,7 +63,7 @@ public class WeatherForecastSchedule {
                 td.setTemperatureCelsius(new BigDecimal("" + h.getTemp()));
                 return td;
             }).collect(Collectors.toList());
-            boolean isBelowZero = scheduleTools.isBelowZero(predictionTdList);
+            boolean isBelowZero = TemperatureDataUtils.isAnyBelowZero(predictionTdList);
 
             File chart = chartCreator.createChart(predictionTdList,
                     config.getDefaultChartWidth(),
