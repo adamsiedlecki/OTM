@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @Component
 public class ChartElementsCreator {
 
-    public XYDataset createSampleData(List<PresentableOnChart> temperatureDataList) {
+    public XYDataset createSampleData(List<? extends PresentableOnChart> temperatureDataList) {
 
         TimeSeriesCollection result = new TimeSeriesCollection();
         Map<String, List<PresentableOnChart>> map =
@@ -52,7 +52,7 @@ public class ChartElementsCreator {
         return result;
     }
 
-    public XYPlot createXYPlot(List<PresentableOnChart> temperatureDataList, Font font, String dataAxisLabel) {
+    public XYPlot createXYPlot(List<? extends PresentableOnChart> presentableOnChartDataList, Font font, String dataAxisLabel) {
         DateAxis xAxis = new DateAxis("Czas");
         xAxis.setTickLabelFont(font);
 
@@ -95,7 +95,7 @@ public class ChartElementsCreator {
             }
         }
 
-        XYPlot plot = new XYPlot(createSampleData(temperatureDataList), xAxis, yAxis, renderer1);
+        XYPlot plot = new XYPlot(createSampleData(presentableOnChartDataList), xAxis, yAxis, renderer1);
         plot.setBackgroundPaint(Color.lightGray);
         plot.setDomainGridlinePaint(Color.white);
         plot.setRangeGridlinePaint(Color.white);

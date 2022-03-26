@@ -29,7 +29,7 @@ public class SimpleChartCreator implements ChartCreator {
 
 
     @Override
-    public File createChart(List<PresentableOnChart> healthCheckDataList, int width, int height, String title, String dataAxisLabel) {
+    public File createChart(List<? extends PresentableOnChart> healthCheckDataList, int width, int height, String title, String dataAxisLabel) {
         if (healthCheckDataList.isEmpty()) {
             log.error("Cannot create chart due to no data");
             return new File("");

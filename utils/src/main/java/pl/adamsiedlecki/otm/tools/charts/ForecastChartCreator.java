@@ -28,7 +28,7 @@ public class ForecastChartCreator implements ChartCreator {
     private final MyFilesystem myFilesystem;
 
     @Override
-    public File createChart(List<PresentableOnChart> presentableList, int width, int height, String title, String dataAxisTitle) {
+    public File createChart(List<? extends PresentableOnChart> presentableList, int width, int height, String title, String dataAxisTitle) {
         presentableList.sort(Comparator.comparing(PresentableOnChart::getTime));
         if (presentableList.isEmpty()) {
             log.error("Cannot create chart due to no data");

@@ -8,9 +8,9 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class TemperatureDataUtils {
+public class ChartDataUtils {
 
-    public static boolean isAnyBelowZero(final List<PresentableOnChart> data) {
+    public static boolean isAnyBelowZero(final List<? extends PresentableOnChart> data) {
         return data.stream().anyMatch(td -> td.getValue() != null && td.getValue().compareTo(BigDecimal.ZERO) < 0);
     }
 }

@@ -17,7 +17,7 @@ import pl.adamsiedlecki.otm.external.services.open.weather.pojo.open.weather.two
 import pl.adamsiedlecki.otm.external.services.open.weather.pojo.open.weather.two.days.ahead.OpenWeatherTwoDaysAheadPojo;
 import pl.adamsiedlecki.otm.tools.charts.ForecastChartCreator;
 import pl.adamsiedlecki.otm.tools.charts.tools.ChartProperties;
-import pl.adamsiedlecki.otm.tools.data.TemperatureDataUtils;
+import pl.adamsiedlecki.otm.tools.data.ChartDataUtils;
 import pl.adamsiedlecki.otm.tools.files.MyFilesystem;
 import pl.adamsiedlecki.otm.tools.text.Emojis;
 import pl.adamsiedlecki.otm.tools.text.TextFormatters;
@@ -63,7 +63,7 @@ public class WeatherForecastSchedule {
                 td.setTemperatureCelsius(new BigDecimal("" + h.getTemp()));
                 return td;
             }).collect(Collectors.toList());
-            boolean isBelowZero = TemperatureDataUtils.isAnyBelowZero(predictionTdList);
+            boolean isBelowZero = ChartDataUtils.isAnyBelowZero(predictionTdList);
 
             File chart = chartCreator.createChart(predictionTdList,
                     config.getDefaultChartWidth(),

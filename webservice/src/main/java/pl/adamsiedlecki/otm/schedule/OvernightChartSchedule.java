@@ -6,7 +6,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import pl.adamsiedlecki.otm.OtmEmailSenderService;
 import pl.adamsiedlecki.otm.config.OtmConfigProperties;
-import pl.adamsiedlecki.otm.db.PresentableOnChart;
 import pl.adamsiedlecki.otm.db.temperature.TemperatureData;
 import pl.adamsiedlecki.otm.db.temperature.TemperatureDataService;
 import pl.adamsiedlecki.otm.email.recipients.Subscribers;
@@ -14,9 +13,8 @@ import pl.adamsiedlecki.otm.email.recipients.SubscribersInfo;
 import pl.adamsiedlecki.otm.external.services.facebook.FacebookManager;
 import pl.adamsiedlecki.otm.tools.charts.OvernightChartCreator;
 import pl.adamsiedlecki.otm.tools.charts.tools.ChartProperties;
-import pl.adamsiedlecki.otm.tools.data.GenericsConverter;
+import pl.adamsiedlecki.otm.tools.data.ChartDataUtils;
 import pl.adamsiedlecki.otm.tools.data.OtmStatistics;
-import pl.adamsiedlecki.otm.tools.data.TemperatureDataUtils;
 import pl.adamsiedlecki.otm.tools.text.Emojis;
 import pl.adamsiedlecki.otm.tools.text.TextFormatters;
 
@@ -50,11 +48,10 @@ public class OvernightChartSchedule {
         if (!lastXHours.isEmpty()) {
             log.info("There is enough data to build overnight chart");
             lastXHours.sort(Comparator.comparing(TemperatureData::getDate));
-            List<PresentableOnChart> presentableList = GenericsConverter.convert(lastXHours);
-            boolean isBelowZero = TemperatureDataUtils.isAnyBelowZero(presentableList);
+            boolean isBelowZero = ChartDataUtils.isAnyBelowZero(lastXHours);
             String timePeriod = TextFormatters.getPretty(lastXHours.get(0).getDate()) + "  -  " + TextFormatters.getPretty(lastXHours.get(lastXHours.size() - 1).getDate());
 
-            File chart = chartCreator.createChart(presentableList,
+            File chart = chartCreator.createChart(lastXHours,
                     config.getDefaultChartWidth(),
                     config.getDefaultChartHeight(),
                     ChartProperties.TEMPERATURE_DEFAULT.get() + " " + timePeriod,

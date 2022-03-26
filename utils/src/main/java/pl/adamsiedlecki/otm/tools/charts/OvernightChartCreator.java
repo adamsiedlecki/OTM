@@ -27,7 +27,7 @@ public class OvernightChartCreator implements ChartCreator {
     private final MyFilesystem myFilesystem;
 
     @Override
-    public File createChart(List<PresentableOnChart> presentableOnChartList, int width, int height, String title, String dataAxisTitle) {
+    public File createChart(List<? extends PresentableOnChart> presentableOnChartList, int width, int height, String title, String dataAxisTitle) {
         if (presentableOnChartList.isEmpty()) {
             log.error("Cannot create chart due to no data");
             return new File("");

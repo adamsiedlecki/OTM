@@ -6,8 +6,7 @@ import org.springframework.stereotype.Component;
 import pl.adamsiedlecki.otm.data.fetcher.TemperatureDataFetcher;
 import pl.adamsiedlecki.otm.db.temperature.TemperatureData;
 import pl.adamsiedlecki.otm.external.services.facebook.FacebookManager;
-import pl.adamsiedlecki.otm.tools.data.GenericsConverter;
-import pl.adamsiedlecki.otm.tools.data.TemperatureDataUtils;
+import pl.adamsiedlecki.otm.tools.data.ChartDataUtils;
 import pl.adamsiedlecki.otm.tools.text.Emojis;
 import pl.adamsiedlecki.otm.tools.text.TextFormatters;
 
@@ -41,7 +40,7 @@ public class TemperatureJob {
         if (data.isEmpty()) {
             return;
         }
-        boolean isBelowZero = TemperatureDataUtils.isAnyBelowZero(GenericsConverter.convert(data));
+        boolean isBelowZero = ChartDataUtils.isAnyBelowZero(data);
 
         if (isBelowZero) {
             log.info("Temperatures below zero found");
