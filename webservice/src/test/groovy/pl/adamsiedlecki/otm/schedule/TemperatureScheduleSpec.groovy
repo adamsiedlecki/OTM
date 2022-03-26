@@ -16,17 +16,17 @@ class TemperatureScheduleSpec extends Specification {
 
     def "should run job every hour"() {
         when:
-        sut.checkTemperaturesHourly()
+            sut.checkTemperaturesHourly()
 
         then:
-        1 * temperatureJob.fetchSaveAndConditionallyPostOnFacebook()
+            1 * temperatureJob.fetchSaveAndConditionallyPostOnFacebook()
     }
 
     def "should run job every half hour"() {
         when:
-        sut.checkTemperaturesHalfHourAtNight()
+            sut.checkTemperaturesHalfHourAtNight()
 
         then:
-        1 * temperatureJob.fetchSaveAndConditionallyPostOnFacebook()
+            1 * temperatureJob.fetchSaveAndConditionallyPostOnFacebook()
     }
 }
