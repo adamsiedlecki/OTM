@@ -22,7 +22,7 @@ import static org.testng.Assert.assertTrue;
 public class SimpleChartCreatorTest extends BaseSpringTest {
 
     @Autowired
-    private SimpleChartCreator simpleChartCreator;
+    private SimpleChartCreator sut;
 
     @Autowired
     private OtmConfigProperties config;
@@ -41,7 +41,7 @@ public class SimpleChartCreatorTest extends BaseSpringTest {
         List<PresentableOnChart> tempList = preparePresentableOnChartDataList();
 
         //when
-        File file = simpleChartCreator.createChart(tempList, 1000, 500, "just simple chart title", "Temperature");
+        File file = sut.createChart(tempList, 1000, 500, "just simple chart title", "Temperature");
 
         //then
         Awaitility.await().atMost(10, TimeUnit.SECONDS).until(file::exists);
@@ -54,7 +54,7 @@ public class SimpleChartCreatorTest extends BaseSpringTest {
         List<PresentableOnChart> tempList = preparePresentableOnChartDataList();
 
         //when
-        File file = simpleChartCreator.createChart(tempList, 1000, 500, "just simple chart title", "Temperature");
+        File file = sut.createChart(tempList, 1000, 500, "just simple chart title", "Temperature");
 
         //then
         Awaitility.await().atMost(30, TimeUnit.SECONDS).until(file::exists);
@@ -67,7 +67,7 @@ public class SimpleChartCreatorTest extends BaseSpringTest {
         List<PresentableOnChart> tempList = TestDataUtils.preparePresentableOnChartDataList(4);
 
         //when
-        File file = simpleChartCreator.createChart(tempList, config.getDefaultChartWidth(), config.getDefaultChartHeight(), "just simple chart title", "Temperature");
+        File file = sut.createChart(tempList, config.getDefaultChartWidth(), config.getDefaultChartHeight(), "just simple chart title", "Temperature");
 
         //then
         Awaitility.await().atMost(20, TimeUnit.SECONDS).until(file::exists);
@@ -79,7 +79,7 @@ public class SimpleChartCreatorTest extends BaseSpringTest {
         //given
         List<PresentableOnChart> tempList = TestDataUtils.preparePresentableOnChartDataList(4);
         //when
-        File file = simpleChartCreator.createChart(tempList, config.getDefaultChartWidth(), config.getDefaultChartHeight(), "title of chart with data from 5 stations", "Temperature");
+        File file = sut.createChart(tempList, config.getDefaultChartWidth(), config.getDefaultChartHeight(), "title of chart with data from 5 stations", "Temperature");
 
         //then
         Awaitility.await().atMost(10, TimeUnit.SECONDS).until(file::exists);

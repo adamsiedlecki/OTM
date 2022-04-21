@@ -22,7 +22,7 @@ import static org.testng.Assert.assertTrue;
 public class OvernightChartCreatorTest extends BaseSpringTest {
 
     @Autowired
-    private OvernightChartCreator overnightChartCreator;
+    private OvernightChartCreator sut;
 
     @Autowired
     private OtmConfigProperties config;
@@ -41,7 +41,7 @@ public class OvernightChartCreatorTest extends BaseSpringTest {
         List<PresentableOnChart> tempList = preparePresentableOnChartDataList();
 
         //when
-        File file = overnightChartCreator.createChart(tempList, 1000, 500, "just simple chart title", "Temperature");
+        File file = sut.createChart(tempList, 1000, 500, "just simple chart title", "Temperature");
 
         //then
         Awaitility.await().atMost(10, TimeUnit.SECONDS).until(file::exists);
@@ -54,7 +54,7 @@ public class OvernightChartCreatorTest extends BaseSpringTest {
         List<PresentableOnChart> tempList = TestDataUtils.preparePresentableOnChartDataList(6);
 
         //when
-        File file = overnightChartCreator.createChart(tempList, 1000, 500, "just simple chart title", "Temperature");
+        File file = sut.createChart(tempList, 1000, 500, "just simple chart title", "Temperature");
 
         //then
         Awaitility.await().atMost(20, TimeUnit.SECONDS).until(file::exists);
@@ -67,7 +67,7 @@ public class OvernightChartCreatorTest extends BaseSpringTest {
         List<PresentableOnChart> tempList = TestDataUtils.preparePresentableOnChartDataList(6);
 
         //when
-        File file = overnightChartCreator.createChart(tempList, config.getDefaultChartWidth(), config.getDefaultChartHeight(), "just simple chart title", "Temperature");
+        File file = sut.createChart(tempList, config.getDefaultChartWidth(), config.getDefaultChartHeight(), "just simple chart title", "Temperature");
 
         //then
         Awaitility.await().atMost(20, TimeUnit.SECONDS).until(file::exists);

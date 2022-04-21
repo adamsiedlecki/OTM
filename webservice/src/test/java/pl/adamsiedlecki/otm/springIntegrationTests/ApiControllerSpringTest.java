@@ -2,19 +2,14 @@ package pl.adamsiedlecki.otm.springIntegrationTests;
 
 import org.mockserver.client.MockServerClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import pl.adamsiedlecki.otm.OtmApplication;
 import pl.adamsiedlecki.otm.controller.not.secured.api.ApiController;
 import pl.adamsiedlecki.otm.db.temperature.TemperatureData;
 import pl.adamsiedlecki.otm.db.temperature.TemperatureDataService;
+import pl.adamsiedlecki.otm.testTools.BaseSpringTest;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -25,10 +20,7 @@ import static org.mockserver.integration.ClientAndServer.startClientAndServer;
 import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
 
-@SpringBootTest
-@TestExecutionListeners(MockitoTestExecutionListener.class)
-@ContextConfiguration(classes = {OtmApplication.class})
-public class ApiControllerSpringTest extends AbstractTestNGSpringContextTests {
+public class ApiControllerSpringTest extends BaseSpringTest {
 
     private static final int MOCK_API_PORT = 80;
 

@@ -1,23 +1,15 @@
 package pl.adamsiedlecki.otm.springIntegrationTests;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener;
 import org.springframework.core.env.Environment;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.Test;
-import pl.adamsiedlecki.otm.OtmApplication;
 import pl.adamsiedlecki.otm.config.FacebookApiProperties;
 import pl.adamsiedlecki.otm.config.OtmConfigProperties;
+import pl.adamsiedlecki.otm.testTools.BaseSpringTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
-@TestExecutionListeners(MockitoTestExecutionListener.class)
-@ContextConfiguration(classes = {OtmApplication.class})
-public class ConfigurationPropertiesSpringTest extends AbstractTestNGSpringContextTests {
+public class ConfigurationPropertiesSpringTest extends BaseSpringTest {
 
     @Autowired
     private OtmConfigProperties sut;

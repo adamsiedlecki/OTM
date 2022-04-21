@@ -1,26 +1,18 @@
 package pl.adamsiedlecki.otm.springIntegrationTests;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.Test;
-import pl.adamsiedlecki.otm.OtmApplication;
 import pl.adamsiedlecki.otm.station.info.gen1.Gen1Device;
 import pl.adamsiedlecki.otm.station.info.gen1.Gen1DevicesInfo;
 import pl.adamsiedlecki.otm.station.info.gen2.Gen2Device;
 import pl.adamsiedlecki.otm.station.info.gen2.Gen2DevicesInfo;
+import pl.adamsiedlecki.otm.testTools.BaseSpringTest;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
-@TestExecutionListeners(MockitoTestExecutionListener.class)
-@ContextConfiguration(classes = {OtmApplication.class})
-public class DevicesJsonPropertiesConfigurationSpringTest extends AbstractTestNGSpringContextTests {
+public class DevicesJsonPropertiesConfigurationSpringTest extends BaseSpringTest {
 
     @Autowired
     private Gen2DevicesInfo sut;
