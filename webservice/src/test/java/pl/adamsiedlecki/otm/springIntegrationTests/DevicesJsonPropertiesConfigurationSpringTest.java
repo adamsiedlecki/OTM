@@ -47,7 +47,7 @@ public class DevicesJsonPropertiesConfigurationSpringTest extends BaseSpringTest
         assertThat(gen2Devices).isNotNull();
         assertThat(gen2Devices.size()).isEqualTo(1);
         assertThat(gen2Devices.get(0).getId()).isEqualTo(1);
-        assertThat(gen2Devices.get(0).getName()).isEqualTo("1 stacja 2 generacji");
+        assertThat(gen2Devices.get(0).getName()).isEqualTo("s1g2");
         assertThat(gen2Devices.get(0).getLongitude()).isEqualTo("20");
         assertThat(gen2Devices.get(0).getLatitude()).isEqualTo("51");
     }

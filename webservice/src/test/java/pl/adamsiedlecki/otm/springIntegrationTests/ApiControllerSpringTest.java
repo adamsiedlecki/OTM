@@ -110,9 +110,9 @@ public class ApiControllerSpringTest extends BaseSpringTest {
     public Object[][] getCorrectGen1DataFromEsp() {
         return new Object[][]{
                 // order: reponseBodyGen1, responsesCount, stationIds, stationIdsAfterAliasing, stationTemperatures
-                arr("t1::9.49;t3::9.63; ", 3, List.of("t1", "t3", "1 stacja 2 generacji"), List.of("t1 staw", "t3 domek", "1 stacja 2 generacji"), List.of("9.49", "9.63", "21.37")),
-                arr("t2::9.48;t3::9.44; ", 3, List.of("t2", "t3", "1 stacja 2 generacji"), List.of("t2 gala", "t3 domek", "1 stacja 2 generacji"), List.of("9.48", "9.44", "21.37")),
-                arr("t1::9.49;t2::10.11;t3::-10.1;t4::-0.01; ", 5, List.of("t1", "t2", "t3", "t4", "1 stacja 2 generacji"), List.of("t1 staw", "t2 gala", "t3 domek", "t4", "1 stacja 2 generacji"), List.of("9.49", "10.11", "-10.1", "-0.01", "21.37")),
+                arr("t1::9.49;t3::9.63; ", 3, List.of("t1", "t3", "s1g2"), List.of("t1 staw", "t3 domek", "s1g2"), List.of("9.49", "9.63", "21.37")),
+                arr("t2::9.48;t3::9.44; ", 3, List.of("t2", "t3", "s1g2"), List.of("t2 gala", "t3 domek", "s1g2"), List.of("9.48", "9.44", "21.37")),
+                arr("t1::9.49;t2::10.11;t3::-10.1;t4::-0.01; ", 5, List.of("t1", "t2", "t3", "t4", "s1g2"), List.of("t1 staw", "t2 gala", "t3 domek", "t4", "s1g2"), List.of("9.49", "10.11", "-10.1", "-0.01", "21.37")),
         };
     }
 
