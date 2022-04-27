@@ -21,7 +21,7 @@ gen1-devices:
 gen2-devices:
   devices:
     - id: 1
-      name: "1 stacja 2 generacji"
+      name: "s1g2"
       longitude: 20
       latitude: 51
       location-place-id: 1
