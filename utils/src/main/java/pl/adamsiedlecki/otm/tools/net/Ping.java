@@ -12,9 +12,9 @@ import java.net.Socket;
 public class Ping {
 
     private static final short TIMEOUT = 1500;
-    private static final Socket socket = new Socket();
 
     public boolean isReachable(String address, int port) {
+        Socket socket = new Socket();
         try (socket) {
             address = address.replace("http://", "").replace("https://", "");
             socket.connect(new InetSocketAddress(address, port), TIMEOUT);
