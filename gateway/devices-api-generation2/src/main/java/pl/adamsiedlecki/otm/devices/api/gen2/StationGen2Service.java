@@ -60,7 +60,7 @@ public class StationGen2Service {
             output = gen2DevicesApi.sendGenericRequest(input);
             log.info("Received GEN2 response: \n" + output);
         } catch (ApiException e) {
-            log.error("Exception was thrown during generic GEN2 request: \n" + input);
+            log.error("Exception was thrown during generic GEN2 request.");
             throw new Gen2DevicesApiException(e.getMessage());
         }
         if (!output.getA().equals(input.getTg())) {

@@ -11,11 +11,12 @@ import java.net.Socket;
 @Slf4j
 public class Ping {
 
-    private static final short TIMEOUT = 1200;
+    private static final short TIMEOUT = 1500;
     private static final Socket socket = new Socket();
 
-    public boolean isReachable(String address, short port) {
+    public boolean isReachable(String address, int port) {
         try (socket) {
+            address = address.replace("http://", "").replace("https://", "");
             socket.connect(new InetSocketAddress(address, port), TIMEOUT);
             return true;
         } catch (IOException ex) {
