@@ -14,6 +14,8 @@ This application is just a part of a larger system, which also includes server o
 - some Thymeleaf
 - MySQL
 - JPA/Hibernate
+- TestContainers 1.16.3
+- Spock
 
 <h3>Examples of charts:</h3>
 <p align="center">
