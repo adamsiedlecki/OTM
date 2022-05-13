@@ -25,9 +25,14 @@ This application is just a part of a larger system, which also includes server o
   <img src="https://github.com/adamsiedlecki/readme-pics/blob/master/pics/otm/long term chart.jpg"/>
 </p>
 
+<h3>Architecture overview:</h3>
+<p align="center">
+  <img src="https://github.com/adamsiedlecki/readme-pics/blob/master/pics/otm/otm-architecture-miro.jpg" height="70%" width="70%" align="center"/>
+</p>
+
 <h3>Station overview:</h3>
 <p align="center">
-  <img src="https://github.com/adamsiedlecki/readme-pics/blob/master/pics/otm/station overview.jpg" height="50%" width="50%" align="center"/>
+  <img src="https://github.com/adamsiedlecki/readme-pics/blob/master/pics/otm/station overview.jpg" height="70%" width="70%" align="center"/>
 </p>
 
 <h3>Solar panels and station inside: </h3>
