@@ -11,7 +11,9 @@ import javax.mail.Session;
 import java.util.Properties;
 
 /**
- * @see <a href="https://myaccount.google.com/lesssecureapps?pli=1&rapt=AEjHL4PS8ccwVs5gH85MCjsfe8dY9Pxh8szYB6lQaunzATCNp0joWglAxwwo8x8xXZip-8TyfWBZmsfgIWw1Yg-R9eM9LBfqsg">Enable less secure applications</a>
+ * @see <a href="https://myaccount.google.com/lesssecureapps?pli=1&rapt=AEjHL4PS8ccwVs5gH85MCjsfe8dY9Pxh8szYB6lQaunzATCNp0joWglAxwwo8x8xXZip-8TyfWBZmsfgIWw1Yg-R9eM9LBfqsg">
+ *     Enable less secure applications
+ *     </a>
  */
 
 @Configuration

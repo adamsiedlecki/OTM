@@ -16,6 +16,8 @@ import java.util.Optional;
 @Slf4j
 class HtmlToTemperatureData {
 
+    private static final int MAX_TEMPERATURE_DATA_LENGTH = 6;
+
     public List<TemperatureData> process(String html) {
         if (html == null || html.isBlank()) {
             return List.of();
@@ -62,7 +64,7 @@ class HtmlToTemperatureData {
         if (temperature.contains("no response")) {
 
             return Optional.empty();
-        } else if (temperature.length() > 6) { // temperature format is xx.xx or -xx.xx
+        } else if (temperature.length() > MAX_TEMPERATURE_DATA_LENGTH) { // temperature format is xx.xx or -xx.xx
             return Optional.empty();
         } else {
             if (NumberUtils.isCreatable(temperature)) {

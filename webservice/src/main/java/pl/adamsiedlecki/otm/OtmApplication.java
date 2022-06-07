@@ -35,11 +35,10 @@ public class OtmApplication {
         String admin = "admin";
         UserDs userDs = ctx.getBean(UserDs.class);
         if (userDs.getUserByUsername(admin).isEmpty()) {
-            User user = User.UserBuilder
-                    .anUser()
-                    .withUsername(admin)
-                    .withPassword(admin)
-                    .withRoles(List.of(new UserAuthority("ADMIN")))
+            User user = User.builder()
+                    .username(admin)
+                    .password(admin)
+                    .roles(List.of(new UserAuthority("ADMIN")))
                     .build();
             userDs.saveUser(user);
         }

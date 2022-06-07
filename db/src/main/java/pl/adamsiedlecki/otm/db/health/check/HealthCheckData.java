@@ -12,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Entity
 @Builder
@@ -20,6 +19,8 @@ import java.util.Objects;
 @NoArgsConstructor
 @Getter
 @Setter
+@EqualsAndHashCode
+@ToString
 public class HealthCheckData implements PresentableOnChart {
 
     @Id
@@ -32,31 +33,6 @@ public class HealthCheckData implements PresentableOnChart {
     @ManyToOne
     private LocationPlace locationPlace;
     private LocalDateTime date;
-
-    @Override
-    public String toString() {
-        return "HealthCheckData{" +
-                "id=" + id +
-                ", voltage=" + voltage +
-                ", transmitterName='" + transmitterName + '\'' +
-                ", location=" + location +
-                ", locationPlace=" + locationPlace +
-                ", date=" + date +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof HealthCheckData)) return false;
-        HealthCheckData that = (HealthCheckData) o;
-        return Objects.equals(getId(), that.getId()) && Objects.equals(getVoltage(), that.getVoltage()) && Objects.equals(getTransmitterName(), that.getTransmitterName()) && Objects.equals(getLocation(), that.getLocation()) && Objects.equals(getLocationPlace(), that.getLocationPlace()) && Objects.equals(getDate(), that.getDate());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getVoltage(), getTransmitterName(), getLocation(), getLocationPlace(), getDate());
-    }
 
     @Override
     @JsonIgnore

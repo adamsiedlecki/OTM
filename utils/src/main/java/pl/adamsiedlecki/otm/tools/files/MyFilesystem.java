@@ -21,6 +21,7 @@ import java.util.stream.Stream;
 public class MyFilesystem {
 
     private static final long TWO_WEEKS_MILLIS = 1000L * 60 * 60 * 24 * 14;
+    private static final int MILLIS_IN_A_SECOND = 1000;
     private static final String SEP = File.separator;
     private static final String STORAGE = "storage";
     private static final String THIS_IS_NOT_A_DIRECTORY = "This is not a directory: {}";
@@ -65,7 +66,7 @@ public class MyFilesystem {
     }
 
     public boolean fileExistsAndIsNoOlderThanXSeconds(File file, long x) {
-        return file.exists() && (System.currentTimeMillis() - file.lastModified()) < (x * 1000);
+        return file.exists() && (System.currentTimeMillis() - file.lastModified()) < (x * MILLIS_IN_A_SECOND);
     }
 
     @Scheduled(cron = "0 0 0 1 * *") // first day of month

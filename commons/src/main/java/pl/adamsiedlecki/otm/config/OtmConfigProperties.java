@@ -16,6 +16,9 @@ public class OtmConfigProperties {
     @Value("${otm.gen2.api.address}")
     private String gen2ApiAddress;
 
+    @Value("${otm.gen3.api.address}")
+    private String gen3ApiAddress;
+
     @Value("${otm.default.chart.width}")
     private int defaultChartWidth;
 

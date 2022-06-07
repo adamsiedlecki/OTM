@@ -1,0 +1,48 @@
+gen1-devices:
+  devices:
+    - original-name: t1
+      alias-name: staw
+      longitude: 20
+      latitude: 51
+      location-place-id: 1
+
+    - original-name: t2
+      alias-name: gala
+      longitude: 20
+      latitude: 51
+      location-place-id: 1
+
+    - original-name: t3
+      alias-name: domek
+      longitude: 20
+      latitude: 51
+      location-place-id: 1
+
+gen2-devices:
+  devices:
+    - id: 1
+      name: "s1g2"
+      longitude: 20
+      latitude: 51
+      location-place-id: 1
+
+gen3-devices:
+  devices:
+    - id: 2
+      name: "s2g3 balkon"
+      longitude: 20
+      latitude: 51
+      location-place-id: 1
+      hasBattery: false
+
+location-places:
+  places:
+    - id: 1
+      name: "Gospodarstwo - Siedlecki"
+      town: "Czachów"
+
+email-subscribers:
+  subscribers:
+    - id: 1
+      email: "testmail@gmail.com"
+      location-place-id: 1

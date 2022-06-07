@@ -14,6 +14,9 @@ import java.net.URLConnection;
 @Slf4j
 public class EspApiTool {
 
+    private static final int READ_TIMEOUT = 25000;
+    private static final int RETRY_AFTER_MILLIS = 5500;
+
     public String getHtml(String apiAddress) throws EspNoResponseException {
         String content = null;
         int status = 0;
@@ -21,7 +24,7 @@ public class EspApiTool {
             URL url = new URL(apiAddress);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
-            con.setReadTimeout(25000);
+            con.setReadTimeout(READ_TIMEOUT);
             status = con.getResponseCode();
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
             String inputLine;
@@ -51,7 +54,7 @@ public class EspApiTool {
         log.info("esp no response");
         sendRestartCommand(apiAddress);
         try {
-            Thread.sleep(5500);
+            Thread.sleep(RETRY_AFTER_MILLIS);
             content = getHtml(apiAddress);
         } catch (InterruptedException e) {
             log.error(e.getMessage());

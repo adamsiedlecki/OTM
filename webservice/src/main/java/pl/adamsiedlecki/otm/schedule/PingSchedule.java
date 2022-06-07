@@ -12,6 +12,9 @@ import pl.adamsiedlecki.otm.tools.net.Ping;
 @Slf4j
 public class PingSchedule {
 
+    private static final int MAX_TRY_AMOUNT = 5;
+    private static final int PING_PORT = 80;
+
     private final Ping ping;
     private final OtmConfigProperties otmConfigProperties;
 
@@ -23,8 +26,8 @@ public class PingSchedule {
     public boolean areHttpDevicesAvailable() {
         log.info("Ping schedule is running");
 
-        boolean isGen1Available = pingUntilReachable(otmConfigProperties.getGen1ApiAddress(), 5);
-        boolean isGen2Available = pingUntilReachable(otmConfigProperties.getGen2ApiAddress(), 5);
+        boolean isGen1Available = pingUntilReachable(otmConfigProperties.getGen1ApiAddress(), MAX_TRY_AMOUNT);
+        boolean isGen2Available = pingUntilReachable(otmConfigProperties.getGen2ApiAddress(), MAX_TRY_AMOUNT);
 
         return isGen1Available && isGen2Available;
     }
@@ -32,7 +35,7 @@ public class PingSchedule {
     private boolean pingUntilReachable(String address, int maxTryAmount) {
         boolean isReachable = false;
         for (int i = 1; i <= maxTryAmount; i++) {
-            isReachable = ping.isReachable(address, 80);
+            isReachable = ping.isReachable(address, PING_PORT);
             if (isReachable) {
                 log.info("{} is reachable within {} try.", address, i);
                 break;

@@ -1,12 +1,16 @@
 package pl.adamsiedlecki.otm.db.location;
 
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
-@Table(
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"longitude", "latitude"})}
-)
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"longitude", "latitude"})})
+@EqualsAndHashCode
+@ToString
+@NoArgsConstructor
 public class Location {
 
     @Id
@@ -14,9 +18,6 @@ public class Location {
     private long id;
     private String longitude;
     private String latitude;
-
-    public Location() {
-    }
 
     public Location(String latitude, String longitude) {
         this.longitude = longitude;
@@ -47,25 +48,4 @@ public class Location {
         this.latitude = latitude;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Location)) return false;
-        Location location = (Location) o;
-        return Objects.equals(getLongitude(), location.getLongitude()) && Objects.equals(getLatitude(), location.getLatitude());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getLongitude(), getLatitude());
-    }
-
-    @Override
-    public String toString() {
-        return "Location{" +
-                "id=" + id +
-                ", longitude=" + longitude +
-                ", latitude=" + latitude +
-                '}';
-    }
 }

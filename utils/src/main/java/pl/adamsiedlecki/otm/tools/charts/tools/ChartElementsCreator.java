@@ -7,7 +7,6 @@ import org.jfree.chart.labels.StandardXYItemLabelGenerator;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.ui.RectangleInsets;
-import org.jfree.data.time.Minute;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYDataset;
@@ -22,7 +21,10 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
+@SuppressWarnings("checkstyle:magicnumber") // there are multiple font sizes and so on
 public class ChartElementsCreator {
+
+    private static final String TIME_LABEL = "Czas";
 
     public XYDataset createSampleData(List<? extends PresentableOnChart> temperatureDataList) {
 
@@ -41,10 +43,10 @@ public class ChartElementsCreator {
                 // adding null when three is no data
                 if (presentable.getTime().minusHours(2).isAfter(previous)) {
                     LocalDateTime date = presentable.getTime().minusHours(1);
-                    series.addOrUpdate(new Minute(date.getMinute(), date.getHour(), date.getDayOfMonth(), date.getMonthValue(), date.getYear()), null);
+                    series.addOrUpdate(JFreeChartUtils.convert(date), null);
                 }
                 previous = presentable.getTime();
-                series.addOrUpdate(new Minute(previous.getMinute(), previous.getHour(), previous.getDayOfMonth(), previous.getMonthValue(), previous.getYear()), presentable.getValue());
+                series.addOrUpdate(JFreeChartUtils.convert(previous), presentable.getValue());
             }
 
             result.addSeries(series);
@@ -53,7 +55,7 @@ public class ChartElementsCreator {
     }
 
     public XYPlot createXYPlot(List<? extends PresentableOnChart> presentableOnChartDataList, Font font, String dataAxisLabel) {
-        DateAxis xAxis = new DateAxis("Czas");
+        DateAxis xAxis = new DateAxis(TIME_LABEL);
         xAxis.setTickLabelFont(font);
 
         NumberAxis yAxis = new NumberAxis(dataAxisLabel);

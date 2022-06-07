@@ -22,9 +22,9 @@ public class TemperatureDataService {
         this.temperatureDataRepo = temperatureDataRepo;
     }
 
-    public Optional<List<TemperatureData>> getLastTemperatures(){
+    public Optional<List<TemperatureData>> getLastTemperatures() {
         Optional<TemperatureData> firstByOrderByDateDesc = temperatureDataRepo.findFirstByOrderByDateDesc();
-        if(firstByOrderByDateDesc.isEmpty()){
+        if (firstByOrderByDateDesc.isEmpty()) {
             return Optional.empty();
         }
         return temperatureDataRepo.getLastTemperaturesByDate(firstByOrderByDateDesc.get().getDate());

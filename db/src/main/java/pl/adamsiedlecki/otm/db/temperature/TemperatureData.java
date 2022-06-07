@@ -12,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Entity
 @Builder
@@ -20,6 +19,8 @@ import java.util.Objects;
 @NoArgsConstructor
 @Getter
 @Setter
+@EqualsAndHashCode
+@ToString
 public class TemperatureData implements PresentableOnChart {
 
     @Id
@@ -54,30 +55,5 @@ public class TemperatureData implements PresentableOnChart {
     @JsonIgnore
     public String getGroupName() {
         return transmitterName;
-    }
-
-    @Override
-    public String toString() {
-        return "TemperatureData{" +
-                "id=" + id +
-                ", temperatureCelsius=" + temperatureCelsius +
-                ", transmitterName='" + transmitterName + '\'' +
-                ", location=" + location +
-                ", locationPlace=" + locationPlace +
-                ", date=" + date +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof TemperatureData)) return false;
-        TemperatureData that = (TemperatureData) o;
-        return Objects.equals(getId(), that.getId()) && Objects.equals(getTemperatureCelsius(), that.getTemperatureCelsius()) && Objects.equals(getTransmitterName(), that.getTransmitterName()) && Objects.equals(getLocation(), that.getLocation()) && Objects.equals(getDate(), that.getDate());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getTemperatureCelsius(), getTransmitterName(), getLocation(), getDate());
     }
 }

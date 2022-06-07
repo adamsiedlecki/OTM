@@ -1,5 +1,9 @@
 package pl.adamsiedlecki.otm.tools.files;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SystemDetect {
 
     private static final String OS = System.getProperty("os.name").toLowerCase();
