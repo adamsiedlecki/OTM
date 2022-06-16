@@ -29,12 +29,13 @@ public class SmsService {
 
     public void sendSms(String sender, String message, List<String> smsRecipients) {
         smsRecipients = smsRecipients.stream().filter(StringUtils::isNotBlank).collect(Collectors.toList());
-
-        String[] receivers = smsRecipients.toArray(new String[0]);
-        log.info("Sms phone list after filtering: {}", String.join(",", receivers));
+        log.info("Sms phone list after filtering: {}", String.join(",", smsRecipients.toArray(new String[0])));
         if(otherApiProperties.isSmsApiEnabled()) {
-            if(canSmsBeSendBasingOnMaxDailyAmount(receivers.length)) {
-                send(sender, message, receivers);
+            if(canSmsBeSendBasingOnMaxDailyAmount(smsRecipients.size())) {
+                for (String receiverPhone : smsRecipients) {
+                    send(sender, message, new String[]{receiverPhone});
+                    log.info("Sending sms to phone number: {}", receiverPhone);
+                }
             }
         } else {
             log.error("SMS API disabled by application parameter");

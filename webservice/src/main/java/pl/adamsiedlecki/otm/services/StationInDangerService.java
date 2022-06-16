@@ -52,7 +52,7 @@ public class StationInDangerService {
 
     private void sendSmsToPeople(List<String> smsRecipients, Gen3Device gen3Device) {
         String sender = "OTM";
-        String message = String.format("Stacja %s nie odpowiedziała %d razy. Prawdopodobnie ktoś ją odłączył. Może to złodziej? Czas wykrycia: %s",
+        String message = String.format("Stacja %s nie odpowiedziała %d razy. Pewnie ktoś ją odłączył. Może to złodziej? Czas wykrycia: %s",
                 gen3Device.getName(),
                 ATTEMPTS_BEFORE_REGISTERING_STATION_IN_DANGER,
                 TextFormatters.getPretty(LocalDateTime.now())
