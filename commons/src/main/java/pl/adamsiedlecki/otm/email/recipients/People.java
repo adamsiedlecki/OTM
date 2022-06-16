@@ -7,8 +7,9 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class Subscribers {
+public class People {
     private int id;
     private String email;
+    private String phone;
     private int locationPlaceId;
 }

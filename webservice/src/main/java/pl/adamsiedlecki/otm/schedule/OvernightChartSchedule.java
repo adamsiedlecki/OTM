@@ -8,7 +8,7 @@ import pl.adamsiedlecki.otm.OtmEmailSenderService;
 import pl.adamsiedlecki.otm.config.OtmConfigProperties;
 import pl.adamsiedlecki.otm.db.temperature.TemperatureData;
 import pl.adamsiedlecki.otm.db.temperature.TemperatureDataService;
-import pl.adamsiedlecki.otm.email.recipients.Subscribers;
+import pl.adamsiedlecki.otm.email.recipients.People;
 import pl.adamsiedlecki.otm.email.recipients.SubscribersInfo;
 import pl.adamsiedlecki.otm.external.services.facebook.FacebookManager;
 import pl.adamsiedlecki.otm.tools.charts.OvernightChartCreator;
@@ -67,7 +67,7 @@ public class OvernightChartSchedule {
     }
 
     private void sendViaEmail(final String timePeriod, final File chart, final List<TemperatureData> td) {
-        List<String> emailRecipients = recipientsInfo.getSubscribers().stream().map(Subscribers::getEmail).collect(Collectors.toList());
+        List<String> emailRecipients = recipientsInfo.getPeople().stream().map(People::getEmail).collect(Collectors.toList());
         otmEmailSenderService.sendCharts(emailRecipients, "Wykres temperatury z ostatniej nocy", "Raport OTM z okresu: \n" + timePeriod, List.of(chart), new OtmStatistics(td));
     }
 

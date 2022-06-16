@@ -32,8 +32,9 @@ location-places:
       name: "Gospodarstwo - Siedlecki"
       town: "Czachów"
 
-email-subscribers:
-  subscribers:
+subscribers:
+  people:
     - id: 1
-      email: "testmail@gmail.com"
       location-place-id: 1
+      email: "testmail@gmail.com"
+      phone: "111 111 111"

@@ -15,4 +15,5 @@ public class Gen3Device implements Traceable {
     private String latitude;
     private long locationPlaceId;
     private boolean hasBattery;
+    private boolean canBeInDanger;
 }

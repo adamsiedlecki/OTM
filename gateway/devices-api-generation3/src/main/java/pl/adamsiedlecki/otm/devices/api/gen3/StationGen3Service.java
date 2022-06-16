@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.adamsiedlecki.otm.devices.api.gen3.exceptions.Gen3DevicesApiException;
+import pl.adamsiedlecki.otm.devices.api.gen3.exceptions.StationProbablyInDangerException;
 
 import java.math.BigDecimal;
 
@@ -48,6 +49,9 @@ public class StationGen3Service {
         try {
             output = gen3DevicesApi.sendGenericRequest(input);
             log.info("Received GEN3 response: \n" + output);
+            if (output == null) {
+                throw new StationProbablyInDangerException();
+            }
         } catch (ApiException e) {
             log.error("Exception was thrown during generic GEN3 request.");
             throw new Gen3DevicesApiException(e.getMessage());

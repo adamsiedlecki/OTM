@@ -17,6 +17,7 @@
         <module>devices-api-generation2</module>
         <module>devices-api-generation3</module>
         <module>email</module>
+        <module>sms</module>
     </modules>
 
 </project>

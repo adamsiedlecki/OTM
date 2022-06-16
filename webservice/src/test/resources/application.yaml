@@ -28,12 +28,13 @@ gen2-devices:
 
 gen3-devices:
   devices:
-    - id: 2
+    - id: 20
       name: "s2g3 balkon"
       longitude: 20
       latitude: 51
       location-place-id: 1
       hasBattery: false
+      canBeInDanger: true
 
 location-places:
   places:
@@ -41,8 +42,9 @@ location-places:
       name: "Gospodarstwo - Siedlecki"
       town: "Czachów"
 
-email-subscribers:
-  subscribers:
+subscribers:
+  people:
     - id: 1
       email: "testmail@gmail.com"
+      phone: "111111111"
       location-place-id: 1

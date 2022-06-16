@@ -12,21 +12,21 @@ import java.util.Optional;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-@ConfigurationProperties(prefix = "email-subscribers")
+@ConfigurationProperties(prefix = "subscribers")
 public class SubscribersInfo {
 
-    private List<Subscribers> subscribers = new ArrayList<>();
+    private List<People> people = new ArrayList<>();
 
-    public List<Subscribers> getSubscribers() {
-        return List.copyOf(subscribers);
+    public List<People> getPeople() {
+        return List.copyOf(people);
     }
 
-    public void setSubscribers(List<Subscribers> devices) {
-        this.subscribers = devices;
+    public void setPeople(List<People> devices) {
+        this.people = devices;
     }
 
-    public Optional<Subscribers> getByLocationPlaceId(int id) {
-        return subscribers.stream().filter(recipient -> recipient.getLocationPlaceId() == id).findFirst();
+    public Optional<People> getByLocationPlaceId(int id) {
+        return people.stream().filter(recipient -> recipient.getLocationPlaceId() == id).findFirst();
     }
 
 }

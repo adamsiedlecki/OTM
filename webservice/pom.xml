@@ -45,6 +45,10 @@
             <groupId>pl.adamsiedlecki.otm</groupId>
             <artifactId>email</artifactId>
         </dependency>
+        <dependency>
+            <groupId>pl.adamsiedlecki.otm</groupId>
+            <artifactId>sms</artifactId>
+        </dependency>
 
         <!-- SPRING -->
         <dependency>
