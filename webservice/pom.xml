@@ -49,6 +49,10 @@
             <groupId>pl.adamsiedlecki.otm</groupId>
             <artifactId>sms</artifactId>
         </dependency>
+        <dependency>
+            <groupId>pl.adamsiedlecki.otm</groupId>
+            <artifactId>oms-services</artifactId>
+        </dependency>
 
         <!-- SPRING -->
         <dependency>

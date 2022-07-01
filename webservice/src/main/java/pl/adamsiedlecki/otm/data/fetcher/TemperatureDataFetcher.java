@@ -24,7 +24,6 @@ public class TemperatureDataFetcher {
         List<TemperatureData> allResults = new ArrayList<>();
 
         allResults.addAll(fetchAndSaveTemperaturesFromGen1Stations());
-        allResults.addAll(fetchAndSaveTemperaturesFromGen2Stations());
         allResults.addAll(fetchAndSaveTemperaturesFromGen3Stations());
 
 

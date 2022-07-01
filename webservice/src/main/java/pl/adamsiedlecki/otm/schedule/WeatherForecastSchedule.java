@@ -15,12 +15,13 @@ import pl.adamsiedlecki.otm.external.services.open.weather.OpenWeatherFetcher;
 import pl.adamsiedlecki.otm.external.services.open.weather.OpenWeatherTools;
 import pl.adamsiedlecki.otm.external.services.open.weather.pojo.open.weather.two.days.ahead.Hourly;
 import pl.adamsiedlecki.otm.external.services.open.weather.pojo.open.weather.two.days.ahead.OpenWeatherTwoDaysAheadPojo;
-import pl.adamsiedlecki.otm.tools.charts.ForecastChartCreator;
-import pl.adamsiedlecki.otm.tools.charts.tools.ChartProperties;
+import pl.adamsiedlecki.otm.odg.JFreeChartCreator;
+import pl.adamsiedlecki.otm.odg.properties.ChartProperties;
 import pl.adamsiedlecki.otm.tools.data.ChartDataUtils;
 import pl.adamsiedlecki.otm.tools.files.MyFilesystem;
 import pl.adamsiedlecki.otm.tools.text.Emojis;
 import pl.adamsiedlecki.otm.tools.text.TextFormatters;
+import pl.adamsiedlecki.otm.utils.Converter;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -43,11 +44,12 @@ public class WeatherForecastSchedule {
     private final OpenWeatherFetcher openWeatherFetcher;
     private final FacebookManager facebookManager;
     private final OtmConfigProperties config;
-    private final ForecastChartCreator chartCreator;
     private final MyFilesystem myFilesystem;
+    private final JFreeChartCreator chartCreator;
     private final OpenWeatherTools openWeatherTools = new OpenWeatherTools();
+    private final Converter converter;
 
-    @Scheduled(cron = "0 0 20 * * *")
+    @Scheduled(cron = "-")
     public void publishOpenWeatherPredictions() {
         log.info("SCHEDULE 0 0 20 RUNNING");
 
@@ -65,11 +67,12 @@ public class WeatherForecastSchedule {
             }).collect(Collectors.toList());
             boolean isBelowZero = ChartDataUtils.isAnyBelowZero(predictionTdList);
 
-            File chart = chartCreator.createChart(predictionTdList,
+            File chart = chartCreator.createXyChart(predictionTdList.stream().map(converter::convert).collect(Collectors.toList()),
                     config.getDefaultChartWidth(),
                     config.getDefaultChartHeight(),
                     ChartProperties.OPEN_WEATHER_FORECAST.get(),
-                    ChartProperties.TEMPERATURE_AXIS_TITLE.get());
+                    ChartProperties.TEMPERATURE_AXIS_TITLE.get(),
+                    ChartProperties.TIME_AXIS_TITLE.get());
             if (myFilesystem.fileExistsAndIsNoOlderThanXSeconds(chart, MAX_CHART_AGE_IN_SECONDS)) {
                 facebookManager.postChart(chart,
                         isBelowZero ? Emojis.FROST : Emojis.WARM

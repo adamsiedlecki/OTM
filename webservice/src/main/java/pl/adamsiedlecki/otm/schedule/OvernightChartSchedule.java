@@ -11,12 +11,13 @@ import pl.adamsiedlecki.otm.db.temperature.TemperatureDataService;
 import pl.adamsiedlecki.otm.email.recipients.People;
 import pl.adamsiedlecki.otm.email.recipients.SubscribersInfo;
 import pl.adamsiedlecki.otm.external.services.facebook.FacebookManager;
-import pl.adamsiedlecki.otm.tools.charts.OvernightChartCreator;
-import pl.adamsiedlecki.otm.tools.charts.tools.ChartProperties;
+import pl.adamsiedlecki.otm.odg.JFreeChartCreator;
+import pl.adamsiedlecki.otm.odg.properties.ChartProperties;
 import pl.adamsiedlecki.otm.tools.data.ChartDataUtils;
 import pl.adamsiedlecki.otm.tools.data.OtmStatistics;
 import pl.adamsiedlecki.otm.tools.text.Emojis;
 import pl.adamsiedlecki.otm.tools.text.TextFormatters;
+import pl.adamsiedlecki.otm.utils.Converter;
 
 import java.io.File;
 import java.time.LocalDateTime;
@@ -36,9 +37,10 @@ public class OvernightChartSchedule {
     private final TemperatureDataService temperatureDataService;
     private final FacebookManager facebookManager;
     private final OtmConfigProperties config;
-    private final OvernightChartCreator chartCreator;
+    private final JFreeChartCreator chartCreator;
     private final OtmEmailSenderService otmEmailSenderService;
     private final SubscribersInfo recipientsInfo;
+    private final Converter converter;
 
     @Scheduled(cron = "0 31 6 * * *")
     public void createAndPostChart() {
@@ -51,11 +53,12 @@ public class OvernightChartSchedule {
             boolean isBelowZero = ChartDataUtils.isAnyBelowZero(lastXHours);
             String timePeriod = TextFormatters.getPretty(lastXHours.get(0).getDate()) + "  -  " + TextFormatters.getPretty(lastXHours.get(lastXHours.size() - 1).getDate());
 
-            File chart = chartCreator.createChart(lastXHours,
+            File chart = chartCreator.createXyChart(lastXHours.stream().map(converter::convert).collect(Collectors.toList()),
                     config.getDefaultChartWidth(),
                     config.getDefaultChartHeight(),
                     ChartProperties.TEMPERATURE_DEFAULT.get() + " " + timePeriod,
-                    ChartProperties.TEMPERATURE_AXIS_TITLE.get());
+                    ChartProperties.TEMPERATURE_AXIS_TITLE.get(),
+                    ChartProperties.TIME_AXIS_TITLE.get());
 
             sendViaEmail(timePeriod, chart, lastXHours);
 

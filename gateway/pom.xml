@@ -18,6 +18,7 @@
         <module>devices-api-generation3</module>
         <module>email</module>
         <module>sms</module>
+        <module>oms-services</module>
     </modules>
 
 </project>

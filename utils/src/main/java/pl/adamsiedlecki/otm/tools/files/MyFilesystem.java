@@ -34,6 +34,14 @@ public class MyFilesystem {
         }
     }
 
+    public static String getImageStoragePath() {
+        if (SystemDetect.isUnix()) {
+            return SEP + STORAGE + SEP + "img" + SEP;
+        } else {
+            return STORAGE + SEP + "img" + SEP;
+        }
+    }
+
     public String getOvernightChartsPath() {
         String path = STORAGE + SEP + "img" + SEP + "overnightCharts" + SEP;
         if (SystemDetect.isUnix()) {

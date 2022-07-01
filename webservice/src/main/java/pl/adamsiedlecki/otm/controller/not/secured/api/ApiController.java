@@ -13,7 +13,7 @@ import pl.adamsiedlecki.otm.data.fetcher.TemperatureDataFetcher;
 import pl.adamsiedlecki.otm.db.health.check.HealthCheckData;
 import pl.adamsiedlecki.otm.db.temperature.TemperatureData;
 import pl.adamsiedlecki.otm.db.temperature.TemperatureDataService;
-import pl.adamsiedlecki.otm.schedule.HealthCheckSchedule;
+import pl.adamsiedlecki.otm.schedule.BatteryVoltageCheckSchedule;
 import pl.adamsiedlecki.otm.schedule.OvernightChartSchedule;
 import pl.adamsiedlecki.otm.tools.files.MyFilesystem;
 
@@ -33,7 +33,7 @@ public class ApiController {
     private final TemperatureDataService temperatureDataService;
     private final TemperatureDataFetcher dataFetcher;
     private final OvernightChartSchedule scheduleOvernightChart;
-    private final HealthCheckSchedule healthCheckSchedule;
+    private final BatteryVoltageCheckSchedule healthCheckSchedule;
     private final MyFilesystem myFilesystem;
 
     @GetMapping("/facebook/post/overnight/chart")
@@ -81,17 +81,18 @@ public class ApiController {
     public @ResponseBody
     byte[] getImageWithMediaType(final @RequestParam(value = "name", defaultValue = "chart.jpg") String name) {
         log.info("Desired file: {}", name);
-        List<File> allFilesRecursively = myFilesystem.getAllFilesRecursively(MyFilesystem.getStoragePath() + "img");
+        List<File> allFilesRecursively = myFilesystem.getAllFilesRecursively(MyFilesystem.getImageStoragePath());
         Optional<File> optionalDesiredFile = allFilesRecursively.stream().filter(file -> file.getName().equals(name)).findFirst();
 
         if (optionalDesiredFile.isPresent()) {
+            log.info("Desired image was found");
             try (InputStream targetStream = new FileInputStream(optionalDesiredFile.get())) {
                 return targetStream.readAllBytes();
             } catch (IOException e) {
                 log.error("Error while sending image: {}", name);
             }
         }
-
+        log.error("Returning empty bytes array");
         return new byte[]{};
     }
 }

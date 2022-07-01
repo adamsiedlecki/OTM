@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import pl.adamsiedlecki.otm.db.health.check.HealthCheckData;
 import pl.adamsiedlecki.otm.db.health.check.HealthCheckDataService;
-import pl.adamsiedlecki.otm.devices.api.gen2.AllDevicesGen2BatteryVoltageGetter;
+import pl.adamsiedlecki.otm.devices.api.gen3.AllDevicesGen3BatteryVoltageGetter;
 
 import java.util.List;
 
@@ -15,15 +15,15 @@ import java.util.List;
 @Scope("singleton")
 @RequiredArgsConstructor
 @Slf4j
-public class HealthCheckSchedule {
+public class BatteryVoltageCheckSchedule {
 
     private final HealthCheckDataService healthCheckDataService;
-    private final AllDevicesGen2BatteryVoltageGetter allDevicesGen2BatteryVoltageGetter;
+    private final AllDevicesGen3BatteryVoltageGetter allDevicesGen3BatteryVoltageGetter;
 
     @Scheduled(cron = "0 5 * * * *")
     public List<HealthCheckData> checkBatteryVoltage() {
         log.info("SCHEDULE 0 5 * * * * RUNNING");
-        List<HealthCheckData> healthCheckData = allDevicesGen2BatteryVoltageGetter.get();
+        List<HealthCheckData> healthCheckData = allDevicesGen3BatteryVoltageGetter.get();
         healthCheckDataService.saveAll(healthCheckData);
         return healthCheckData;
     }

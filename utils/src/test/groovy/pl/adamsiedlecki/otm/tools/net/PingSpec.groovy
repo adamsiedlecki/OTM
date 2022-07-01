@@ -1,7 +1,7 @@
 package pl.adamsiedlecki.otm.tools.net
 
 import org.assertj.core.api.Assertions
-import org.testng.annotations.Ignore
+import spock.lang.Ignore
 import spock.lang.Specification
 
 class PingSpec extends Specification {

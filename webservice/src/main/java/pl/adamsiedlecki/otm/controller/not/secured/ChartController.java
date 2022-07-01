@@ -11,8 +11,9 @@ import pl.adamsiedlecki.otm.db.health.check.HealthCheckData;
 import pl.adamsiedlecki.otm.db.health.check.HealthCheckDataService;
 import pl.adamsiedlecki.otm.db.temperature.TemperatureData;
 import pl.adamsiedlecki.otm.db.temperature.TemperatureDataService;
-import pl.adamsiedlecki.otm.tools.charts.SimpleChartCreator;
-import pl.adamsiedlecki.otm.tools.charts.tools.ChartProperties;
+import pl.adamsiedlecki.otm.odg.JFreeChartCreator;
+import pl.adamsiedlecki.otm.odg.properties.ChartProperties;
+import pl.adamsiedlecki.otm.utils.Converter;
 
 import java.io.File;
 import java.util.List;
@@ -28,7 +29,8 @@ public class ChartController {
 
     private final TemperatureDataService temperatureDataService;
     private final HealthCheckDataService healthCheckDataService;
-    private final SimpleChartCreator chartCreator;
+    private final JFreeChartCreator chartCreator;
+    private final Converter converter;
 
     @GetMapping("/chart/temperature")
     public String getTemperatureChart(final Model model,
@@ -41,7 +43,13 @@ public class ChartController {
             return CHART;
         }
         List<PresentableOnChart> presentableList = temperatureData.stream().map(PresentableOnChart.class::cast).collect(Collectors.toList());
-        File chart = chartCreator.createChart(presentableList, width, height, ChartProperties.TEMPERATURE_DEFAULT.get(), ChartProperties.TEMPERATURE_AXIS_TITLE.get());
+        File chart = chartCreator.createXyChart(
+                presentableList.stream().map(converter::convert).collect(Collectors.toList()),
+                width,
+                height,
+                ChartProperties.TEMPERATURE_DEFAULT.get(),
+                ChartProperties.TEMPERATURE_AXIS_TITLE.get(),
+                ChartProperties.TIME_AXIS_TITLE.get());
         model.addAttribute(FILENAME, chart.getName());
         return CHART;
     }
@@ -57,7 +65,12 @@ public class ChartController {
             return CHART;
         }
         List<PresentableOnChart> presentableList = healthCheckData.stream().map(PresentableOnChart.class::cast).collect(Collectors.toList());
-        File chart = chartCreator.createChart(presentableList, width, height, ChartProperties.VOLTAGE_DEFAULT.get(), "Napięcie (V)");
+        File chart = chartCreator.createXyChart(presentableList.stream().map(converter::convert).collect(Collectors.toList()),
+                                                width,
+                                                height,
+                                                ChartProperties.VOLTAGE_DEFAULT.get(),
+                                                "Napięcie (V)",
+                                                ChartProperties.TIME_AXIS_TITLE.get());
         model.addAttribute(FILENAME, chart.getName());
         return CHART;
     }

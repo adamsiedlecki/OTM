@@ -85,6 +85,11 @@
                 <artifactId>sms</artifactId>
                 <version>${otm.version}</version>
             </dependency>
+            <dependency>
+                <groupId>pl.adamsiedlecki.otm</groupId>
+                <artifactId>oms-services</artifactId>
+                <version>${otm.version}</version>
+            </dependency>
 
             <!-- SPRING -->
             <dependency>
@@ -106,6 +111,12 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-thymeleaf</artifactId>
                 <version>${spring.boot.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>ch.qos.logback</groupId>
+                        <artifactId>logback-classic</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>

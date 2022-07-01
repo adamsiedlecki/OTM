@@ -24,4 +24,7 @@ public class OtmConfigProperties {
 
     @Value("${otm.default.chart.height}")
     private int defaultChartHeight;
+
+    @Value("${odg.base.path:http://10.0.0.20:8086/api/v1}")
+    private String odgBasePath;
 }

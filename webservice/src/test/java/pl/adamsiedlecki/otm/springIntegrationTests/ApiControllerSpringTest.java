@@ -4,21 +4,15 @@ import org.mockserver.client.MockServerClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pl.adamsiedlecki.otm.controller.not.secured.api.ApiController;
 import pl.adamsiedlecki.otm.db.temperature.TemperatureData;
-import pl.adamsiedlecki.otm.db.temperature.TemperatureDataService;
 import pl.adamsiedlecki.otm.testTools.BaseSpringTest;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockserver.integration.ClientAndServer.startClientAndServer;
-import static org.mockserver.model.HttpRequest.request;
-import static org.mockserver.model.HttpResponse.response;
 
 public class ApiControllerSpringTest extends BaseSpringTest {
 
@@ -26,9 +20,6 @@ public class ApiControllerSpringTest extends BaseSpringTest {
 
     @Autowired
     private ApiController sut;
-
-    @Autowired
-    private TemperatureDataService temperatureDataService;
 
     private MockServerClient mockServer;
 
@@ -40,47 +31,6 @@ public class ApiControllerSpringTest extends BaseSpringTest {
     @AfterClass
     public void stopServer() {
         mockServer.stop();
-    }
-
-    @Test(dataProvider = "getCorrectGen1DataFromEsp")
-    public void shouldReturnMockedTemperatureData(String dataFromEsp,
-                                                  int responsesCount,
-                                                  List<String> stationIds,
-                                                  List<String> stationIdsAfterAliasing,
-                                                  List<String> stationTemperatures) {
-        //given
-        mockServer.reset();
-        //gen1
-        mockServer.when(request()
-                        .withMethod("GET")
-                        .withPath("/")
-                )
-                .respond(response()
-                        .withStatusCode(200)
-                        .withBody(dataFromEsp)
-                        .withDelay(TimeUnit.SECONDS, 1)
-                );
-        //gen2
-        mockServer.when(request()
-                        .withMethod("POST")
-                        .withPath("/sendRequest")
-                )
-                .respond(response()
-                        .withStatusCode(200)
-                        .withBody("{a:1,tp:21.37}")
-                        .withDelay(TimeUnit.SECONDS, 1)
-                );
-
-        //when
-        List<TemperatureData> result = sut.getCurrentTemperatures();
-
-        //then
-        assertThat(result).isNotNull();
-        assertThat(result.size()).isEqualTo(responsesCount);
-        assertThatCorrectTemperatures(result, stationTemperatures);
-        assertThatCorrectStationNames(result, stationIdsAfterAliasing);
-
-        temperatureDataService.findAll().forEach(System.out::println);
     }
 
     @Test
@@ -96,29 +46,4 @@ public class ApiControllerSpringTest extends BaseSpringTest {
         assertThat(result.size()).isZero();
     }
 
-    private void assertThatCorrectStationNames(List<TemperatureData> result, List<String> expected) {
-        List<String> resultTemps = result.stream().map(TemperatureData::getTransmitterName).collect(Collectors.toList());
-        assertThat(resultTemps).containsExactly(expected.toArray(new String[]{}));
-    }
-
-    private void assertThatCorrectTemperatures(List<TemperatureData> result, List<String> expected) {
-        List<String> resultTemps = result.stream().map(temperatureData -> temperatureData.getTemperatureCelsius().toString()).collect(Collectors.toList());
-        assertThat(resultTemps).containsExactly(expected.toArray(new String[]{}));
-    }
-
-    @DataProvider(name = "getCorrectGen1DataFromEsp")
-    public Object[][] getCorrectGen1DataFromEsp() {
-        return new Object[][]{
-                // order: responseBodyGen1, responsesCount, stationIds, stationIdsAfterAliasing, stationTemperatures
-                arr("t1::9.49;t3::9.63; ", 4, List.of("t1", "t3", "s1g2", "s2g3 balkon"), List.of("t1 staw", "t3 domek", "s1g2", "s2g3 balkon"), List.of("9.49", "9.63", "21.37", "21.37")),
-                arr("t2::9.48;t3::9.44; ", 4, List.of("t2", "t3", "s1g2", "s2g3 balkon"), List.of("t2 gala", "t3 domek", "s1g2", "s2g3 balkon"), List.of("9.48", "9.44", "21.37", "21.37")),
-                arr("t1::9.49;t2::10.11;t3::-10.1;t4::-0.01; ", 6, List.of("t1", "t2", "t3", "t4", "s1g2", "s2g3 balkon"), List.of("t1 staw", "t2 gala", "t3 domek", "t4", "s1g2", "s2g3 balkon"), List.of("9.49", "10.11", "-10.1", "-0.01", "21.37", "21.37")),
-        };
-    }
-
-    /* UTILS */
-
-    private Object[] arr(Object... objects) {
-        return objects;
-    }
 }
