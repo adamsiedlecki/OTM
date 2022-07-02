@@ -7,6 +7,7 @@ import pl.adamsiedlecki.otm.db.health.check.HealthCheckData;
 import pl.adamsiedlecki.otm.db.location.LocationService;
 import pl.adamsiedlecki.otm.db.location.place.LocationPlaceService;
 import pl.adamsiedlecki.otm.dto.LocationPlaceDto;
+import pl.adamsiedlecki.otm.station.info.gen3.Gen3Device;
 import pl.adamsiedlecki.otm.station.info.gen3.Gen3DevicesInfo;
 import pl.adamsiedlecki.otm.station.info.locations.LocationPlacesInfo;
 
@@ -30,7 +31,9 @@ public class AllDevicesGen3BatteryVoltageGetter {
 
     public List<HealthCheckData> get() {
         LocalDateTime now = LocalDateTime.now();
-        return gen3DevicesInfo.getDevices().stream().map(gen3Device -> {
+        return gen3DevicesInfo.getDevices().stream()
+                                           .filter(Gen3Device::isHasBattery)
+                                           .map(gen3Device -> {
                     BigDecimal voltage;
                     try {
                         voltage = stationGen3Service.sendBatteryVoltageRequest(gen3Device.getId());
