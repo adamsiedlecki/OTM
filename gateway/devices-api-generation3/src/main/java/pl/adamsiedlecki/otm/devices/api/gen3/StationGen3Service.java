@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.adamsiedlecki.otm.devices.api.gen3.exceptions.Gen3DevicesApiException;
+import pl.adamsiedlecki.otm.devices.api.gen3.exceptions.ResponseFromWrongStationException;
 import pl.adamsiedlecki.otm.devices.api.gen3.exceptions.StationProbablyInDangerException;
 
 import java.math.BigDecimal;
@@ -58,6 +59,7 @@ public class StationGen3Service {
         }
         if (!output.getA().equals(input.getTid())) {
             log.error("The gen3 response is not from the right station!");
+            throw new ResponseFromWrongStationException(String.format("Request was sent to %d, but response came from %d",input.getTid(), output.getA()));
         }
         return output;
     }
