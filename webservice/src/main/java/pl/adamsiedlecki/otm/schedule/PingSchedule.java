@@ -26,10 +26,7 @@ public class PingSchedule {
     public boolean areHttpDevicesAvailable() {
         log.info("Ping schedule is running");
 
-        boolean isGen1Available = pingUntilReachable(otmConfigProperties.getGen1ApiAddress(), MAX_TRY_AMOUNT);
-        boolean isGen2Available = pingUntilReachable(otmConfigProperties.getGen2ApiAddress(), MAX_TRY_AMOUNT);
-
-        return isGen1Available && isGen2Available;
+        return pingUntilReachable(otmConfigProperties.getGen1ApiAddress(), MAX_TRY_AMOUNT);
     }
 
     private boolean pingUntilReachable(String address, int maxTryAmount) {

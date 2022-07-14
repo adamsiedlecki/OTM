@@ -14,7 +14,7 @@ import pl.adamsiedlecki.otm.db.health.check.HealthCheckData;
 import pl.adamsiedlecki.otm.db.temperature.TemperatureData;
 import pl.adamsiedlecki.otm.db.temperature.TemperatureDataService;
 import pl.adamsiedlecki.otm.schedule.BatteryVoltageCheckSchedule;
-import pl.adamsiedlecki.otm.schedule.OvernightChartSchedule;
+import pl.adamsiedlecki.otm.schedule.ChartPublisherSchedule;
 import pl.adamsiedlecki.otm.tools.files.MyFilesystem;
 
 import java.io.File;
@@ -32,14 +32,14 @@ public class ApiController {
 
     private final TemperatureDataService temperatureDataService;
     private final TemperatureDataFetcher dataFetcher;
-    private final OvernightChartSchedule scheduleOvernightChart;
+    private final ChartPublisherSchedule scheduleOvernightChart;
     private final BatteryVoltageCheckSchedule healthCheckSchedule;
     private final MyFilesystem myFilesystem;
 
     @GetMapping("/facebook/post/overnight/chart")
     public @ResponseBody
     String postOnFacebook() {
-        scheduleOvernightChart.createAndPostChart();
+        scheduleOvernightChart.sendOvernightChart();
         return "Operation completed.";
     }
 
