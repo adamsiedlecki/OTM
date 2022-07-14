@@ -2,7 +2,7 @@ package pl.adamsiedlecki.otm.schedule.jobs
 
 import pl.adamsiedlecki.otm.data.fetcher.TemperatureDataFetcher
 import pl.adamsiedlecki.otm.db.temperature.TemperatureData
-import pl.adamsiedlecki.otm.external.services.facebook.FacebookManager
+import pl.adamsiedlecki.otm.orchout.FacebookPublisherService
 import spock.lang.Specification
 
 import java.time.LocalDateTime
@@ -10,12 +10,12 @@ import java.time.LocalDateTime
 class TemperatureJobSpec extends Specification {
 
     def dataFetcher = Mock(TemperatureDataFetcher)
-    def facebookManager = Mock(FacebookManager)
+    def facebookPublisherService = Mock(FacebookPublisherService)
 
     TemperatureJob sut
 
     void setup() {
-        sut = new TemperatureJob(dataFetcher, facebookManager)
+        sut = new TemperatureJob(dataFetcher, facebookPublisherService)
     }
 
     def "should not post data on facebook because temperature is above zero"() {
@@ -28,7 +28,7 @@ class TemperatureJobSpec extends Specification {
             sut.fetchSaveAndConditionallyPostOnFacebook()
 
         then:
-            0 * facebookManager._
+            0 * facebookPublisherService._
     }
 
     def "should not post data on facebook because there is no data"() {
@@ -39,7 +39,7 @@ class TemperatureJobSpec extends Specification {
             sut.fetchSaveAndConditionallyPostOnFacebook()
 
         then:
-            0 * facebookManager._
+            0 * facebookPublisherService._
     }
 
     def "should not post data on facebook because there is no information about temperature"() {
@@ -52,7 +52,7 @@ class TemperatureJobSpec extends Specification {
             sut.fetchSaveAndConditionallyPostOnFacebook()
 
         then:
-            0 * facebookManager._
+            0 * facebookPublisherService._
     }
 
     def "should post data on facebook because temperature is below zero"() {
@@ -73,8 +73,8 @@ class TemperatureJobSpec extends Specification {
             sut.fetchSaveAndConditionallyPostOnFacebook()
 
         then:
-            1 * facebookManager.postMessage('❄ Odnotowano temperaturę < 0  \n  [ 25.3.2022 23:25 ]  \n  station no 1 : -3 °C  \n  station no 2 : 40 °C ')
-            0 * facebookManager._
+            1 * facebookPublisherService.postMessage('❄ Odnotowano temperaturę < 0  \n  [ 25.3.2022 23:25 ]  \n  station no 1 : -3 °C  \n  station no 2 : 40 °C ')
+            0 * facebookPublisherService._
     }
 
     def "should post data on facebook in form of post and the next one should be a comment"() {
@@ -91,7 +91,7 @@ class TemperatureJobSpec extends Specification {
                     .build()
             1 * dataFetcher.fetchAndSaveAllTemperatures() >> [td1, td2]
             1 * dataFetcher.fetchAndSaveAllTemperatures() >> [td1]
-            1 * facebookManager.postMessage('❄ Odnotowano temperaturę < 0  \n  [ 25.3.2022 23:25 ]  \n  station no 1 : -3 °C  \n  station no 2 : 40 °C ') >> 'last post id'
+            1 * facebookPublisherService.postMessage('❄ Odnotowano temperaturę < 0  \n  [ 25.3.2022 23:25 ]  \n  station no 1 : -3 °C  \n  station no 2 : 40 °C ') >> 'last post id'
 
         when:
             sut.fetchSaveAndConditionallyPostOnFacebook()
@@ -100,6 +100,6 @@ class TemperatureJobSpec extends Specification {
             sut.fetchSaveAndConditionallyPostOnFacebook()
 
         then:
-            1 * facebookManager.postComment('last post id', '❄ Odnotowano temperaturę < 0  \n  [ 25.3.2022 23:25 ]  \n  station no 1 : -3 °C ')
+            1 * facebookPublisherService.postComment('last post id', '❄ Odnotowano temperaturę < 0  \n  [ 25.3.2022 23:25 ]  \n  station no 1 : -3 °C ')
     }
 }

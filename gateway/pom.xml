@@ -16,9 +16,8 @@
         <module>devices-api-generation1</module>
         <module>devices-api-generation2</module>
         <module>devices-api-generation3</module>
-        <module>email</module>
-        <module>sms</module>
-        <module>oms-services</module>
+        <module>odg</module>
+        <module>orch-out</module>
     </modules>
 
 </project>

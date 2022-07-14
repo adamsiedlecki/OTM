@@ -4,15 +4,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import pl.adamsiedlecki.otm.OtmEmailSenderService;
 import pl.adamsiedlecki.otm.config.OtmConfigProperties;
 import pl.adamsiedlecki.otm.db.temperature.TemperatureData;
 import pl.adamsiedlecki.otm.db.temperature.TemperatureDataService;
 import pl.adamsiedlecki.otm.email.recipients.People;
 import pl.adamsiedlecki.otm.email.recipients.SubscribersInfo;
-import pl.adamsiedlecki.otm.external.services.facebook.FacebookManager;
 import pl.adamsiedlecki.otm.odg.JFreeChartCreator;
 import pl.adamsiedlecki.otm.odg.properties.ChartProperties;
+import pl.adamsiedlecki.otm.orchout.FacebookPublisherService;
+import pl.adamsiedlecki.otm.services.OtmEmailSenderService;
 import pl.adamsiedlecki.otm.tools.data.ChartDataUtils;
 import pl.adamsiedlecki.otm.tools.data.OtmStatistics;
 import pl.adamsiedlecki.otm.tools.text.Emojis;
@@ -35,10 +35,10 @@ public class OvernightChartSchedule {
     private static final int MAX_POST_ON_FACEBOOK_ATTEMPTS = 12;
 
     private final TemperatureDataService temperatureDataService;
-    private final FacebookManager facebookManager;
+    private final FacebookPublisherService facebookPublisherService;
     private final OtmConfigProperties config;
     private final JFreeChartCreator chartCreator;
-    private final OtmEmailSenderService otmEmailSenderService;
+    private final OtmEmailSenderService emailSenderService;
     private final SubscribersInfo recipientsInfo;
     private final Converter converter;
 
@@ -60,9 +60,17 @@ public class OvernightChartSchedule {
                     ChartProperties.TEMPERATURE_AXIS_TITLE.get(),
                     ChartProperties.TIME_AXIS_TITLE.get());
 
-            sendViaEmail(timePeriod, chart, lastXHours);
+            try {
+                sendViaEmail(timePeriod, chart, lastXHours);
+            } catch (Exception e) {
+                log.error("Error while sending email", e);
+            }
 
-            postChartFacebookStrategy(chart, isBelowZero, LocalDateTime.now());
+            try {
+                postChartFacebookStrategy(chart, isBelowZero, LocalDateTime.now());
+            } catch (Exception e) {
+                log.error("Error while posting on facebook", e);
+            }
         } else {
             log.info("There is NOT enough data to build overnight chart");
         }
@@ -71,7 +79,7 @@ public class OvernightChartSchedule {
 
     private void sendViaEmail(final String timePeriod, final File chart, final List<TemperatureData> td) {
         List<String> emailRecipients = recipientsInfo.getPeople().stream().map(People::getEmail).collect(Collectors.toList());
-        otmEmailSenderService.sendCharts(emailRecipients, "Wykres temperatury z ostatniej nocy", "Raport OTM z okresu: \n" + timePeriod, List.of(chart), new OtmStatistics(td));
+        emailSenderService.sendCharts(emailRecipients, "Wykres temperatury z ostatniej nocy", "Raport OTM z okresu: \n" + timePeriod, List.of(chart), new OtmStatistics(td));
     }
 
     // strategy in case of no internet access for some time
@@ -89,7 +97,7 @@ public class OvernightChartSchedule {
     }
 
     private void postChart(final File chart, final boolean isBelowZero, final LocalDateTime generationTime) {
-        facebookManager.postChart(chart, isBelowZero ? Emojis.FROST : Emojis.WARM
+        facebookPublisherService.post(chart, isBelowZero ? Emojis.FROST : Emojis.WARM
                 + "Ostatnia noc \n [ wygenerowano: "
                 + TextFormatters.getPretty(generationTime)
                 + ", \n opublikowano: "

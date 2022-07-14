@@ -43,15 +43,11 @@
         </dependency>
         <dependency>
             <groupId>pl.adamsiedlecki.otm</groupId>
-            <artifactId>email</artifactId>
+            <artifactId>orch-out</artifactId>
         </dependency>
         <dependency>
             <groupId>pl.adamsiedlecki.otm</groupId>
-            <artifactId>sms</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>pl.adamsiedlecki.otm</groupId>
-            <artifactId>oms-services</artifactId>
+            <artifactId>odg</artifactId>
         </dependency>
 
         <!-- SPRING -->

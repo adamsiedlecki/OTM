@@ -77,17 +77,12 @@
             </dependency>
             <dependency>
                 <groupId>pl.adamsiedlecki.otm</groupId>
-                <artifactId>email</artifactId>
+                <artifactId>orch-out</artifactId>
                 <version>${otm.version}</version>
             </dependency>
             <dependency>
                 <groupId>pl.adamsiedlecki.otm</groupId>
-                <artifactId>sms</artifactId>
-                <version>${otm.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>pl.adamsiedlecki.otm</groupId>
-                <artifactId>oms-services</artifactId>
+                <artifactId>odg</artifactId>
                 <version>${otm.version}</version>
             </dependency>
 

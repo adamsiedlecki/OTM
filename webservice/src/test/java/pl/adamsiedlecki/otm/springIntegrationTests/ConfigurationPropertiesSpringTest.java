@@ -3,7 +3,6 @@ package pl.adamsiedlecki.otm.springIntegrationTests;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.testng.annotations.Test;
-import pl.adamsiedlecki.otm.config.FacebookApiProperties;
 import pl.adamsiedlecki.otm.config.OtmConfigProperties;
 import pl.adamsiedlecki.otm.testTools.BaseSpringTest;
 
@@ -13,9 +12,6 @@ public class ConfigurationPropertiesSpringTest extends BaseSpringTest {
 
     @Autowired
     private OtmConfigProperties sut;
-
-    @Autowired
-    private FacebookApiProperties facebookApiProperties;
 
     @Autowired
     private Environment env;
@@ -28,8 +24,9 @@ public class ConfigurationPropertiesSpringTest extends BaseSpringTest {
         String result = sut.getGen1ApiAddress();
 
         //then
-        assertThat(result).isNotNull();
-        assertThat(result).isNotBlank();
+        assertThat(result)
+                .isNotNull()
+                .isNotBlank();
     }
 
     @Test
@@ -52,21 +49,8 @@ public class ConfigurationPropertiesSpringTest extends BaseSpringTest {
         String expectedProperty = env.getProperty("otm.gen1.api.address");
 
         //then
-        assertThat(expectedProperty).isNotNull();
-        assertThat(expectedProperty).isNotBlank();
-    }
-
-    @Test
-    public void shouldReturnFacebookPageId() {
-        //given
-
-        //when
-        String result = facebookApiProperties.getOtmPageId();
-
-        //then
-        assertThat(result)
+        assertThat(expectedProperty)
                 .isNotNull()
-                .isNotBlank()
-                .isEqualTo("fb_page_id");
+                .isNotBlank();
     }
 }

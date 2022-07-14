@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import pl.adamsiedlecki.otm.data.fetcher.TemperatureDataFetcher;
 import pl.adamsiedlecki.otm.db.temperature.TemperatureData;
-import pl.adamsiedlecki.otm.external.services.facebook.FacebookManager;
+import pl.adamsiedlecki.otm.orchout.FacebookPublisherService;
 import pl.adamsiedlecki.otm.tools.data.ChartDataUtils;
 import pl.adamsiedlecki.otm.tools.text.Emojis;
 import pl.adamsiedlecki.otm.tools.text.TextFormatters;
@@ -20,7 +20,7 @@ public class TemperatureJob {
 
     private static final long MAX_POST_USAGE_HOURS = 12;
     private final TemperatureDataFetcher dataFetcher;
-    private final FacebookManager facebookManager;
+    private final FacebookPublisherService facebookPublisherService;
     private LocalDateTime lastTextPostTime;
     private String lastTextPostId;
 
@@ -56,11 +56,11 @@ public class TemperatureJob {
             if (lastTextPostTime == null || LocalDateTime.now().isAfter(lastTextPostTime.plusHours(MAX_POST_USAGE_HOURS))) {
                 // in case of creating new post (the old one is too old or des not exist)
                 lastTextPostTime = LocalDateTime.now();
-                lastTextPostId = facebookManager.postMessage(sb.toString());
+                lastTextPostId = facebookPublisherService.post(null, sb.toString());
                 log.info("Text Post id: {}", lastTextPostId);
             } else {
                 // in case of commenting existing post
-                String commentId = facebookManager.postComment(lastTextPostId, sb.toString());
+                String commentId = facebookPublisherService.postComment(lastTextPostId, sb.toString());
                 log.info("Comment id: {}", commentId);
             }
         }

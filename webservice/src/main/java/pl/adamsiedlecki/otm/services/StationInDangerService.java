@@ -10,7 +10,7 @@ import pl.adamsiedlecki.otm.devices.api.gen3.StationGen3Service;
 import pl.adamsiedlecki.otm.devices.api.gen3.exceptions.StationProbablyInDangerException;
 import pl.adamsiedlecki.otm.email.recipients.People;
 import pl.adamsiedlecki.otm.email.recipients.SubscribersInfo;
-import pl.adamsiedlecki.otm.sms.SmsService;
+import pl.adamsiedlecki.otm.orchout.SmsSenderService;
 import pl.adamsiedlecki.otm.station.info.gen3.Gen3Device;
 import pl.adamsiedlecki.otm.tools.text.TextFormatters;
 
@@ -29,7 +29,7 @@ public class StationInDangerService {
     private final StationGen3Service stationGen3Service;
     private final OtmSystemErrorService otmSystemErrorService;
     private final SubscribersInfo subscribersInfo;
-    private final SmsService smsService;
+    private final SmsSenderService smsSenderService;
 
     public void registerStationInDanger(Gen3Device gen3Device) {
         log.info("Station {} can be now in danger!", gen3Device.getName());
@@ -51,14 +51,13 @@ public class StationInDangerService {
     }
 
     private void sendSmsToPeople(List<String> smsRecipients, Gen3Device gen3Device) {
-        String sender = "OTM";
         String message = String.format("Stacja %s nie odpowiedziała %d razy. Pewnie ktoś ją odłączył. Może to złodziej? Czas wykrycia: %s",
                 gen3Device.getName(),
                 ATTEMPTS_BEFORE_REGISTERING_STATION_IN_DANGER,
                 TextFormatters.getPretty(LocalDateTime.now())
         );
 
-        smsService.sendSms(sender, message, smsRecipients);
+        smsSenderService.sendSms(message, smsRecipients);
     }
 
     private void registerEventInDatabase(Gen3Device gen3Device) {

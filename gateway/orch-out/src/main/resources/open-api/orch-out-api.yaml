@@ -1,0 +1,182 @@
+swagger: "2.0"
+info:
+  description: "Service for components at OMS to use internet services"
+  version: "1.0.0"
+  title: "OrchOutApi"
+tags:
+  - name: "ORCH-OUT"
+    externalDocs:
+      description: "Find out more"
+      url: "https://github.com/adamsiedlecki/ORCH-OUT"
+schemes:
+  - "https"
+  - "http"
+paths:
+  /sms:
+    post:
+      tags:
+        - "ORCH-OUT"
+      summary: "Send sms via internet api"
+      operationId: "sendSms"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "SendSmsInput"
+          description: Body of the sms request
+          required: true
+          schema:
+            $ref: "#/definitions/SendSmsInput"
+      responses:
+        "200":
+          description: "OK"
+        "400":
+          description: "Bad request"
+        "500":
+          description: "Unexpected error inside ORCH-OUT"
+        "502":
+          description: "Bad gateway, there is a problem with internet service."
+
+  /facebook/page/post:
+    post:
+      tags:
+        - "ORCH-OUT"
+      summary: "Send post to facebook page wall"
+      operationId: "sendFacebookPost"
+      consumes:
+        - "multipart/form-data"
+      produces:
+        - "application/json"
+      parameters:
+        - in: formData
+          name: message
+          type: string
+          required: true
+          description: Text message
+        - in: formData
+          name: image
+          type: file
+          required: false
+          description: The image to upload
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: "#/definitions/SendFacebookPostOutput"
+        "400":
+          description: "Bad request"
+        "500":
+          description: "Unexpected error inside ORCH-OUT"
+        "502":
+          description: "Bad gateway, there is a problem with internet service."
+
+  /facebook/page/post/comment:
+    post:
+      tags:
+        - "ORCH-OUT"
+      summary: "Send comment to facebook post"
+      operationId: "sendFacebookPostComment"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: path
+          name: post-id
+          type: string
+          required: true
+          description: Id of the post that will be commented
+        - in: path
+          name: comment-message
+          type: string
+          required: true
+          description: The comment content
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: "#/definitions/SendFacebookCommentOutput"
+        "400":
+          description: "Bad request"
+        "500":
+          description: "Unexpected error inside ORCH-OUT"
+        "502":
+          description: "Bad gateway, there is a problem with internet service."
+
+  /email:
+    post:
+      tags:
+        - "ORCH-OUT"
+      summary: "Send email"
+      operationId: "sendEmail"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "SendEmailInput"
+          description: Body of the email request
+          required: true
+          schema:
+            $ref: "#/definitions/SendEmailInput"
+      responses:
+        "200":
+          description: "OK"
+        "400":
+          description: "Bad request"
+        "500":
+          description: "Unexpected error inside ORCH-OUT"
+        "502":
+          description: "Bad gateway, there is a problem with internet service."
+
+
+
+definitions:
+
+  SendSmsInput:
+    type: "object"
+    properties:
+      message:
+        type: string
+      recipientsPhoneNumbers:
+        type: array
+        items:
+          type: string
+
+  SendFacebookPostOutput:
+    type: "object"
+    properties:
+      post-id:
+        type: string
+
+  SendFacebookCommentOutput:
+    type: "object"
+    properties:
+      comment-id:
+        type: string
+
+  SendEmailInput:
+    type: "object"
+    properties:
+      emailRecipient:
+        type: string
+      emailSubject:
+        type: string
+      emailHtmlContent:
+        type: string
+      emailImages:
+        type: array
+        items:
+          $ref: "#/definitions/FileMapEntry"
+
+  FileMapEntry:
+    type: object
+    properties:
+      key:
+        type: string
+      value:
+        type: string
+        description: "File in base64"

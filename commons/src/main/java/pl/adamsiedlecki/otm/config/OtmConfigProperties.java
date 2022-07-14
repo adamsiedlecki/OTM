@@ -27,4 +27,7 @@ public class OtmConfigProperties {
 
     @Value("${odg.base.path:http://10.0.0.20:8086/api/v1}")
     private String odgBasePath;
+
+    @Value("${orchout.base.path:http://10.0.0.20:8087/api/v1}")
+    private String orchoutBasePath;
 }
